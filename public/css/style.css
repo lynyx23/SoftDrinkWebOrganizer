@@ -1,0 +1,18 @@
+.lpheading, .lpdescription, .lpbutton{
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.lpheading {
+    font-size: 50px;
+}
+
+.lpdescription {
+    padding: 40px;
+    font-size:20px;
+}
+
+.lpbutton {
+    text-decoration: none;
+    align-items: center;
+}
