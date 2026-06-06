@@ -1,0 +1,6 @@
+# SQLite database file – never commit live data
+database/db.sqlite
+
+# Temporary files
+*.log
+*.tmp
