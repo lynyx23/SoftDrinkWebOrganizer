@@ -40,8 +40,8 @@ $routes = [
     'DELETE /beverages'    => ['BeverageController', 'delete'],
 
     // Lists
-    'GET /lists'           => ['ShoppingListController', 'index'],
-    'POST /lists'          => ['ShoppingListController', 'create'],
+    'GET /lists'           => ['ListController', 'index'],
+    'POST /lists'          => ['ListController', 'create'],
 
     // Stats
     'GET /stats/popular'   => ['StatsController', 'popular'],

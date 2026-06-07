@@ -1,21 +1,58 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Soda!</title>
-    <link rel="stylesheef" href="../css/style.css">
-</head>
-<body>
-    
-    <h1>List of sodas</h1>
-    
-    <ol>
-        <li>juice</li>
-        <li>cola</li>
-        <li>pepis</li>
-    </ol>
+    <title>Beverage Catalogue</title>
+    <link rel="stylesheet" href="../css/style.css">
+  </head>
+  <body>
+    <h1 class="lpheading">Beverage Catalogue</h1>
 
+    <div id="catalog-container" class="catalog">
+      <p>Loading beverages...</p>
+    </div>
 
-</body>
+    <script>
+      // Fetch beverages when the page loads
+      document.addEventListener("DOMContentLoaded", () => {
+        fetchBeverages();
+      });
+
+      function fetchBeverages() {
+        fetch("/api/beverages")
+          .then((response) => response.json())
+          .then((data) => {
+            const container = document.getElementById("catalog-container");
+            container.innerHTML = "";
+
+            // Check if the API call was successful and if there are beverages to display
+            if (data.success && data.data.beverages.length > 0) {
+              data.data.beverages.forEach((drink) => {
+                // Create a card for each beverage
+                const card = document.createElement("div");
+                card.className = "beverage-card";
+                card.innerHTML = `
+                                <h3>${drink.name}</h3>
+                                <img src="${drink.image_url}" alt="${drink.name}">
+                                <p><strong>Category:</strong> ${drink.category}</p>
+                                <p><strong>Volume:</strong> ${drink.volume_ml} ml</p>
+                                <p><strong>Price:</strong> ${drink.price} RON</p>
+                                <p><small>${drink.description}</small></p>
+                            `;
+                container.appendChild(card);
+              });
+            } else {
+              container.innerHTML =
+                "<p>No beverages found in the database.</p>";
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching data:", error);
+            document.getElementById("catalog-container").innerHTML =
+              "<p>Error connecting to the server.</p>";
+          });
+      }
+    </script>
+  </body>
 </html>
