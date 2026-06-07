@@ -30,6 +30,8 @@ class AuthController
             Response::error('Password must be at least 6 characters', 400);
         }
 
+        // TODO: password can contain unusual characters
+
         // --- 3. Check for duplicates ---
         $pdo = Database::getConnection();
         $stmt = $pdo->prepare('SELECT id FROM users WHERE username = :username OR email = :email');
@@ -132,7 +134,9 @@ class AuthController
 
         Response::success(null, 'Logged out successfully');
     }
-
+    // TODO: orice token trimis merge pt logout, dar /me merge cum ar trebui hmm
+    // TODO: se pot genera mai multe token-uri pt acelasi user si toate sunt valide pt /me
+    
     /**
      * Return the currently authenticated user.
      * GET /api/users/me
