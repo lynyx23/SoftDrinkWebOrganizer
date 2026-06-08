@@ -97,11 +97,12 @@ class AuthController
             Response::error('Invalid username or password', 401);
         }
 
-        // --- 4. Generate a random token and store it ---
+        // --- 4. Clear old tokens & Generate a new one ---
+        $clearTokens = $pdo->prepare('DELETE FROM auth_tokens WHERE user_id = :user_id');
+        $clearTokens->execute([':user_id' => $user['id']]);
+
         $token = Security::randomToken();
-        $insertToken = $pdo->prepare(
-            'INSERT INTO auth_tokens (user_id, token) VALUES (:user_id, :token)'
-        );
+        $insertToken = $pdo->prepare('INSERT INTO auth_tokens (user_id, token) VALUES (:user_id, :token)');
         $insertToken->execute([':user_id' => $user['id'], ':token' => $token]);
 
         // --- 5. Return token + user info ---
@@ -123,19 +124,17 @@ class AuthController
      */
     public function logout(array $data): void
     {
+        // 1. Authenticate the user making the request
+        $user = self::requireAuth(); 
         $token = self::getBearerToken();
-        if (!$token) {
-            Response::error('No token provided', 401);
-        }
 
+        // 2. Only delete the token if it belongs to this specific user
         $pdo = Database::getConnection();
-        $stmt = $pdo->prepare('DELETE FROM auth_tokens WHERE token = :token');
-        $stmt->execute([':token' => $token]);
+        $stmt = $pdo->prepare('DELETE FROM auth_tokens WHERE token = :token AND user_id = :user_id');
+        $stmt->execute([':token' => $token, ':user_id' => $user['id']]);
 
         Response::success(null, 'Logged out successfully');
     }
-    // TODO: orice token trimis merge pt logout, dar /me merge cum ar trebui hmm
-    // TODO: se pot genera mai multe token-uri pt acelasi user si toate sunt valide pt /me
     
     /**
      * Return the currently authenticated user.
