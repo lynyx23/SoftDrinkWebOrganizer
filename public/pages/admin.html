@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <style>
+      .admin-section {
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+      }
+      .form-group {
+        margin-bottom: 10px;
+      }
+      .form-group label {
+        display: block;
+        font-weight: bold;
+      }
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 8px;
+        box-sizing: border-box;
+      }
+      .user-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="lpheading">Admin Dashboard</h1>
+
+    <div class="admin-section">
+      <h2>Add New Beverage</h2>
+      <form id="addBeverageForm" onsubmit="addBeverage(event)">
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" id="bevName" required />
+        </div>
+        <div class="form-group">
+          <label>Category (e.g., soda, tea, dairy)</label>
+          <input type="text" id="bevCategory" required />
+        </div>
+        <div class="form-group">
+          <label>Price (RON)</label>
+          <input type="number" step="0.01" id="bevPrice" required />
+        </div>
+        <div class="form-group">
+          <label>Volume (ml)</label>
+          <input type="number" id="bevVolume" />
+        </div>
+        <div class="form-group">
+          <label>Image URL</label>
+          <input type="text" id="bevImage" value="../images/icon1.png" />
+        </div>
+        <button type="submit" class="lpbutton">Save Beverage</button>
+      </form>
+    </div>
+
+    <div class="admin-section">
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        "
+      >
+        <h2>Manage Users</h2>
+        <button
+          onclick="loadUsers()"
+          class="lpbutton"
+          style="padding: 5px 10px; font-size: 14px"
+        >
+          Refresh List
+        </button>
+      </div>
+      <div id="users-container">
+        <p>Loading users...</p>
+      </div>
+    </div>
+
+    <script>
+      // TODO: token comes from login, for now we will just get it from localStorage for testing purposes
+      const token = localStorage.getItem("auth_token");
+
+      // Verify Admin Status on Load
+      document.addEventListener("DOMContentLoaded", () => {
+        if (!token) {
+          alert("You must be logged in as an admin!");
+          window.location.href = "../../index.html";
+          return;
+        }
+
+        fetch("/api/users/me", {
+          headers: { Authorization: "Bearer " + token },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (!data.success || data.data.user.role !== "admin") {
+              alert("Access denied. Admins only.");
+              window.location.href = "../../index.html";
+            } else {
+              loadUsers();
+            }
+          })
+          .catch(() => {
+            window.location.href = "../../index.html";
+          });
+      });
+
+      // Load Users
+      function loadUsers() {
+        fetch("/api/users", {
+          headers: { Authorization: "Bearer " + token },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            const container = document.getElementById("users-container");
+            container.innerHTML = "";
+            if (data.success && data.data.users.length > 0) {
+              data.data.users.forEach((u) => {
+                container.innerHTML += `
+                            <div class="user-item">
+                                <span><strong>${u.username}</strong> (${u.email}) - Role: ${u.role}</span>
+                                ${u.role !== "admin" ? `<button onclick="deleteUser(${u.id}, '${u.username}')">Delete</button>` : ""}
+                            </div>
+                        `;
+              });
+            } else {
+              container.innerHTML = "<p>No users found.</p>";
+            }
+          });
+      }
+
+      // Delete User
+      function deleteUser(userId, username) {
+        if (!confirm(`Are you sure you want to delete user "${username}"?`))
+          return;
+
+        fetch(`/api/users?id=${userId}`, {
+          method: "DELETE",
+          headers: { Authorization: "Bearer " + token },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.success) {
+              alert(`User "${username}" has successfully been deleted.`);
+              loadUsers(); // Refresh list
+            } else {
+              alert("Error: " + data.message);
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+            alert("A network error occurred.");
+          });
+      }
+
+      // Add Beverage
+      function addBeverage(e) {
+        e.preventDefault(); // Stop form from reloading page
+
+        const bevData = {
+          name: document.getElementById("bevName").value,
+          category: document.getElementById("bevCategory").value,
+          price: parseFloat(document.getElementById("bevPrice").value),
+          volume_ml:
+            parseInt(document.getElementById("bevVolume").value) || null,
+          image_url: document.getElementById("bevImage").value || null,
+        };
+
+        fetch("/api/beverages", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+          body: JSON.stringify(bevData),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.success) {
+              alert("Beverage added successfully!");
+              document.getElementById("addBeverageForm").reset();
+            } else {
+              alert("Error: " + data.message);
+            }
+          });
+      }
+    </script>
+  </body>
+</html>

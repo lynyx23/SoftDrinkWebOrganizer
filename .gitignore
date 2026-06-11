@@ -4,3 +4,5 @@ database/db.sqlite
 # Temporary files
 *.log
 *.tmp
+database/db.sqlite-shm
+database/db.sqlite-wal

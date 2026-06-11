@@ -19,6 +19,12 @@
   align-items: center;
 }
 
+.lpbuttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
 .catalog {
   display: flex;
   flex-wrap: wrap;

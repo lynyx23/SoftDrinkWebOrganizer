@@ -30,7 +30,8 @@ $routes = [
     'POST /users/login'    => ['AuthController', 'login'],
     'POST /users/logout'   => ['AuthController', 'logout'],
     'GET /users/me'        => ['AuthController', 'me'],
-    'GET /users'           => ['AuthController', 'listUsers'],   // admin only later
+    'GET /users'           => ['AuthController', 'listUsers'],
+    'DELETE /users'        => ['AuthController', 'deleteUser'],
     
 
     // Beverages
