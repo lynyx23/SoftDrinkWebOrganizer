@@ -40,6 +40,11 @@ $routes = [
     'PUT /beverages'       => ['BeverageController', 'update'],
     'DELETE /beverages'    => ['BeverageController', 'delete'],
 
+    // Preferences
+    'GET /preferences'     => ['PreferenceController', 'index'],
+    'POST /preferences'    => ['PreferenceController', 'save'],
+    'DELETE /preferences'  => ['PreferenceController', 'delete'],
+
     // Lists
     'GET /lists'           => ['ListController', 'index'],
     'POST /lists'          => ['ListController', 'create'],
