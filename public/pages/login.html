@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Beverage Web Organizer</title>
+    <link rel="stylesheet" href="../css/auth.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="script-accent">Welcome back to the</div>
+        <h1 class="store-title">Soda Aisle</h1>
+        
+        <div id="errorMessage" class="error-message"></div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required autocomplete="username">
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required autocomplete="current-password">
+            </div>
+
+            <button type="submit" class="retro-btn">Sign In</button>
+        </form>
+
+        <div class="toggle-link">
+            Need a cart? <a href="register.html">Register here</a>
+        </div>
+    </div>
+
+    <script src="../js/auth.js"></script>
+</body>
+</html>
