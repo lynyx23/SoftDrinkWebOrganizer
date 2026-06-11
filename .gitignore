@@ -6,3 +6,14 @@ database/db.sqlite
 *.tmp
 database/db.sqlite-shm
 database/db.sqlite-wal
+
+# Default ignored files
+/shelf/
+/workspace.xml
+# Editor-based HTTP Client requests
+/httpRequests/
+# Ignored default folder with query files
+/queries/
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml

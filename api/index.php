@@ -33,6 +33,10 @@ $routes = [
     'GET /users'           => ['AuthController', 'listUsers'],
     'DELETE /users'        => ['AuthController', 'deleteUser'],
     
+    // User
+    'GET /users/profile'    => ['UserController', 'profile'],
+    'PUT /users/avatar'    => ['UserController', 'updateAvatar'],
+
 
     // Beverages
     'GET /beverages'       => ['BeverageController', 'index'],

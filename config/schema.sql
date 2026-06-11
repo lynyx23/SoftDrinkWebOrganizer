@@ -5,7 +5,8 @@ CREATE TABLE IF NOT EXISTS users (
     email TEXT NOT NULL UNIQUE,
     password_hash TEXT NOT NULL,
     role TEXT NOT NULL DEFAULT 'user' CHECK(role IN ('user','admin')),
-    created_at TEXT NOT NULL DEFAULT (datetime('now'))
+    created_at TEXT NOT NULL DEFAULT (datetime('now')),
+    avatar_url TEXT DEFAULT NULL
 );
 
 CREATE TABLE IF NOT EXISTS groups (
@@ -59,6 +60,15 @@ CREATE TABLE IF NOT EXISTS beverage_restrictions (
     restriction_id INTEGER NOT NULL,
     PRIMARY KEY (beverage_id, restriction_id),
     FOREIGN KEY (beverage_id) REFERENCES beverages(id) ON DELETE CASCADE,
+    FOREIGN KEY (restriction_id) REFERENCES restrictions(id) ON DELETE CASCADE
+);
+
+-- Many-to-many: users can have several restrictions/preferences
+CREATE TABLE IF NOT EXISTS user_restrictions (
+    user_id INTEGER NOT NULL,
+    restriction_id INTEGER NOT NULL,
+    PRIMARY KEY (user_id, restriction_id),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (restriction_id) REFERENCES restrictions(id) ON DELETE CASCADE
 );
 
