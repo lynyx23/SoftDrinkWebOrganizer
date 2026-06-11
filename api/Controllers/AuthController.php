@@ -158,6 +158,53 @@ class AuthController
         ]);
     }
 
+    // ADMIN ONLY METHODS
+    /**
+     * GET /api/users
+     * Admin only: List all users
+     */
+    public function listUsers(array $data): void
+    {
+        $user = self::requireAuth();
+        if ($user['role'] !== 'admin') {
+            Response::error('Access denied. Admins only.', 403);
+        }
+
+        $pdo = Database::getConnection();
+        $stmt = $pdo->query('SELECT id, username, email, role, created_at FROM users ORDER BY id DESC');
+        $users = $stmt->fetchAll();
+
+        Response::success(['users' => $users]);
+    }
+
+    /**
+     * DELETE /api/users?id=123
+     * Admin only: Delete a user
+     */
+    public function deleteUser(array $data): void
+    {
+        $user = self::requireAuth();
+        if ($user['role'] !== 'admin') {
+            Response::error('Access denied. Admins only.', 403);
+        }
+
+        $id = $_GET['id'] ?? null;
+        if (!$id || !is_numeric($id)) {
+            Response::error('Missing or invalid user ID', 400);
+        }
+
+        // Prevent admin from deleting themselves
+        if ((int)$id === (int)$user['id']) {
+            Response::error('You cannot delete your own account', 400);
+        }
+
+        $pdo = Database::getConnection();
+        $stmt = $pdo->prepare('DELETE FROM users WHERE id = :id');
+        $stmt->execute([':id' => $id]);
+
+        Response::success(null, 'User deleted successfully');
+    }
+
     // -----------------------------------------------------------------
     //  Helper methods – can be called from any controller
     // -----------------------------------------------------------------

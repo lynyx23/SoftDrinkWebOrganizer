@@ -19,6 +19,18 @@
   align-items: center;
 }
 
+.lpimage {
+  display: block;
+  margin: 20px auto;
+  width: 20%;
+}
+
+.lpbuttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
 .catalog {
   display: flex;
   flex-wrap: wrap;
