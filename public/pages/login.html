@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Login</title>
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+      }
+      h2 {
+        margin: 0 0 12px 0;
+        font-size: 18px;
+      }
+      input[type="text"] {
+        width: 100%;
+        padding: 10px 12px;
+        font-size: 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+      button {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <form id="tokenForm" autocomplete="off">
+      <input
+        id="token"
+        name="token"
+        type="text"
+        placeholder="auth_token"
+        autofocus
+      />
+      <button type="submit">Save</button>
+    </form>
+
+    <script>
+      (function () {
+        var form = document.getElementById("tokenForm");
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          var token = document.getElementById("token").value || "";
+          localStorage.setItem("auth_token", token);
+          // redirect back to main page
+          window.location.href = "../../index.html";
+        });
+      })();
+    </script>
+  </body>
+</html>
