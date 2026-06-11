@@ -41,10 +41,11 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             handleAuth('/api/users/login', payload, (data) => {
-                // Store the token in localStorage for future API calls
-                localStorage.setItem('authToken', data.data.token);
-                // Redirect to the sodalist page
-                window.location.href = 'sodalist.html';
+                // UPDATE THIS LINE to match your colleague's code:
+                localStorage.setItem('auth_token', data.data.token);
+                
+                // Redirect to the landing page (index.html) or sodalist
+                window.location.href = '../../index.html'; 
             });
         });
     }
