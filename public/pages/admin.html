@@ -4,203 +4,57 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Admin Dashboard</title>
-    <link href="../css/style.css" rel="stylesheet">
-    <style>
-        .admin-section {
-            max-width: 600px;
-            margin: 20px auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-        }
-
-        .form-group {
-            margin-bottom: 10px;
-        }
-
-        .form-group label {
-            display: block;
-            font-weight: bold;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
-        }
-
-        .user-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px;
-            border-bottom: 1px solid #eee;
-        }
-    </style>
+    <!-- Removed style.css, everything is now standalone in admin.css -->
+    <link href="../css/admin.css" rel="stylesheet">
 </head>
 <body>
-<h1 class="lpheading">Admin Dashboard</h1>
+<h1 class="admin-heading">Admin Dashboard</h1>
 
 <div id="admin-content" style="display: none">
-    <div class="admin-section">
-        <h2>Add New Beverage</h2>
-        <form id="addBeverageForm" onsubmit="addBeverage(event)">
-            <div class="form-group">
-                <label>Name</label>
-                <label for="bevName"></label><input id="bevName" required type="text"/>
-            </div>
-            <div class="form-group">
-                <label>Category (e.g., soda, tea, dairy)</label>
-                <label for="bevCategory"></label><input id="bevCategory" required type="text"/>
-            </div>
-            <div class="form-group">
-                <label>Price (RON)</label>
-                <label for="bevPrice"></label><input id="bevPrice" required step="0.01" type="number"/>
-            </div>
-            <div class="form-group">
-                <label>Volume (ml)</label>
-                <label for="bevVolume"></label><input id="bevVolume" type="number"/>
-            </div>
-            <div class="form-group">
-                <label>Image URL</label>
-                <label for="bevImage"></label><input id="bevImage" type="text" value="../images/icon1.png"/>
-            </div>
-            <button class="lpbutton" type="submit">Save Beverage</button>
-        </form>
-    </div>
+    <div class="admin-container">
 
-    <div class="admin-section">
-        <div
-                style="
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-          "
-        >
-            <h2>Manage Users</h2>
-            <button
-                    class="lpbutton"
-                    onclick="loadUsers()"
-                    style="padding: 5px 10px; font-size: 14px"
-            >
-                Refresh List
-            </button>
+        <!-- Add Beverage Card -->
+        <div class="admin-section">
+            <h2>Add New Beverage</h2>
+            <form id="addBeverageForm">
+                <div class="form-group">
+                    <label for="bevName">Name</label>
+                    <input id="bevName" required type="text"/>
+                </div>
+                <div class="form-group">
+                    <label for="bevCategory">Category (e.g., soda, tea, dairy)</label>
+                    <input id="bevCategory" required type="text"/>
+                </div>
+                <div class="form-group">
+                    <label for="bevPrice">Price (RON)</label>
+                    <input id="bevPrice" required step="0.01" type="number"/>
+                </div>
+                <div class="form-group">
+                    <label for="bevVolume">Volume (ml)</label>
+                    <input id="bevVolume" type="number"/>
+                </div>
+                <div class="form-group">
+                    <label for="bevImage">Image URL</label>
+                    <input id="bevImage" type="text" value="../images/icon1.png"/>
+                </div>
+                <button class="retro-btn" type="submit">Save Beverage</button>
+            </form>
         </div>
-        <div id="users-container">
-            <p>Loading users...</p>
+
+        <!-- Manage Users Card -->
+        <div class="admin-section">
+            <div class="admin-section-header">
+                <h2>Manage Users</h2>
+                <button class="retro-btn small-btn" id="refreshUsersBtn">Refresh List</button>
+            </div>
+            <div class="retro-list-container" id="users-container">
+                <p class="empty-state">Loading users...</p>
+            </div>
         </div>
+
     </div>
 </div>
 
-<script>
-    // TODO: token comes from login, for now we will just get it from localStorage for testing purposes
-    const token = localStorage.getItem("auth_token");
-
-    // Verify Admin Status on Load
-    document.addEventListener("DOMContentLoaded", () => {
-        if (!token) {
-            alert("You must be logged in as an admin!");
-            window.location.href = "../../index.html";
-            return;
-        }
-
-        fetch("/api/users/me", {
-            headers: {Authorization: "Bearer " + token},
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                if (!data.success || data.data.user.role !== "admin") {
-                    alert("Access denied. Admins only.");
-                    window.location.href = "../../index.html";
-                } else {
-                    document.getElementById("admin-content").style.display = "block";
-                    loadUsers();
-                }
-            })
-            .catch(() => {
-                window.location.href = "../../index.html";
-            });
-    });
-
-    // Load Users
-    function loadUsers() {
-        fetch("/api/users", {
-            headers: {Authorization: "Bearer " + token},
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                const container = document.getElementById("users-container");
-                container.innerHTML = "";
-                if (data.success && data.data.users.length > 0) {
-                    data.data.users.forEach((u) => {
-                        container.innerHTML += `
-                            <div class="user-item">
-                                <span><strong>${u.username}</strong> (${u.email}) - Role: ${u.role}</span>
-                                ${u.role !== "admin" ? `<button onclick="deleteUser(${u.id}, '${u.username}')">Delete</button>` : ""}
-                            </div>
-                        `;
-                    });
-                } else {
-                    container.innerHTML = "<p>No users found.</p>";
-                }
-            });
-    }
-
-    // Delete User
-    function deleteUser(userId, username) {
-        if (!confirm(`Are you sure you want to delete user "${username}"?`))
-            return;
-
-        fetch(`/api/users?id=${userId}`, {
-            method: "DELETE",
-            headers: {Authorization: "Bearer " + token},
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                if (data.success) {
-                    alert(`User "${username}" has successfully been deleted.`);
-                    loadUsers(); // Refresh list
-                } else {
-                    alert("Error: " + data.message);
-                }
-            })
-            .catch((err) => {
-                console.error(err);
-                alert("A network error occurred.");
-            });
-    }
-
-    // Add Beverage
-    function addBeverage(e) {
-        e.preventDefault(); // Stop form from reloading page
-
-        const bevData = {
-            name: document.getElementById("bevName").value,
-            category: document.getElementById("bevCategory").value,
-            price: parseFloat(document.getElementById("bevPrice").value),
-            volume_ml:
-                parseInt(document.getElementById("bevVolume").value) || null,
-            image_url: document.getElementById("bevImage").value || null,
-        };
-
-        fetch("/api/beverages", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + token,
-            },
-            body: JSON.stringify(bevData),
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                if (data.success) {
-                    alert("Beverage added successfully!");
-                    document.getElementById("addBeverageForm").reset();
-                } else {
-                    alert("Error: " + data.message);
-                }
-            });
-    }
-</script>
+<script src="../js/admin.js"></script>
 </body>
 </html>

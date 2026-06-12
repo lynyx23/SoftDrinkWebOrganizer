@@ -1,0 +1,195 @@
+/* Import Google Fonts for the retro theme */
+@import url('https://fonts.googleapis.com/css2?family=Shrikhand&family=DM+Sans:wght@400;700&display=swap');
+
+/* Color Palette Variables */
+:root {
+    --mint: #A8E6CF;
+    --butter-yellow: #FFF59D;
+    --washed-red: #FF6B6B;
+    --dark-text: #2D3436;
+    --white: #FDFBF7;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Base Body Styling with Checkered Background */
+body {
+    font-family: 'DM Sans', sans-serif;
+    color: var(--dark-text);
+    background-color: var(--white);
+    background-image: linear-gradient(45deg, var(--mint) 25%, transparent 25%, transparent 75%, var(--mint) 75%, var(--mint)),
+    linear-gradient(45deg, var(--mint) 25%, transparent 25%, transparent 75%, var(--mint) 75%, var(--mint));
+    background-size: 60px 60px;
+    background-position: 0 0, 30px 30px;
+    min-height: 100vh;
+    padding: 40px 20px;
+}
+
+/* Replaced .lpheading with a retro header */
+.admin-heading {
+    font-family: 'Shrikhand', serif;
+    font-size: 3rem;
+    color: var(--dark-text);
+    text-align: center;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 4px 4px 0 var(--washed-red);
+}
+
+/* Main Container (matches profile container) */
+.admin-container {
+    background-color: var(--butter-yellow);
+    border: 5px solid var(--dark-text);
+    border-radius: 12px;
+    box-shadow: 10px 10px 0 var(--washed-red);
+    padding: 2.5rem 2rem;
+    width: 100%;
+    max-width: 850px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+/* Dashboard Cards */
+.admin-section {
+    background-color: var(--white);
+    padding: 20px;
+    border: 4px solid var(--dark-text);
+    border-radius: 12px;
+    box-shadow: 6px 6px 0 var(--mint);
+}
+
+.admin-section h2 {
+    font-family: 'Shrikhand', serif;
+    font-size: 1.5rem;
+    color: var(--dark-text);
+}
+
+.admin-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    border-bottom: 3px dashed var(--washed-red);
+    padding-bottom: 10px;
+}
+
+#addBeverageForm h2 {
+    margin-bottom: 15px;
+    border-bottom: 3px dashed var(--washed-red);
+    padding-bottom: 5px;
+}
+
+/* Forms */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    border: 3px solid var(--dark-text);
+    border-radius: 6px;
+    background-color: var(--white);
+    transition: all 0.2s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--washed-red);
+    box-shadow: 4px 4px 0 var(--mint);
+}
+
+/* Universal Retro Buttons */
+.retro-btn {
+    font-family: 'Shrikhand', serif;
+    font-size: 1.2rem;
+    background-color: var(--washed-red);
+    color: var(--white);
+    border: 4px solid var(--dark-text);
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-transform: uppercase;
+    box-shadow: 4px 4px 0 var(--dark-text);
+    transition: transform 0.1s, box-shadow 0.1s;
+    display: inline-block;
+}
+
+.retro-btn:active {
+    transform: translate(4px, 4px);
+    box-shadow: 0 0 0 var(--dark-text);
+}
+
+.retro-btn.small-btn {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+}
+
+/* User List */
+.retro-list-container {
+    margin-top: 15px;
+}
+
+.user-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 2px dashed var(--dark-text);
+    font-size: 1rem;
+}
+
+.user-item:last-child {
+    border-bottom: none;
+}
+
+.badge {
+    background-color: var(--mint);
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 2px solid var(--dark-text);
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+}
+
+.user-item button {
+    background-color: var(--dark-text);
+    color: var(--white);
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 2px solid var(--dark-text);
+    font-weight: bold;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 var(--washed-red);
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.user-item button:active {
+    box-shadow: 0 0 0 var(--washed-red);
+    transform: translate(3px, 3px);
+}
+
+.empty-state {
+    color: #666;
+    font-style: italic;
+    font-size: 0.9rem;
+}
