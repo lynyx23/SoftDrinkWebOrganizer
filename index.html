@@ -3,42 +3,68 @@
 <head>
     <meta charset="UTF-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Soda!</title>
+    <title>The Beverage Aisle</title>
+    <link href="./public/css/base.css" rel="stylesheet"/>
     <link href="./public/css/style.css" rel="stylesheet"/>
     <link href="./public/images/icon1.png" rel="icon" type="image/x-icon"/>
 </head>
 
-<body>
-<!-- lp stands for landing page -->
+<body class="retro-theme">
 
-<h1 class="lpheading">The Soft Drinks Repository!</h1>
+    <main class="hero-container">
+        <div class="retro-badge">New!</div>
+        
+        <div class="header-group">
+            <div class="script-accent" style="font-size: 2rem;">Welcome to</div>
+            <h1 class="store-title" style="font-size: 3.5rem;">The Beverage Aisle</h1>
+        </div>
 
-<p class="lpdescription">
-    Welcome to the soft drinks repository! Here you will find a wide
-    arrangement of different soft drinks, from sodas, to teas, to types of
-    milk and more!
-</p>
+        <p class="hero-description">
+            Your neighborhood mid-century mercantile. Discover, rate, and track the world's finest non-alcoholic beverages, sodas, and syrups!
+        </p>
 
-<div class="lpbuttons">
-    <a
-            class="lpbutton"
-            href="https://media1.tenor.com/m/vXTnEMNdxUwAAAAd/joe-biden-soda.gif"
-            rel="noopener"
-            target="_blank"
-    >
-        😈😈
-    </a>
-    <a class="lpbutton" href="./public/pages/sodalist.html"> Soda List </a>
-    <a class="lpbutton" href="./public/pages/admin.html"> Admin Page </a>
-    <a class="lpbutton" href="./public/pages/login.html"> Login </a>
-    <a class="lpbutton" href="./public/pages/profile.html"> Profile </a>
-</div>
+        <nav class="nav-grid">
+            <a class="retro-btn primary-action" href="./public/pages/sodalist.html">Browse the Catalog</a>
+            
+            <a class="retro-btn guest-only" href="./public/pages/login.html">Sign In</a>
+            <a class="retro-btn guest-only" href="./public/pages/register.html" style="background-color: var(--mint); color: var(--dark-text);">Get a Cart</a>
 
-<img
-        alt="SOOOODAAAAAAAAAAA"
-        class="lpimage"
-        src="https://media1.tenor.com/m/vXTnEMNdxUwAAAAd/joe-biden-soda.gif"
-/>
+            <a class="retro-btn auth-only hidden" href="./public/pages/profile.html">My Profile</a>
+            <a class="retro-btn auth-only hidden" href="./public/pages/admin.html" id="adminBtn">Admin Panel</a>
+        </nav>
 
+        <img alt="Soda Can" src="./public/images/icon1.png" style="width: 60px; margin: 10px auto 0; opacity: 0.8;"/>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('auth_token');
+            const guestElements = document.querySelectorAll('.guest-only');
+            const authElements = document.querySelectorAll('.auth-only');
+            const adminBtn = document.getElementById('adminBtn');
+
+            if (token) {
+                // User is logged in: Hide guest stuff, show auth stuff
+                guestElements.forEach(el => el.classList.add('hidden'));
+                authElements.forEach(el => el.classList.remove('hidden'));
+
+                // Check if they are an admin to show the admin panel button
+                fetch('/api/users/me', {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (!data.success || data.data.user.role !== 'admin') {
+                        adminBtn.classList.add('hidden'); // Hide if not admin
+                    }
+                })
+                .catch(() => {
+                    // If the token is invalid/expired, quietly log them out
+                    localStorage.removeItem('auth_token');
+                    window.location.reload();
+                });
+            }
+        });
+    </script>
 </body>
 </html>

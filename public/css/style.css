@@ -51,3 +51,67 @@
   height: auto;
   border-radius: 5px;
 }
+
+/* public/css/style.css - Landing Page Specific Styles */
+
+.hero-container {
+    background-color: var(--butter-yellow);
+    border: 5px solid var(--dark-text);
+    border-radius: 16px;
+    box-shadow: 12px 12px 0 var(--washed-red);
+    padding: 3rem 2rem;
+    width: 100%;
+    max-width: 600px;
+    margin: 40px auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* A retro sticker effect for the hero card */
+.retro-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: var(--mint);
+    color: var(--dark-text);
+    font-family: 'Shrikhand', serif;
+    padding: 15px;
+    border-radius: 50%;
+    border: 4px solid var(--dark-text);
+    transform: rotate(15deg);
+    font-size: 1.2rem;
+    box-shadow: 4px 4px 0 var(--washed-red);
+}
+
+.hero-description {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    padding: 0 20px;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.nav-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+/* Full-width button for the main call to action */
+.nav-grid .primary-action {
+    grid-column: 1 / -1;
+    font-size: 1.5rem;
+    padding: 15px;
+    background-color: var(--mint);
+    color: var(--dark-text);
+}
+
+/* Utility classes for hiding/showing elements based on login status */
+.hidden {
+    display: none !important;
+}
