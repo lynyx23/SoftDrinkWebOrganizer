@@ -64,14 +64,8 @@ class BeverageController
             Response::error('Name and price are required', 400);
         }
 
-        $pdo = Database::getConnection();
-        $stmt = $pdo->prepare('
-            INSERT INTO beverage_submissions 
-            (original_beverage_id, submitted_by, name, barcode, category, price, volume_ml, packaging, description, image_url)
-            VALUES (:original_id, :submitted_by, :name, :barcode, :category, :price, :volume, :packaging, :desc, :img)
-        ');
-
-        $stmt->execute([':original_id' => $data['original_beverage_id'] ?? null, ':submitted_by' => $user['id'], ':name' => $data['name'], ':barcode' => $data['barcode'] ?? null, ':category' => $data['category'] ?? null, ':price' => $data['price'], ':volume' => $data['volume_ml'] ?? null, ':packaging' => $data['packaging'] ?? null, ':desc' => $data['description'] ?? null, ':img' => $data['image_url'] ?? null,]);
+        // Delegating DB execution entirely to the Model
+        Beverage::createSubmission($data, (int)$user['id']);
 
         Response::success(null, 'Beverage submitted for admin approval!', 201);
     }
@@ -85,9 +79,9 @@ class BeverageController
         $user = AuthController::requireAuth();
         if ($user['role'] !== 'admin') Response::error('Admins only', 403);
 
-        $pdo = Database::getConnection();
-        $stmt = $pdo->query("SELECT s.*, u.username FROM beverage_submissions s JOIN users u ON s.submitted_by = u.id WHERE s.status = 'pending' ORDER BY s.created_at");
-        Response::success(['submissions' => $stmt->fetchAll()]);
+        $submissions = Beverage::getPendingSubmissions();
+
+        Response::success(['submissions' => $submissions]);
     }
 
     /**
@@ -99,11 +93,8 @@ class BeverageController
         if ($user['role'] !== 'admin') Response::error('Admins only', 403);
 
         $id = $_GET['id'] ?? null;
-        $pdo = Database::getConnection();
-        $stmt = $pdo->prepare("SELECT * FROM beverage_submissions WHERE id = :id");
-        $stmt->execute([':id' => $id]);
+        $submission = Beverage::getSubmissionById((int)$id);
 
-        $submission = $stmt->fetch();
         if (!$submission) Response::error('Not found', 404);
 
         Response::success(['submission' => $submission]);
@@ -125,26 +116,21 @@ class BeverageController
             Response::error('Invalid parameters', 400);
         }
 
-        $pdo = Database::getConnection();
-        $stmt = $pdo->prepare("SELECT * FROM beverage_submissions WHERE id = :id AND status = 'pending'");
-        $stmt->execute([':id' => $subId]);
-        $sub = $stmt->fetch();
+        $sub = Beverage::getSubmissionById((int)$subId);
 
-        if (!$sub) Response::error('Pending submission not found', 404);
+        if (!$sub || $sub['status'] !== 'pending') {
+            Response::error('Pending submission not found', 404);
+        }
 
         if ($action === 'approve') {
             if ($sub['original_beverage_id']) {
-                // Update existing
                 Beverage::update((int)$sub['original_beverage_id'], $sub);
             } else {
-                // Create new
                 Beverage::create($sub, $sub['submitted_by']);
             }
         }
 
-        // Update submission status
-        $update = $pdo->prepare("UPDATE beverage_submissions SET status = :status WHERE id = :id");
-        $update->execute([':status' => $action . 'd', ':id' => $subId]);
+        Beverage::updateSubmissionStatus((int)$subId, $action . 'd');
 
         Response::success(null, "Submission {$action}d successfully.");
     }
