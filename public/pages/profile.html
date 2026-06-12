@@ -20,7 +20,7 @@
         <a href="login.html" class="nav-guest-only">Sign In</a>
         <a href="register.html" class="nav-btn nav-guest-only">Get a Cart</a>
         
-        <a href="profile.html" class="nav-btn nav-auth-only hidden" style="background-color: var(--mint); color: var(--dark-text); margin-right: 5px;">My Profile</a>
+        <a href="profile.html" class="nav-btn nav-auth-only hidden profile-nav-btn" >My Profile</a>
         <a href="admin.html" class="nav-auth-only hidden" id="navAdminBtn">Admin Panel</a>
         <button class="nav-btn nav-auth-only hidden" id="navLogoutBtn">Log Out</button>
     </div>
@@ -64,50 +64,49 @@
         <div class="dashboard-card">
             <h3>Top Rated Sodas</h3>
             <ul class="retro-list" id="preferencesList">
-                <p class="empty-state">Loading...</p>
+                <li class="empty-state">Loading...</li>
             </ul>
         </div>
 
         <div class="dashboard-card">
             <h3>My Groups</h3>
             <ul class="retro-list" id="groupsList">
-                <p class="empty-state">Loading...</p>
+                <li class="empty-state">Loading...</li>
             </ul>
         </div>
 
         <div class="dashboard-card">
             <h3>Active Shopping Lists</h3>
             <ul class="retro-list" id="shoppingLists">
-                <p class="empty-state">Loading...</p>
+                <li class="empty-state">Loading...</li>
             </ul>
         </div>
 
-        <div class="dashboard-card" style="grid-column: 1 / -1; background-color: var(--mint);">
+<div class="dashboard-card rate-card">
             <h3>✏️ Rate a Beverage</h3>
             <p style="margin-bottom: 15px;">Add or update your preference for a drink in our catalog.</p>
             
-            <form id="addPreferenceForm" style="display: flex; gap: 15px; flex-wrap: wrap; align-items: flex-end;">
-                <div class="form-group" style="flex: 2; margin-bottom: 0;">
+            <form id="addPreferenceForm" class="rate-form">
+                <div class="form-group flex-2">
                     <label for="bevSelect">Select Beverage</label>
-                    <select id="bevSelect" required style="width: 100%; padding: 12px; border: 3px solid var(--dark-text); border-radius: 6px; font-family: 'DM Sans', sans-serif;">
+                    <select id="bevSelect" required class="rate-select">
                         <option value="">Loading catalog...</option>
                     </select>
                 </div>
                 
-                <div class="form-group" style="flex: 1; margin-bottom: 0;">
+                <div class="form-group flex-1">
                     <label for="bevRating">Rating (1-5)</label>
-                    <input type="number" id="bevRating" min="1" max="5" required style="width: 100%;">
+                    <input type="number" id="bevRating" min="1" max="5" required class="rate-input">
                 </div>
                 
-                <div class="form-group" style="flex: 2; margin-bottom: 0;">
+                <div class="form-group flex-2">
                     <label for="bevNotes">Personal Notes</label>
-                    <input type="text" id="bevNotes" placeholder="e.g., Best with ice!" style="width: 100%;">
+                    <input type="text" id="bevNotes" placeholder="e.g., Best with ice!" class="rate-input">
                 </div>
                 
-                <button type="submit" class="retro-btn small-btn" style="background-color: var(--dark-text); color: var(--white);">Save</button>
+                <button type="submit" class="retro-btn small-btn rate-submit-btn">Save</button>
             </form>
         </div>
-    </div>
 
     <div class="profile-actions">
         <a class="retro-btn" href="../../index.html">Back to Store</a>

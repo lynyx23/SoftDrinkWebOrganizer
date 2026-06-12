@@ -132,3 +132,36 @@
 .logout-btn:active {
     box-shadow: 0 0 0 var(--washed-red);
 }
+
+/* Stiluri mutate din formularul Rate a Beverage */
+.rate-card {
+    grid-column: 1 / -1;
+    background-color: var(--mint) !important;
+}
+
+.rate-form {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+
+.form-group.flex-2 { flex: 2; margin-bottom: 0; }
+
+.form-group.flex-1 { flex: 1; margin-bottom: 0; }
+
+.rate-select {
+    width: 100%;
+    padding: 12px;
+    border: 3px solid var(--dark-text);
+    border-radius: 6px;
+    font-family: 'DM Sans', sans-serif;
+    background-color: var(--white);
+}
+
+.rate-input { width: 100%; }
+
+.rate-submit-btn {
+    background-color: var(--dark-text) !important;
+    color: var(--white) !important;
+}
