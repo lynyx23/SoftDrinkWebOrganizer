@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Shopping Lists</title>
+    <title>Store Statistics - The Soda Aisle</title>
     <link href="../css/base.css" rel="stylesheet">
     <link href="../css/profile.css" rel="stylesheet">
 </head>
@@ -32,34 +32,33 @@
 
     <div class="profile-container">
         <div class="profile-header-section">
-            <div class="script-accent">Prepare your cart</div>
-            <h1 class="store-title">Shopping Lists</h1>
+            <div class="script-accent">Look at our</div>
+            <h1 class="store-title">Store Statistics</h1>
+            <p>Export the data in open formats directly from our database!</p>
         </div>
 
-        <div class="dashboard-card" style="background-color: var(--mint);">
-            <form id="createListForm" style="display: flex; gap: 10px;">
-                <input type="text" id="newListName" placeholder="New list name (e.g. Weekend Party)" required style="flex: 1; padding: 10px; border: 3px solid var(--dark-text); border-radius: 6px; font-family: 'DM Sans';">
-                <button type="submit" class="retro-btn small-btn" style="background: var(--dark-text); color: white;">Create List</button>
-            </form>
+        <div style="display: flex; gap: 15px; justify-content: center; margin-bottom: 20px;">
+            <a href="/api/stats/export?format=csv" class="retro-btn" style="background-color: var(--mint); color: var(--dark-text);" download>⬇️ Export as CSV</a>
+            <a href="/api/stats/export?format=svg" class="retro-btn" style="background-color: var(--dark-text); color: var(--white);" download>🖼️ Export Chart (SVG)</a>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 20px;">
-            <div class="dashboard-card">
-                <h3>My Carts</h3>
-                <ul class="retro-list" id="myListsContainer">
-                    <li class="empty-state">Loading...</li>
+        <div class="dashboard-grid">
+            <div class="dashboard-card" style="grid-column: 1 / -1;">
+                <h3>🏆 Top 5 Rated Beverages</h3>
+                <ul class="retro-list" id="topRatedList">
+                    <li class="empty-state">Loading data...</li>
                 </ul>
             </div>
 
-            <div class="dashboard-card" id="listDetailsCard">
-                <h3 id="currentListTitle">Select a list to view items</h3>
-                <ul class="retro-list" id="listItemsContainer">
-                    <li class="empty-state">👈 Pick a list from the left</li>
-                </ul>
+            <div class="dashboard-card" style="grid-column: 1 / -1; background-color: var(--mint);">
+                <h3>📦 Catalog Breakdown (By Category)</h3>
+                <div class="tag-container" id="categoryStatsList" style="margin-top: 15px;">
+                    <p class="empty-state">Loading data...</p>
+                </div>
             </div>
         </div>
     </div>
 
-    <script src="../js/lists.js"></script>
+    <script src="../js/stats.js"></script>
 </body>
 </html>

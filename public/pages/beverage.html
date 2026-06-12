@@ -10,27 +10,36 @@
 <body class="retro-theme">
 
 <nav class="retro-nav">
-    <div class="nav-brand">
-        <a href="../../index.html">The Soda Aisle</a>
-    </div>
-    <div class="nav-links" id="navLinks">
-        <a href="sodalist.html">Catalog</a>
-        <a href="login.html" class="nav-guest-only">Sign In</a>
-        <a href="register.html" class="nav-btn nav-guest-only">Get a Cart</a>
-        <a href="profile.html" class="nav-btn nav-auth-only hidden profile-nav-btn">My Profile</a>
-        <a href="admin.html" class="nav-auth-only hidden" id="navAdminBtn">Admin Panel</a>
-        <button class="nav-btn nav-auth-only hidden" id="navLogoutBtn">Log Out</button>
-    </div>
-</nav>
+        <div class="nav-brand">
+            <a href="../../index.html">The Soda Aisle</a>
+        </div>
+        <div class="nav-links" id="navLinks">
+            <a href="sodalist.html">Catalog</a>
+            <a href="stats.html">Store Stats</a>
+            
+            <a href="lists.html" class="nav-auth-only hidden">My Lists</a>
+            
+            <a href="login.html" class="nav-guest-only">Sign In</a>
+            <a href="register.html" class="nav-btn nav-guest-only cart-btn">Get a Cart</a>
+            
+            <a href="profile.html" class="nav-btn nav-auth-only hidden profile-nav-btn" id="profileBtn">My Profile</a>
+            <a href="admin.html" class="nav-auth-only hidden" id="navAdminBtn">Admin Panel</a>
+            <button class="nav-btn nav-auth-only hidden" id="navLogoutBtn">Log Out</button>
+        </div>
+    </nav>
+    
+    <script src="../js/nav.js"></script>
 
 <div class="product-page-container">
 
     <aside class="product-image-container">
-        <img id="bevImage" src="" alt="Beverage Image" class="hidden">
-        <div id="bevImagePlaceholder" class="placeholder-text">🫙 No Image Available</div>
-        <div class="data-item" style="margin-top: 15px; align-items: center;">
-            <span class="data-label">Nutri-Score</span>
-            <span id="bevNutriscore" class="badge badge-unknown">?</span>
+        <div class="sticky-wrapper">
+            <img id="bevImage" src="" alt="Beverage Image" class="hidden">
+            <div id="bevImagePlaceholder" class="placeholder-text">🫙 No Image Available</div>
+            <div class="data-item" style="margin-top: 15px; align-items: center;">
+                <span class="data-label">Nutri-Score</span>
+                <span id="bevNutriscore" class="badge badge-unknown">?</span>
+            </div>
         </div>
     </aside>
 
@@ -79,9 +88,38 @@
         </section>
 
     </main>
+
+    <section class="info-card">
+            <h2>✏️ Rate this Drink</h2>
+            
+            <div class="rating-section auth-only hidden">
+                <form id="rateForm" style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
+    
+                    <!-- Câmpul pentru Rating (Stele) -->
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label for="ratingValue" class="data-label" style="display: block;">Your Rating (1-5 Stars)</label>
+                        <input type="number" id="ratingValue" min="1" max="5" required placeholder="e.g., 5" title="Enter a rating between 1 and 5" style="padding: 10px; border: 3px solid var(--dark-text); border-radius: 6px; margin-top: 5px; width: 100%;">
+                    </div>
+                    
+                    <!-- Câmpul pentru Notițe Personale -->
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label for="ratingNotes" class="data-label" style="display: block;">Personal Notes</label>
+                        <input type="text" id="ratingNotes" placeholder="e.g., Best served ice cold!" title="Enter your personal notes for this beverage" style="padding: 10px; border: 3px solid var(--dark-text); border-radius: 6px; margin-top: 5px; width: 100%;">
+                    </div>
+                    
+                    <button type="submit" class="retro-btn small-btn" style="background: var(--dark-text); color: var(--white); align-self: flex-start; margin-top: 10px;">Save My Rating</button>
+                </form>
+                <p id="ratingMessage" style="color: green; font-weight: bold; margin-top: 10px; display: none;">Rating saved successfully!</p>
+            </div>
+            
+            <div class="rating-section guest-only">
+                <p class="text-block" style="margin-bottom: 15px;"><strong>Sign in to rate this drink and add it to your profile!</strong></p>
+                <a href="login.html" class="retro-btn small-btn" style="background: var(--dark-text); color: var(--white);">Sign In to Rate</a>
+            </div>
+        </section>
+
 </div>
 
-<script src="../js/nav.js"></script>
 <script src="../js/beverage.js"></script>
 </body>
 </html>
