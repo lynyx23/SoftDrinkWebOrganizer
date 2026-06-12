@@ -6,7 +6,7 @@ class Beverage
     /**
      * Get all beverages, optionally filtered by category or search term.
      */
-    public static function getAll(string $category = '', string $search = ''): array
+    public static function getAll(string $category = '', string $search = '', ?int $safeForUserId = null): array
     {
         $pdo = Database::getConnection();
         $sql = 'SELECT * FROM beverages WHERE 1=1';
@@ -20,6 +20,33 @@ class Beverage
             $sql .= ' AND name LIKE :search';
             $params[':search'] = "%$search%";
         }
+
+        if ($safeForUserId !== null) {
+            // Exclude drinks that contain the user's allergens
+            $sql .= ' AND id NOT IN (
+                SELECT br.beverage_id 
+                FROM beverage_restrictions br
+                JOIN restrictions r ON br.restriction_id = r.id
+                JOIN user_restrictions ur ON ur.restriction_id = r.id
+                WHERE ur.user_id = :user_id AND r.type = "allergen"
+            )';
+
+            // Only include drinks that match the user's DIETS (e.g., if user is Vegan, drink must be Vegan)
+            // We count the user's diets, and ensure the beverage has all of those specific diet tags
+            $sql .= ' AND NOT EXISTS (
+                SELECT 1 FROM user_restrictions ur2
+                JOIN restrictions r2 ON ur2.restriction_id = r2.id
+                WHERE ur2.user_id = :user_id AND r2.type = "diet"
+                AND ur2.restriction_id NOT IN (
+                    SELECT br3.restriction_id 
+                    FROM beverage_restrictions br3 
+                    WHERE br3.beverage_id = beverages.id
+                )
+            )';
+
+            $params[':user_id'] = $safeForUserId;
+        }
+
         $sql .= ' ORDER BY name ASC';
 
         $stmt = $pdo->prepare($sql);
@@ -36,6 +63,11 @@ class Beverage
         $stmt = $pdo->prepare('SELECT * FROM beverages WHERE id = :id');
         $stmt->execute([':id' => $id]);
         $row = $stmt->fetch();
+        if ($row) {
+            $stmtR = $pdo->prepare('SELECT restriction_id FROM beverage_restrictions WHERE beverage_id = :id');
+            $stmtR->execute([':id' => $id]);
+            $row['restrictions'] = $stmtR->fetchAll(PDO::FETCH_COLUMN);
+        }
         return $row ?: null;
     }
 
@@ -78,6 +110,14 @@ class Beverage
             ':venue'       => $data['venue'] ?? null,
             ':created_by'  => $createdBy,
         ]);
+
+        $newId = (int) $pdo->lastInsertId();
+        if (!empty($data['restrictions']) && is_array($data['restrictions'])) {
+            $stmtR = $pdo->prepare('INSERT INTO beverage_restrictions (beverage_id, restriction_id) VALUES (?, ?)');
+            foreach ($data['restrictions'] as $rId) {
+                $stmtR->execute([$newId, (int)$rId]);
+            }
+        }
         return (int) $pdo->lastInsertId();
     }
 
@@ -121,6 +161,14 @@ class Beverage
             ':venue'       => $data['venue'] ?? null,
             ':id'          => $id,
         ]);
+
+        $pdo->prepare('DELETE FROM beverage_restrictions WHERE beverage_id = ?')->execute([$id]);
+        if (!empty($data['restrictions']) && is_array($data['restrictions'])) {
+            $stmtR = $pdo->prepare('INSERT INTO beverage_restrictions (beverage_id, restriction_id) VALUES (?, ?)');
+            foreach ($data['restrictions'] as $rId) {
+                $stmtR->execute([$id, (int)$rId]);
+            }
+        }
     }
 
     public static function createSubmission(array $data, int $userId): void
@@ -129,9 +177,9 @@ class Beverage
         $stmt = $pdo->prepare('
             INSERT INTO beverage_submissions 
             (original_beverage_id, submitted_by, name, barcode, category, price, volume_ml, packaging, description, image_url,
-             ingredients, nutritional_info, nutriscore, countries, perishable, validity_days, season, region, venue)
+             ingredients, nutritional_info, nutriscore, restrictions, countries, perishable, validity_days, season, region, venue)
             VALUES (:original_id, :submitted_by, :name, :barcode, :category, :price, :volume, :packaging, :desc, :img,
-             :ingredients, :nutritional_info, :nutriscore, :countries, :perishable, :validity, :season, :region, :venue)
+             :ingredients, :nutritional_info, :nutriscore, :restrictions, :countries, :perishable, :validity, :season, :region, :venue)
         ');
 
         $nutritionalInfo = $data['nutritional_info'] ?? null;
@@ -152,6 +200,7 @@ class Beverage
             ':ingredients' => $data['ingredients'] ?? null,
             ':nutritional_info' => $nutritionalInfo,
             ':nutriscore'  => $data['nutriscore'] ?? null,
+            ':restrictions'=> !empty($data['restrictions']) ? json_encode($data['restrictions']) : null,
             ':countries'   => $data['countries'] ?? null,
             ':perishable'  => !empty($data['perishable']) ? 1 : 0,
             ':validity'    => $data['validity_days'] ?? null,
@@ -174,6 +223,9 @@ class Beverage
         $stmt = $pdo->prepare("SELECT * FROM beverage_submissions WHERE id = :id");
         $stmt->execute([':id' => $id]);
         $row = $stmt->fetch();
+        if ($row && !empty($row['restrictions'])) {
+            $row['restrictions'] = json_decode($row['restrictions'], true);
+        }
         return $row ?: null;
     }
 

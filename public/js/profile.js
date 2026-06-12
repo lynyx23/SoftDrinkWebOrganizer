@@ -187,4 +187,99 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- DIETARY RESTRICTIONS LOGIC ---
+    let currentUserRestrictions = []; // Store current IDs to pre-check boxes
+
+    // Patch into existing populateProfile function (add this temporarily inside your local scope or adjust as needed)
+    // To ensure the edit logic knows what is already selected, capture the current restrictions during the profile fetch:
+    fetch('/api/users/profile', { headers: {'Authorization': 'Bearer ' + token} })
+        .then(res => res.json())
+        .then(data => {
+            if(data.success && data.data.profile.restrictions) {
+                currentUserRestrictions = data.data.profile.restrictions.map(r => r.id);
+            }
+            // Once data is loaded, show the Edit button
+            document.getElementById('editRestrictionsBtn').classList.remove('hidden');
+        });
+
+    const editRestrictionsBtn = document.getElementById('editRestrictionsBtn');
+    const editRestrictionsForm = document.getElementById('editRestrictionsForm');
+    const availableRestrictionsContainer = document.getElementById('availableRestrictions');
+    const cancelRestrictionsBtn = document.getElementById('cancelRestrictionsBtn');
+    const restrictionsListDisplay = document.getElementById('restrictionsList');
+
+    editRestrictionsBtn.addEventListener('click', () => {
+        // Toggle UI
+        editRestrictionsBtn.classList.add('hidden');
+        restrictionsListDisplay.classList.add('hidden');
+        editRestrictionsForm.classList.remove('hidden');
+        availableRestrictionsContainer.innerHTML = '<p class="empty-state">Loading options...</p>';
+
+        // Fetch master list of restrictions
+        fetch('/api/restrictions', {
+            headers: { 'Authorization': 'Bearer ' + token }
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success && data.data.restrictions) {
+                    availableRestrictionsContainer.innerHTML = '';
+
+                    if(data.data.restrictions.length === 0) {
+                        availableRestrictionsContainer.innerHTML = '<p class="empty-state">No restrictions configured in database.</p>';
+                        return;
+                    }
+
+                    data.data.restrictions.forEach(r => {
+                        const isChecked = currentUserRestrictions.includes(r.id) ? 'checked' : '';
+                        availableRestrictionsContainer.innerHTML += `
+                        <label style="cursor: pointer; display: flex; align-items: center; gap: 10px; font-family: 'DM Sans', sans-serif;">
+                            <input type="checkbox" name="restrictions[]" value="${r.id}" ${isChecked} style="width: 20px; height: 20px; accent-color: var(--washed-red); cursor: pointer;">
+                            <span style="font-size: 1.1rem;">${r.name} <span class="badge" style="font-size: 0.7rem; background: var(--butter-yellow);">${r.type}</span></span>
+                        </label>
+                    `;
+                    });
+                }
+            })
+            .catch(() => {
+                availableRestrictionsContainer.innerHTML = '<p class="empty-state" style="color: red;">Failed to load options.</p>';
+            });
+    });
+
+    cancelRestrictionsBtn.addEventListener('click', () => {
+        // Revert UI
+        editRestrictionsForm.classList.add('hidden');
+        restrictionsListDisplay.classList.remove('hidden');
+        editRestrictionsBtn.classList.remove('hidden');
+    });
+
+    editRestrictionsForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        // Gather all checked boxes
+        const checkedBoxes = Array.from(editRestrictionsForm.querySelectorAll('input[type="checkbox"]:checked'));
+        const selectedIds = checkedBoxes.map(box => parseInt(box.value));
+
+        // Submit to API
+        fetch('/api/users/restrictions', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({ restrictions: selectedIds })
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Dietary profile updated successfully!');
+                    window.location.reload(); // Refresh to show new tags
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert('A network error occurred.');
+            });
+    });
 });

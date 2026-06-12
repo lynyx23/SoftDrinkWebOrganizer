@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/AuthController.php';
 require_once __DIR__ . '/../../Models/User.php';
+require_once __DIR__ . '/../../Models/Restriction.php';
 
 class UserController
 {
@@ -42,5 +43,41 @@ class UserController
         $stmt->execute([':avatar_url' => $avatarUrl === '' ? null : $avatarUrl, ':id' => $user['id']]);
 
         Response::success(['avatar_url' => $avatarUrl], 'Profile picture updated');
+    }
+
+    /**
+     * Get all available dietary restrictions.
+     * GET /api/restrictions
+     */
+    public function getRestrictions(array $data): void
+    {
+        // Delegate to the Restriction model
+        $restrictions = Restriction::getAll();
+        Response::success(['restrictions' => $restrictions]);
+    }
+
+    /**
+     * Update the user's dietary restrictions.
+     * PUT /api/users/restrictions
+     * JSON Body: { "restrictions": [1, 3] }
+     */
+    public function updateRestrictions(array $data): void
+    {
+        $user = AuthController::requireAuth();
+
+        // Validate Input
+        if (!isset($data['restrictions']) || !is_array($data['restrictions'])) {
+            Response::error('Invalid restrictions data format', 400);
+        }
+
+        // Delegate to the User model
+        try {
+            User::updateRestrictions((int)$user['id'], $data['restrictions']);
+            Response::success(null, 'Dietary profile updated successfully');
+        } catch (Exception $e) {
+            // Log the actual error internally, but show a safe message to the user
+            error_log('Failed to update restrictions: ' . $e->getMessage());
+            Response::error('Database error while updating restrictions', 500);
+        }
     }
 }

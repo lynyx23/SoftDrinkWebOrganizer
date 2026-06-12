@@ -12,6 +12,24 @@ document.addEventListener("DOMContentLoaded", async () => {
     const pageTitle = document.getElementById("pageTitle");
     const actionButtons = document.getElementById("actionButtons");
     const form = document.getElementById("beverageForm");
+    const restrictionsContainer = document.getElementById('restrictionsContainer');
+
+    // Fetch and render restrictions globally
+    await fetch('/api/restrictions', { headers: { 'Authorization': 'Bearer ' + token } })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success && data.data.restrictions) {
+                restrictionsContainer.innerHTML = '';
+                data.data.restrictions.forEach(r => {
+                    restrictionsContainer.innerHTML += `
+                        <label style="cursor: pointer; display: flex; align-items: center; gap: 5px;">
+                            <input type="checkbox" name="beverage_restrictions[]" value="${r.id}" data-name="${r.name.toLowerCase()}" style="width: 18px; height: 18px; accent-color: var(--washed-red);">
+                            ${r.name}
+                        </label>
+                    `;
+                });
+            }
+        });
 
     // Image Preview Logic
     const bevImageInput = document.getElementById("bevImage");
@@ -92,6 +110,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     salt: document.getElementById("nutriSalt").value !== "" ? parseFloat(document.getElementById("nutriSalt").value) : null
                 },
                 nutriscore: document.getElementById("bevNutriscore").value || null,
+                restrictions: Array.from(document.querySelectorAll('input[name="beverage_restrictions[]"]:checked')).map(cb => parseInt(cb.value)),
                 countries: document.getElementById("bevCountries").value || null,
                 perishable: document.getElementById("bevPerishable").checked ? 1 : 0,
                 validity_days: parseInt(document.getElementById("bevValidityDays").value) || null,
@@ -172,6 +191,16 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.getElementById("bevRegion").value = data.region || '';
         document.getElementById("bevVenue").value = data.venue || '';
 
+        // Clear checkboxes first
+        document.querySelectorAll('input[name="beverage_restrictions[]"]').forEach(cb => cb.checked = false);
+
+        // Check existing
+        if (data.restrictions && Array.isArray(data.restrictions)) {
+            data.restrictions.forEach(rId => {
+                const cb = document.querySelector(`input[name="beverage_restrictions[]"][value="${rId}"]`);
+                if (cb) cb.checked = true;
+            });
+        }
         updateImagePreview();
     }
 
@@ -260,25 +289,108 @@ document.addEventListener("DOMContentLoaded", async () => {
                     }
                 }
 
+                // Guess Restrictions from OFF Data
+                let detectedRestrictions = [];
+
+                // Allergens
+                if (fetchedProduct.allergens_tags && fetchedProduct.allergens_tags.length > 0) {
+                    fetchedProduct.allergens_tags.forEach(tag => {
+                        let allergen = tag.replace('en:', '').toLowerCase();
+                        detectedRestrictions.push(`Allergen: ${allergen}`);
+                    });
+                }
+
+                // Diets (Vegan/Vegetarian)
+                if (fetchedProduct.ingredients_analysis_tags && fetchedProduct.ingredients_analysis_tags.length > 0) {
+                    if (fetchedProduct.ingredients_analysis_tags.includes('en:vegan')) {
+                        detectedRestrictions.push('Diet: vegan');
+                    }
+                    if (fetchedProduct.ingredients_analysis_tags.includes('en:vegetarian')) {
+                        detectedRestrictions.push('Diet: vegetarian');
+                    }
+                }
+
                 // Guess category
                 if (fetchedProduct.categories_tags) {
                     const tags = fetchedProduct.categories_tags.join(" ").toLowerCase();
                     let category = "other";
 
-                    if (tags.includes("juice") || tags.includes("fruit") || tags.includes("nectar") || tags.includes("squeezed")) {
+                    if (tags.includes("juice") || tags.includes("fruit-juice") || tags.includes("nectar") || tags.includes("squeezed") || tags.includes("smoothie")) {
                         category = "juice";
-                    } else if (tags.includes("soda") || tags.includes("cola") || tags.includes("energy")) {
+                    } else if (tags.includes("soda") || tags.includes("cola") || tags.includes("lemonade") || tags.includes("sparkling") || tags.includes("carbonated") || tags.includes("tonic") || tags.includes("ginger-ale") || tags.includes("root-beer") || tags.includes("pop")) {
                         category = "soda";
-                    } else if (tags.includes("tea")) {
+                    } else if (tags.includes("energy-drink") || tags.includes("energy drink") || tags.includes("sports-drink") || tags.includes("isotonic")) {
+                        category = "soda";
+                    } else if (tags.includes("tea") || tags.includes("iced-tea") || tags.includes("green-tea") || tags.includes("herbal") || tags.includes("infusion") || tags.includes("kombucha")) {
                         category = "tea";
-                    } else if (tags.includes("water")) {
+                    } else if (tags.includes("coffee") || tags.includes("cold-brew") || tags.includes("iced-coffee") || tags.includes("espresso")) {
+                        category = "coffee";
+                    } else if (tags.includes("water") || tags.includes("mineral-water") || tags.includes("spring-water") || tags.includes("flavored-water") || tags.includes("infused-water")) {
                         category = "water";
-                    } else if (tags.includes("milk") || tags.includes("dairy")) {
+                    } else if (tags.includes("milk") || tags.includes("dairy") || tags.includes("yogurt") || tags.includes("kefir") || tags.includes("lassi") || tags.includes("milkshake") || tags.includes("oat-milk") || tags.includes("almond-milk") || tags.includes("plant-based-milk") || tags.includes("soy-milk")) {
                         category = "dairy";
+                    } else if (tags.includes("syrup") || tags.includes("squash") || tags.includes("concentrate") || tags.includes("cordial")) {
+                        category = "syrup";
+                    } else if (tags.includes("alcohol-free") || tags.includes("non-alcoholic") || tags.includes("mocktail")) {
+                        category = "other";
                     }
 
                     document.getElementById("bevCategory").value = category;
                 }
+
+                // Smart Auto-Checker for Dietary Restrictions
+                const labels = (fetchedProduct.labels_tags || []).join(' ').toLowerCase();
+                const offTags = (fetchedProduct.allergens_tags || [])
+                    .concat(fetchedProduct.ingredients_analysis_tags || [])
+                    .concat(fetchedProduct.labels_tags || [])
+                    .join(' ').toLowerCase();
+
+                document.querySelectorAll('input[name="beverage_restrictions[]"]').forEach(cb => {
+                    const rName = cb.dataset.name;
+
+                    // Allergens
+                    if (offTags.includes('milk') && rName.includes('lactose')) cb.checked = true;
+                    if (offTags.includes('gluten') && rName.includes('gluten')) cb.checked = true;
+                    if (offTags.includes('peanut') && rName.includes('peanut')) cb.checked = true;
+                    if ((offTags.includes('nut') || offTags.includes('tree-nut')) && rName.includes('tree nut')) cb.checked = true;
+                    if (offTags.includes('soy') && rName.includes('soy')) cb.checked = true;
+                    if (offTags.includes('egg') && rName.includes('egg')) cb.checked = true;
+                    if (offTags.includes('fish') && rName.includes('fish')) cb.checked = true;
+                    if (offTags.includes('crustacean') && rName.includes('shellfish')) cb.checked = true;
+                    if (offTags.includes('sesame') && rName.includes('sesame')) cb.checked = true;
+                    if (offTags.includes('mustard') && rName.includes('mustard')) cb.checked = true;
+                    if (offTags.includes('celery') && rName.includes('celery')) cb.checked = true;
+                    if (offTags.includes('lupin') && rName.includes('lupin')) cb.checked = true;
+                    if (offTags.includes('mollusc') && rName.includes('mollusc')) cb.checked = true;
+                    if (offTags.includes('sulphite') && rName.includes('sulphite')) cb.checked = true;
+
+                    // Diets
+                    if (offTags.includes('vegan') && rName.includes('vegan')) cb.checked = true;
+                    if (offTags.includes('vegetarian') && rName.includes('vegetarian')) cb.checked = true;
+                    if (labels.includes('halal') && rName.includes('halal')) cb.checked = true;
+                    if (labels.includes('kosher') && rName.includes('kosher')) cb.checked = true;
+                    if (labels.includes('organic') && rName.includes('organic')) cb.checked = true;
+                    if (labels.includes('fair-trade') && rName.includes('fair trade')) cb.checked = true;
+                    if (labels.includes('non-gmo') && rName.includes('non-gmo')) cb.checked = true;
+                    if (labels.includes('raw') && rName.includes('raw food')) cb.checked = true;
+                    if (labels.includes('low-fodmap') && rName.includes('fodmap')) cb.checked = true;
+
+                    // Nutritional flags (from nutriments)
+                    const n = fetchedProduct.nutriments || {};
+                    if (n.sugars_100g === 0 && rName.includes('sugar-free')) cb.checked = true;
+                    if (n.sugars_100g === 0 && rName.includes('no added sugar')) cb.checked = true;
+                    if (n['sodium_100g'] !== undefined && n['sodium_100g'] < 0.12 && rName.includes('low-sodium')) cb.checked = true;
+                    if (n.carbohydrates_100g !== undefined && n.carbohydrates_100g < 5 && rName.includes('low-carb')) cb.checked = true;
+                    if (n.carbohydrates_100g !== undefined && n.carbohydrates_100g < 5 && rName.includes('keto')) cb.checked = true;
+
+                    // Other label-based flags
+                    if (labels.includes('no-artificial-colors') && rName.includes('no artificial colors')) cb.checked = true;
+                    if (labels.includes('no-artificial-sweeteners') && rName.includes('no artificial sweeteners')) cb.checked = true;
+                    if (labels.includes('no-artificial-preservatives') && rName.includes('no artificial preservatives')) cb.checked = true;
+                    if ((offTags.includes('caffeine-free') || labels.includes('caffeine-free')) && rName.includes('caffeine-free')) cb.checked = true;
+                    if ((offTags.includes('high-caffeine') || labels.includes('high-caffeine')) && rName.includes('high caffeine')) cb.checked = true;
+                    if (fetchedProduct.categories_tags?.join(' ').includes('carbonated') && rName.includes('carbonated')) cb.checked = true;
+                });
 
                 statusText.textContent = "Data fetched successfully! Please fill in the local price.";
                 statusText.className = "off-status-text text-success";

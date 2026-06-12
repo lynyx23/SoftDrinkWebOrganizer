@@ -13,7 +13,18 @@ class BeverageController
     {
         $category = $_GET['category'] ?? '';
         $search = $_GET['search'] ?? '';
-        $beverages = Beverage::getAll($category, $search);
+        $safeMode = isset($_GET['safe_mode']) && $_GET['safe_mode'] === '1';
+
+        $userId = null;
+        if ($safeMode) {
+            // Only apply safe mode if they are logged in
+            $user = AuthController::getAuthenticatedUser();
+            if ($user) {
+                $userId = (int)$user['id'];
+            }
+        }
+
+        $beverages = Beverage::getAll($category, $search, $userId);
         Response::success(['beverages' => $beverages]);
     }
 

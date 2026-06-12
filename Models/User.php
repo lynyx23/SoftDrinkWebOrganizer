@@ -69,4 +69,37 @@ class User
 
         return $user;
     }
+
+    /**
+     * Update the dietary restrictions for a specific user.
+     * @throws Exception
+     */
+    public static function updateRestrictions(int $userId, array $restrictionIds): void
+    {
+        $pdo = Database::getConnection();
+        $pdo->beginTransaction();
+
+        try {
+            // Remove existing restrictions for this user
+            $stmt = $pdo->prepare('DELETE FROM user_restrictions WHERE user_id = :user_id');
+            $stmt->execute([':user_id' => $userId]);
+
+            // Insert newly selected restrictions
+            if (!empty($restrictionIds)) {
+                $insert = $pdo->prepare('INSERT INTO user_restrictions (user_id, restriction_id) VALUES (:user_id, :restriction_id)');
+                foreach ($restrictionIds as $restrictionId) {
+                    $insert->execute([
+                        ':user_id' => $userId,
+                        ':restriction_id' => (int)$restrictionId
+                    ]);
+                }
+            }
+
+            $pdo->commit();
+        } catch (Exception $e) {
+            $pdo->rollBack();
+            // Rethrow the exception so the Controller knows the operation failed
+            throw $e;
+        }
+    }
 }

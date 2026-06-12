@@ -75,6 +75,7 @@ CREATE TABLE IF NOT EXISTS beverage_submissions
     ingredients          TEXT,
     nutritional_info     TEXT,
     nutriscore           TEXT CHECK (LOWER(nutriscore) IN ('a', 'b', 'c', 'd', 'e') OR nutriscore IS NULL),
+    restrictions         TEXT,
     countries            TEXT,
     perishable           INTEGER DEFAULT 0 CHECK (perishable IN (0, 1)),
     validity_days        INTEGER,
