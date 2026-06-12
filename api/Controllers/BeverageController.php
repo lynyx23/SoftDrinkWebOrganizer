@@ -196,40 +196,48 @@ class BeverageController
         Response::success(['beverage' => $newBeverage], 'Beverage created', 201);
     }
 
-    /**
+   /**
      * GET /api/beverages/off-lookup?barcode=123456789
-     * Proxies the request to Open Food Facts to safely apply the User-Agent.
+     * Proxies the request to Open Food Facts safely.
      */
     public function lookupOff(array $data): void
     {
-        $user = AuthController::requireAuth(); // Ensure only logged-in users can use the proxy
+        $user = AuthController::requireAuth();
 
         $barcode = $_GET['barcode'] ?? '';
         if (empty($barcode) || !ctype_alnum($barcode)) {
             Response::error('Valid barcode is required', 400);
         }
 
-        $offUrl = "https://world.openfoodfacts.org/api/v3/product/{$barcode}.json";
+        $offUrl = "https://world.openfoodfacts.org/api/v0/product/{$barcode}.json";
 
-        // Create the stream context to pass the required custom User-Agent
-        // Format required by OFF: AppName/Version (ContactEmail)
-        $options = ['http' => ['method' => 'GET', 'header' => "User-Agent: SoftDrinkWebOrganizer/1.0 (tudorbc23@gmail.com)\r\n"]];
-        $context = stream_context_create($options);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $offUrl);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        
+        // Header-ul obligatoriu Open Food Facts
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            "User-Agent: SoftDrinkWebOrganizer/1.0 (tudorbc23@gmail.com)"
+        ]);
+        
+        // MAGIC LINE: Ignoră verificarea certificatului SSL local
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
 
-        // Fetch the data
-        $result = @file_get_contents($offUrl, false, $context);
+        $result = curl_exec($ch);
+        $curlError = curl_error($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);    
 
-        if ($result === false) {
-            Response::error('Failed to connect to Open Food Facts. Rate limit may be exceeded.', 502);
+        if ($result === false || $httpCode !== 200) {
+            Response::error('API Error: ' . $curlError . ' (HTTP ' . $httpCode . ')', 502);
         }
 
         $decoded = json_decode($result, true);
 
-        if (isset($decoded['status']) && $decoded['status'] === 'failure') {
-            Response::error('Product not found', 404);
+        if (isset($decoded['status']) && $decoded['status'] == 0) {
+            Response::error('Product not found on Open Food Facts.', 404);
         }
 
-        // Return the clean data to the frontend
         Response::success(['product' => $decoded['product'] ?? null]);
     }
 }
