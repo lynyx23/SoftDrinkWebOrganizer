@@ -37,14 +37,20 @@
     </div>
 
     <div class="catalog-controls">
-        <label for="searchInput"></label><input type="text" id="searchInput" placeholder="🔍 Search for a drink... (e.g., Cola)">
+        <label style="display: flex; align-items: center; gap: 8px; font-weight: bold; cursor: pointer; white-space: nowrap;">
+            <input type="checkbox" id="safeModeToggle" style="width: 18px; height: 18px; margin: 0; flex-shrink: 0; accent-color: var(--washed-red); cursor: pointer;">
+            Safe for Me
+        </label>
+        <input type="text" id="searchInput" placeholder="🔍 Search for a drink... (e.g., Cola)">
         <select id="categorySelect" aria-label="Filter beverages by category">
             <option value="">All Categories</option>
             <option value="soda">Soda & Pop</option>
-            <option value="tea">Iced Tea</option>
-            <option value="juice">Juice</option>
+            <option value="tea">Tea & Kombucha</option>
+            <option value="coffee">Coffee & Cold Brew</option>
+            <option value="juice">Juice & Smoothies</option>
             <option value="water">Water</option>
-            <option value="dairy">Dairy & Milk</option>
+            <option value="dairy">Dairy & Plant Milks</option>
+            <option value="syrup">Syrups & Concentrates</option>
             <option value="other">Other</option>
         </select>
         <button class="retro-btn bg-mint" id="searchBtn">Search</button>
@@ -59,6 +65,8 @@
         document.addEventListener("DOMContentLoaded", () => {
             fetchBeverages(); // Încarcă toate băuturile la pornire
 
+            document.getElementById('safeModeToggle').addEventListener('change', fetchBeverages);
+
             // Leagă butoanele de funcția de căutare
             document.getElementById('searchBtn').addEventListener('click', fetchBeverages);
             document.getElementById('searchInput').addEventListener('keypress', (e) => {
@@ -71,13 +79,18 @@
             const container = document.getElementById("catalog-container");
             const searchVal = document.getElementById('searchInput').value.trim();
             const categoryVal = document.getElementById('categorySelect').value;
+            const isSafeMode = document.getElementById('safeModeToggle').checked ? '1' : '0';
 
             // Construim URL-ul cu parametrii de căutare
-            const url = `/api/beverages?search=${encodeURIComponent(searchVal)}&category=${encodeURIComponent(categoryVal)}`;
+            const url = `/api/beverages?search=${encodeURIComponent(searchVal)}&category=${encodeURIComponent(categoryVal)}&safe_mode=${isSafeMode}`;
 
             container.innerHTML = `<p class="empty-state grid-col-full text-center fs-1-5rem">Fetching fresh stock...</p>`;
 
-            fetch(url)
+            const headers = {};
+            const token = localStorage.getItem('auth_token');
+            if (token) headers['Authorization'] = 'Bearer ' + token;
+
+            fetch(url, { headers: headers })
                 .then((response) => response.json())
                 .then((data) => {
                     container.innerHTML = "";
