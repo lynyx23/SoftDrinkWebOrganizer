@@ -213,6 +213,20 @@ body.retro-theme {
     transform: translate(2px, 2px);
 }
 
+/* Butonul special de profil din bara de navigare */
+.profile-nav-btn {
+    background-color: var(--mint) !important;
+    color: var(--dark-text) !important;
+    margin-right: 5px;
+}
+
+/* Repararea accesibilității listelor retro */
+.retro-list li.empty-state {
+    border-bottom: none;
+    justify-content: center;
+}
+
 .hidden { 
     display: none !important; 
 }
+

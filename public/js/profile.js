@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 prefsList.appendChild(li);
             });
         } else {
-            prefsList.innerHTML = '<p class="empty-state">No drinks rated yet.</p>';
+            prefsList.innerHTML = '<li class="empty-state">No drinks rated yet.</li>';
         }
 
         // Groups
@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 groupsList.appendChild(li);
             });
         } else {
-            groupsList.innerHTML = '<p class="empty-state">Not in any groups.</p>';
+            groupsList.innerHTML = '<li class="empty-state">Not in any groups.</li>';
         }
 
         // Shopping Lists
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 listsEl.appendChild(li);
             });
         } else {
-            listsEl.innerHTML = '<p class="empty-state">No active shopping lists.</p>';
+            listsEl.innerHTML = '<li class="empty-state">No active shopping lists.</li>';
         }
     }
 

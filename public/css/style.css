@@ -111,6 +111,20 @@
     color: var(--dark-text);
 }
 
+.hero-welcome-text { font-size: 2rem; }
+.hero-main-title { font-size: 3.5rem; }
+
+.cart-btn {
+    background-color: var(--mint) !important;
+    color: var(--dark-text) !important;
+}
+
+.hero-icon {
+    width: 60px;
+    margin: 10px auto 0;
+    opacity: 0.8;
+}
+
 /* Utility classes for hiding/showing elements based on login status */
 .hidden {
     display: none !important;

@@ -12,6 +12,10 @@
     
 }
 
+.admin-content-hidden {
+    display: none;
+}
+
 .admin-container {
     background-color: var(--butter-yellow);
     border: 5px solid var(--dark-text);
