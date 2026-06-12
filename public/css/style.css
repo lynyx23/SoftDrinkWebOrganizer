@@ -31,20 +31,105 @@
   gap: 20px;
 }
 
-.catalog {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
-  padding: 20px;
+/* =========================================
+   SODA CATALOG GRID & CARDS
+   ========================================= */
+.catalog-header {
+    text-align: center;
+    margin: 20px auto 30px;
 }
+
+.catalog-controls {
+    background-color: var(--butter-yellow);
+    border: 5px solid var(--dark-text);
+    border-radius: 12px;
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto 40px;
+    box-shadow: 8px 8px 0 var(--mint);
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.catalog-controls input, 
+.catalog-controls select {
+    padding: 12px 15px;
+    border: 3px solid var(--dark-text);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    flex: 1;
+    min-width: 200px;
+}
+
+.catalog-controls input:focus,
+.catalog-controls select:focus {
+    outline: none;
+    border-color: var(--washed-red);
+    box-shadow: 4px 4px 0 var(--mint);
+}
+
+.catalog {
+    display: grid;
+    /* Creează o grilă responsivă (minim 280px lățime cardul, maxim 1 pe rând) */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto 50px auto;
+}
+
 .beverage-card {
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 15px;
-  width: 250px;
-  text-align: center;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: var(--white);
+    border: 4px solid var(--dark-text);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    /* Umbră solidă specifică anilor 70/benzi desenate */
+    box-shadow: 6px 6px 0 var(--dark-text);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+}
+
+.beverage-card:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 10px 10px 0 var(--washed-red);
+}
+
+.beverage-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: contain; /* Păstrează proporțiile sticlei/dozei */
+    border-bottom: 3px dashed var(--mint);
+    padding-bottom: 15px;
+    margin-bottom: 10px;
+}
+
+.beverage-card h3 {
+    font-family: 'Shrikhand', serif;
+    font-size: 1.5rem;
+    color: var(--dark-text);
+    line-height: 1.2;
+}
+
+.beverage-price {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--washed-red);
+    font-family: 'Shrikhand', serif;
+}
+
+.card-actions {
+    margin-top: 15px;
+    border-top: 2px solid #eee;
+    padding-top: 15px;
 }
 .beverage-card img {
   max-width: 100px;

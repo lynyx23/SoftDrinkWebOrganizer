@@ -1,79 +1,117 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beverage Catalogue</title>
+    <title>Beverage Catalog - The Soda Aisle</title>
+    <link rel="stylesheet" href="../css/base.css">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="icon" type="image/x-icon" href="../images/icon1.png">
-  </head>
-  <body>
+</head>
+<body class="retro-theme">
 
     <nav class="retro-nav">
-    <div class="nav-brand">
-        <a href="../../index.html">The Soda Aisle</a>
-    </div>
-    <div class="nav-links" id="navLinks">
-        <a href="sodalist.html">Catalog</a>
-        
-        <a href="login.html" class="nav-guest-only">Sign In</a>
-        <a href="register.html" class="nav-btn nav-guest-only">Get a Cart</a>
-        
-        <a href="profile.html" class="nav-btn nav-auth-only hidden profile-nav-btn" >My Profile</a>
-        <a href="admin.html" class="nav-auth-only hidden" id="navAdminBtn">Admin Panel</a>
-        <button class="nav-btn nav-auth-only hidden" id="navLogoutBtn">Log Out</button>
-    </div>
+        <div class="nav-brand">
+            <a href="../../index.html">The Soda Aisle</a>
+        </div>
+        <div class="nav-links" id="navLinks">
+            <a href="sodalist.html">Catalog</a>
+            <a href="login.html" class="nav-guest-only">Sign In</a>
+            <a href="register.html" class="nav-btn nav-guest-only">Get a Cart</a>
+            <a href="profile.html" class="nav-btn nav-auth-only hidden profile-nav-btn">My Profile</a>
+            <a href="admin.html" class="nav-auth-only hidden" id="navAdminBtn">Admin Panel</a>
+            <button class="nav-btn nav-auth-only hidden" id="navLogoutBtn">Log Out</button>
+        </div>
     </nav>
-
     <script src="../js/nav.js"></script>
 
-    <h1 class="lpheading">Beverage Catalogue</h1>
-    <a href="edit_beverage.html?mode=add" class="retro-btn">Suggest a Beverage</a>
+    <div class="catalog-header">
+        <div class="script-accent" style="font-size: 2rem;">Explore the</div>
+        <h1 class="store-title" style="font-size: 3.5rem;">Beverage Catalog</h1>
+    </div>
+
+    <div class="catalog-controls">
+        <input type="text" id="searchInput" placeholder="🔍 Search for a drink... (e.g., Cola)">
+        <select id="categorySelect" aria-label="Filter beverages by category">
+            <option value="">All Categories</option>
+            <option value="soda">Soda & Pop</option>
+            <option value="tea">Iced Tea</option>
+            <option value="juice">Juice</option>
+            <option value="water">Water</option>
+            <option value="dairy">Dairy & Milk</option>
+            <option value="other">Other</option>
+        </select>
+        <button class="retro-btn" id="searchBtn" style="background-color: var(--mint); color: var(--dark-text);">Search</button>
+        <a href="edit_beverage.html?mode=add" class="retro-btn" style="background-color: var(--dark-text); color: var(--white);">+ Suggest</a>
+    </div>
+
     <div id="catalog-container" class="catalog">
-      <p>Loading beverages...</p>
+        <p class="empty-state" style="grid-column: 1/-1; text-align: center; font-size: 1.5rem;">Loading beverages...</p>
     </div>
 
     <script>
-      // Fetch beverages when the page loads
-      document.addEventListener("DOMContentLoaded", () => {
-        fetchBeverages();
-      });
+        document.addEventListener("DOMContentLoaded", () => {
+            fetchBeverages(); // Încarcă toate băuturile la pornire
 
-      function fetchBeverages() {
-        fetch("/api/beverages")
-          .then((response) => response.json())
-          .then((data) => {
+            // Leagă butoanele de funcția de căutare
+            document.getElementById('searchBtn').addEventListener('click', fetchBeverages);
+            document.getElementById('searchInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') fetchBeverages();
+            });
+            document.getElementById('categorySelect').addEventListener('change', fetchBeverages);
+        });
+
+        function fetchBeverages() {
             const container = document.getElementById("catalog-container");
-            container.innerHTML = "";
+            const searchVal = document.getElementById('searchInput').value.trim();
+            const categoryVal = document.getElementById('categorySelect').value;
 
-            // Check if the API call was successful and if there are beverages to display
-            if (data.success && data.data.beverages.length > 0) {
-              data.data.beverages.forEach((drink) => {
-                // Create a card for each beverage
-                const card = document.createElement("div");
-                card.className = "beverage-card";
-                card.innerHTML = `
+            // Construim URL-ul cu parametrii de căutare
+            const url = `/api/beverages?search=${encodeURIComponent(searchVal)}&category=${encodeURIComponent(categoryVal)}`;
+
+            container.innerHTML = `<p class="empty-state" style="grid-column: 1/-1; text-align: center; font-size: 1.5rem;">Fetching fresh stock...</p>`;
+
+            fetch(url)
+                .then((response) => response.json())
+                .then((data) => {
+                    container.innerHTML = "";
+
+                    if (data.success && data.data.beverages.length > 0) {
+                        data.data.beverages.forEach((drink) => {
+                            // Culoarea badge-ului în funcție de categorie
+                            let badgeColor = "var(--mint)";
+                            if(drink.category === 'soda') badgeColor = "var(--washed-red); color: white;";
+                            
+                            const card = document.createElement("div");
+                            card.className = "beverage-card";
+                            
+                            // Imagine default dacă nu există una
+                            const imgUrl = drink.image_url ? drink.image_url : '../images/icon1.png';
+
+                            card.innerHTML = `
+                                <img src="${imgUrl}" alt="${drink.name}">
+                                <span class="badge" style="position: absolute; top: 15px; right: 15px; background: ${badgeColor}">${drink.category || 'N/A'}</span>
+                                
                                 <h3>${drink.name}</h3>
-                                <img src="${drink.image_url}" alt="${drink.name}">
-                                <p><strong>Category:</strong> ${drink.category}</p>
-                                <p><strong>Volume:</strong> ${drink.volume_ml} ml</p>
-                                <p><strong>Price:</strong> ${drink.price} RON</p>
-                                <p><small>${drink.description}</small></p>
-                                <a href="edit_beverage.html?mode=edit&id=${drink.id}">Suggest Edit</a>
+                                <p class="beverage-price">${drink.price} RON</p>
+                                <p><strong>Volume:</strong> ${drink.volume_ml ? drink.volume_ml + ' ml' : 'N/A'}</p>
+                                <p style="flex-grow: 1;"><small>${drink.description || 'No description available.'}</small></p>
+                                
+                                <div class="card-actions">
+                                    <a href="edit_beverage.html?mode=edit&id=${drink.id}" class="retro-btn small-btn" style="width: 100%;">✏️ Edit Info</a>
+                                </div>
                             `;
-                container.appendChild(card);
-              });
-            } else {
-              container.innerHTML =
-                "<p>No beverages found in the database.</p>";
-            }
-          })
-          .catch((error) => {
-            console.error("Error fetching data:", error);
-            document.getElementById("catalog-container").innerHTML =
-              "<p>Error connecting to the server.</p>";
-          });
-      }
+                            container.appendChild(card);
+                        });
+                    } else {
+                        container.innerHTML = `<p class="empty-state" style="grid-column: 1/-1; text-align: center; font-size: 1.5rem;">🫙 No beverages found in this aisle.</p>`;
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error fetching data:", error);
+                    container.innerHTML = `<p class="error-message" style="grid-column: 1/-1; text-align: center;">Error connecting to the server.</p>`;
+                });
+        }
     </script>
-  </body>
+</body>
 </html>
