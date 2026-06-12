@@ -45,6 +45,8 @@ $routes = [
     // User
     'GET /users/profile'    => ['UserController', 'profile'],
     'PUT /users/avatar'    => ['UserController', 'updateAvatar'],
+    'GET /restrictions'           => ['UserController', 'getRestrictions'],
+    'PUT /users/restrictions'     => ['UserController', 'updateRestrictions'],
 
     // Beverages
     'GET /beverages'       => ['BeverageController', 'index'],

@@ -72,6 +72,13 @@
     box-shadow: 4px 4px 0 var(--mint);
 }
 
+.catalog-controls input[type="checkbox"] {
+    min-width: unset;
+    width: 18px;
+    flex: none;
+    padding: 0;
+}
+
 .catalog {
     display: grid;
     /* Creează o grilă responsivă (minim 280px lățime cardul, maxim 1 pe rând) */
