@@ -73,7 +73,7 @@ function loadSubmissions(token) {
                     container.innerHTML += `
                 <div class="user-item">
                     <span><strong>[${type}] ${s.name}</strong> (by ${s.username})</span>
-                    <a href="edit_beverage.html?mode=review&id=${s.id}" class="retro-btn small-btn">Review</a>
+                    <a href="edit-beverage.html?mode=review&id=${s.id}" class="retro-btn small-btn">Review</a>
                 </div>
                 `;
                 });

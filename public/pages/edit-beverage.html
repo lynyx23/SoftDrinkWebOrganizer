@@ -27,6 +27,8 @@
             <input id="originalBeverageId" type="hidden" value="">
             <input id="submissionId" type="hidden" value="">
 
+            <h3 class="form-section-header">Basic Info</h3>
+
             <div class="form-group">
                 <label for="bevName">Name</label>
                 <input id="bevName" required type="text"/>
@@ -57,6 +59,69 @@
                     <span class="placeholder-text">🫙 No images left in stock!</span>
                 </div>
                 <img alt="Beverage Preview" class="hidden" id="imagePreview" src="">
+            </div>
+
+            <h3 class="form-section-header">Nutrition & Details</h3>
+
+            <div class="form-group">
+                <label for="bevDescription">Description</label>
+                <textarea id="bevDescription" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="bevIngredients">Ingredients</label>
+                <textarea id="bevIngredients" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Nutritional Info (per 100g/ml)</label>
+                <div class="nutrition-grid">
+                    <div class="form-group"><label for="nutriKcal">Kcal</label><input id="nutriKcal" type="number" step="0.1"/></div>
+                    <div class="form-group"><label for="nutriFat">Fat (g)</label><input id="nutriFat" type="number" step="0.1"/></div>
+                    <div class="form-group"><label for="nutriSatFat">Sat. Fat (g)</label><input id="nutriSatFat" type="number" step="0.1"/></div>
+                    <div class="form-group"><label for="nutriCarbs">Carbs (g)</label><input id="nutriCarbs" type="number" step="0.1"/></div>
+                    <div class="form-group"><label for="nutriSugars">Sugars (g)</label><input id="nutriSugars" type="number" step="0.1"/></div>
+                    <div class="form-group"><label for="nutriProtein">Protein (g)</label><input id="nutriProtein" type="number" step="0.1"/></div>
+                    <div class="form-group"><label for="nutriSalt">Salt (g)</label><input id="nutriSalt" type="number" step="0.1"/></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="bevNutriscore">Nutri-Score</label>
+                <select id="bevNutriscore">
+                    <option value="">-- Unknown --</option>
+                    <option value="a">A - Very Good</option>
+                    <option value="b">B - Good</option>
+                    <option value="c">C - Moderate</option>
+                    <option value="d">D - Poor</option>
+                    <option value="e">E - Very Poor</option>
+                </select>
+            </div>
+
+            <h3 class="form-section-header">Sourcing & Availability</h3>
+
+            <div class="form-group">
+                <label for="bevCountries">Countries</label>
+                <input id="bevCountries" placeholder="e.g., Romania, France" type="text"/>
+            </div>
+            <div class="form-group">
+                <label for="bevSeason">Season Availability</label>
+                <input id="bevSeason" placeholder="e.g., Summer, Winter, All year" type="text"/>
+            </div>
+            <div class="form-group">
+                <label for="bevRegion">Geographic Region</label>
+                <input id="bevRegion" placeholder="e.g., Eastern Europe, Asia" type="text"/>
+            </div>
+            <div class="form-group">
+                <label for="bevVenue">Specific Venue (if applicable)</label>
+                <input id="bevVenue" placeholder="e.g., Joe's Diner, Lidl" type="text"/>
+            </div>
+
+            <div class="form-group checkbox-group">
+                <label for="bevPerishable">Is Perishable?</label>
+                <input id="bevPerishable" type="checkbox" value="1"/>
+            </div>
+
+            <div class="form-group">
+                <label for="bevValidityDays">Validity (Days) - If Perishable</label>
+                <input id="bevValidityDays" placeholder="e.g., 5" type="number"/>
             </div>
 
             <div class="action-buttons-container" id="actionButtons">

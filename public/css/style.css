@@ -101,6 +101,7 @@
 .beverage-card:hover {
     transform: translate(-4px, -4px);
     box-shadow: 10px 10px 0 var(--washed-red);
+    cursor: pointer;
 }
 
 .beverage-card img {
@@ -135,6 +136,22 @@
   max-width: 100px;
   height: auto;
   border-radius: 5px;
+}
+
+.card-full-link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* Sits just above the card background */
+    text-decoration: none;
+    outline: none;
+}
+
+.card-actions, .badge {
+    position: relative;
+    z-index: 2; /* Ensures buttons and badges stay clickable/above the link */
 }
 
 /* public/css/style.css - Landing Page Specific Styles */

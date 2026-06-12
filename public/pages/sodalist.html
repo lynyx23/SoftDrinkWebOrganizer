@@ -90,6 +90,7 @@
                             const imgUrl = drink.image_url ? drink.image_url : '../images/icon1.png';
 
                             card.innerHTML = `
+                                <a href="beverage.html?id=${drink.id}" class="card-full-link"></a>
                                 <img src="${imgUrl}" alt="${drink.name}">
                                 <span class="badge" style="position: absolute; top: 15px; right: 15px; background: ${badgeColor}">${drink.category || 'N/A'}</span>
                                 
@@ -99,7 +100,7 @@
                                 <p style="flex-grow: 1;"><small>${drink.description || 'No description available.'}</small></p>
                                 
                                 <div class="card-actions">
-                                    <a href="edit_beverage.html?mode=edit&id=${drink.id}" class="retro-btn small-btn" style="width: 100%;">✏️ Edit Info</a>
+                                    <a href="edit-beverage.html?mode=edit&id=${drink.id}" class="retro-btn small-btn" style="width: 100%;">✏️ Edit Info</a>
                                 </div>
                             `;
                             container.appendChild(card);
