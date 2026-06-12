@@ -1,16 +1,15 @@
-body {
-    padding: 40px 20px;
-}
 
 .admin-heading {
     font-family: 'Shrikhand', serif;
     font-size: 3rem;
     color: var(--dark-text);
     text-align: center;
+    margin-top: 20px;   
     margin-bottom: 30px;
     text-transform: uppercase;
     letter-spacing: 2px;
     text-shadow: 4px 4px 0 var(--washed-red);
+    
 }
 
 .admin-container {
@@ -21,7 +20,7 @@ body {
     padding: 2.5rem 2rem;
     width: 100%;
     max-width: 850px;
-    margin: 0 auto;
+    margin: 40px auto;
     display: flex;
     flex-direction: column;
     gap: 25px;

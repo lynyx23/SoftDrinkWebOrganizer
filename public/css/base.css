@@ -144,3 +144,75 @@ body.retro-theme {
 .retro-list li:last-child {
     border-bottom: none;
 }
+
+/* Global style for navigation bar */
+
+.retro-nav {
+    background-color: var(--mint);
+    border-bottom: 4px solid var(--dark-text);
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 0 var(--dark-text);
+    margin-bottom: 30px;
+}
+
+.nav-brand a {
+    font-family: 'Shrikhand', serif;
+    font-size: 1.5rem;
+    color: var(--dark-text);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 0 var(--white);
+}
+
+.nav-links {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.nav-links a, 
+.nav-links button {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--dark-text);
+    text-decoration: none;
+    padding: 5px 10px;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+    background: none;
+    cursor: pointer;
+}
+
+.nav-links a:hover {
+    border-bottom: 2px solid var(--washed-red);
+}
+
+.nav-links .nav-btn {
+    background-color: var(--washed-red);
+    color: var(--white);
+    border: 2px solid var(--dark-text);
+    border-radius: 6px;
+    padding: 6px 15px;
+    box-shadow: 2px 2px 0 var(--dark-text);
+}
+
+.nav-links .nav-btn:hover {
+    border-bottom: 2px solid var(--dark-text);
+}
+
+.nav-links .nav-btn:active {
+    box-shadow: 0 0 0 var(--dark-text);
+    transform: translate(2px, 2px);
+}
+
+.hidden { 
+    display: none !important; 
+}
