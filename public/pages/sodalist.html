@@ -32,8 +32,8 @@
     <script src="../js/nav.js"></script>
 
     <div class="catalog-header">
-        <div class="script-accent" style="font-size: 2rem;">Explore the</div>
-        <h1 class="store-title" style="font-size: 3.5rem;">Beverage Catalog</h1>
+        <div class="script-accent fs-2rem">Explore the</div>
+        <h1 class="store-title fs-3-5rem">Beverage Catalog</h1>
     </div>
 
     <div class="catalog-controls">
@@ -47,13 +47,13 @@
             <option value="dairy">Dairy & Milk</option>
             <option value="other">Other</option>
         </select>
-        <button class="retro-btn" id="searchBtn" style="background-color: var(--mint); color: var(--dark-text);">Search</button>
-        <a href="edit-beverage.html?mode=add" class="retro-btn" style="background-color: var(--dark-text); color: var(--white);">+ Suggest</a>
+        <button class="retro-btn bg-mint" id="searchBtn">Search</button>
+            <a href="edit-beverage.html?mode=add" class="retro-btn bg-dark">+ Suggest</a>
     </div>
 
-    <div id="catalog-container" class="catalog">
-        <p class="empty-state" style="grid-column: 1/-1; text-align: center; font-size: 1.5rem;">Loading beverages...</p>
-    </div>
+        <div id="catalog-container" class="catalog">
+            <p class="empty-state grid-col-full text-center fs-1-5rem">Loading beverages...</p>
+        </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
@@ -75,7 +75,7 @@
             // Construim URL-ul cu parametrii de căutare
             const url = `/api/beverages?search=${encodeURIComponent(searchVal)}&category=${encodeURIComponent(categoryVal)}`;
 
-            container.innerHTML = `<p class="empty-state" style="grid-column: 1/-1; text-align: center; font-size: 1.5rem;">Fetching fresh stock...</p>`;
+            container.innerHTML = `<p class="empty-state grid-col-full text-center fs-1-5rem">Fetching fresh stock...</p>`;
 
             fetch(url)
                 .then((response) => response.json())
@@ -111,12 +111,12 @@
                             container.appendChild(card);
                         });
                     } else {
-                        container.innerHTML = `<p class="empty-state" style="grid-column: 1/-1; text-align: center; font-size: 1.5rem;">🫙 No beverages found in this aisle.</p>`;
+                        container.innerHTML = `<p class="empty-state grid-col-full text-center fs-1-5rem">🫙 No beverages found in this aisle.</p>`;
                     }
                 })
                 .catch((error) => {
                     console.error("Error fetching data:", error);
-                    container.innerHTML = `<p class="error-message" style="grid-column: 1/-1; text-align: center;">Error connecting to the server.</p>`;
+                    container.innerHTML = `<p class="error-message grid-col-full text-center">Error connecting to the server.</p>`;
                 });
         }
     </script>

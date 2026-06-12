@@ -36,7 +36,7 @@
         <div class="sticky-wrapper">
             <img id="bevImage" src="" alt="Beverage Image" class="hidden">
             <div id="bevImagePlaceholder" class="placeholder-text">🫙 No Image Available</div>
-            <div class="data-item" style="margin-top: 15px; align-items: center;">
+            <div class="data-item mt-15 align-center">
                 <span class="data-label">Nutri-Score</span>
                 <span id="bevNutriscore" class="badge badge-unknown">?</span>
             </div>
@@ -58,7 +58,7 @@
                 <div class="data-item"><span class="data-label">Packaging</span><span id="bevPackaging" class="data-value">--</span></div>
                 <div class="data-item"><span class="data-label">Barcode</span><span id="bevBarcode" class="data-value">--</span></div>
             </div>
-            <div class="data-item" style="margin-top: 20px;">
+            <div class="data-item mt-20">
                 <span class="data-label">Description</span>
                 <p id="bevDescription" class="text-block">--</p>
             </div>
@@ -66,13 +66,13 @@
 
         <section class="info-card">
             <h2>Nutrition & Ingredients</h2>
-            <div class="data-item" style="margin-bottom: 20px;">
+            <div class="data-item mb-20">
                 <span class="data-label">Ingredients</span>
                 <p id="bevIngredients" class="text-block">--</p>
             </div>
 
             <span class="data-label">Nutritional Info (per 100g/ml)</span>
-            <div class="data-grid" style="margin-top: 10px;" id="nutritionGrid">
+            <div class="data-grid mt-10" id="nutritionGrid">
             </div>
         </section>
 
@@ -93,28 +93,26 @@
             <h2>✏️ Rate this Drink</h2>
             
             <div class="rating-section auth-only hidden">
-                <form id="rateForm" style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
-    
-                    <!-- Câmpul pentru Rating (Stele) -->
-                    <div class="form-group" style="margin-bottom: 0;">
-                        <label for="ratingValue" class="data-label" style="display: block;">Your Rating (1-5 Stars)</label>
-                        <input type="number" id="ratingValue" min="1" max="5" required placeholder="e.g., 5" title="Enter a rating between 1 and 5" style="padding: 10px; border: 3px solid var(--dark-text); border-radius: 6px; margin-top: 5px; width: 100%;">
+                <form id="rateForm" class="d-flex flex-col gap-10 mt-10">
+
+                    <div class="form-group mb-0">
+                        <label for="ratingValue" class="data-label d-block">Your Rating (1-5 Stars)</label>
+                        <input type="number" id="ratingValue" min="1" max="5" required placeholder="e.g., 5" title="Enter a rating between 1 and 5" class="rate-input mt-5">
                     </div>
                     
-                    <!-- Câmpul pentru Notițe Personale -->
-                    <div class="form-group" style="margin-bottom: 0;">
-                        <label for="ratingNotes" class="data-label" style="display: block;">Personal Notes</label>
-                        <input type="text" id="ratingNotes" placeholder="e.g., Best served ice cold!" title="Enter your personal notes for this beverage" style="padding: 10px; border: 3px solid var(--dark-text); border-radius: 6px; margin-top: 5px; width: 100%;">
+                    <div class="form-group mb-0">
+                        <label for="ratingNotes" class="data-label d-block">Personal Notes</label>
+                        <input type="text" id="ratingNotes" placeholder="e.g., Best served ice cold!" title="Enter your personal notes for this beverage" class="rate-input mt-5">
                     </div>
                     
-                    <button type="submit" class="retro-btn small-btn" style="background: var(--dark-text); color: var(--white); align-self: flex-start; margin-top: 10px;">Save My Rating</button>
+                    <button type="submit" class="retro-btn small-btn bg-dark align-start mt-10">Save My Rating</button>
                 </form>
-                <p id="ratingMessage" style="color: green; font-weight: bold; margin-top: 10px; display: none;">Rating saved successfully!</p>
+                <p id="ratingMessage" class="text-green font-bold mt-10 hidden">Rating saved successfully!</p>
             </div>
             
             <div class="rating-section guest-only">
-                <p class="text-block" style="margin-bottom: 15px;"><strong>Sign in to rate this drink and add it to your profile!</strong></p>
-                <a href="login.html" class="retro-btn small-btn" style="background: var(--dark-text); color: var(--white);">Sign In to Rate</a>
+                <p class="text-block mb-15"><strong>Sign in to rate this drink and add it to your profile!</strong></p>
+                <a href="login.html" class="retro-btn small-btn bg-dark">Sign In to Rate</a>
             </div>
         </section>
 

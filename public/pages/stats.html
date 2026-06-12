@@ -37,28 +37,26 @@
             <p>Export the data in open formats directly from our database!</p>
         </div>
 
-        <div style="display: flex; gap: 15px; justify-content: center; margin-bottom: 20px;">
-            <a href="/api/stats/export?format=csv" class="retro-btn" style="background-color: var(--mint); color: var(--dark-text);" download>⬇️ Export as CSV</a>
-            <a href="/api/stats/export?format=svg" class="retro-btn" style="background-color: var(--dark-text); color: var(--white);" download>🖼️ Export Chart (SVG)</a>
-        </div>
+<div class="d-flex gap-15 justify-center mb-20">
+    <a href="/api/stats/export?format=csv" class="retro-btn bg-mint" download>⬇️ Export as CSV</a>
+    <a href="/api/stats/export?format=svg" class="retro-btn bg-dark" download>🖼️ Export Chart (SVG)</a>
+</div>
 
-        <div class="dashboard-grid">
-            <div class="dashboard-card" style="grid-column: 1 / -1;">
-                <h3>🏆 Top 5 Rated Beverages</h3>
-                <ul class="retro-list" id="topRatedList">
-                    <li class="empty-state">Loading data...</li>
-                </ul>
-            </div>
-
-            <div class="dashboard-card" style="grid-column: 1 / -1; background-color: var(--mint);">
-                <h3>📦 Catalog Breakdown (By Category)</h3>
-                <div class="tag-container" id="categoryStatsList" style="margin-top: 15px;">
-                    <p class="empty-state">Loading data...</p>
-                </div>
-            </div>
-        </div>
+<div class="dashboard-grid">
+    <div class="dashboard-card grid-col-full">
+        <h3>🏆 Top 5 Rated Beverages</h3>
+        <ul class="retro-list" id="topRatedList">
+            <li class="empty-state">Loading data...</li>
+        </ul>
     </div>
 
+    <div class="dashboard-card grid-col-full bg-mint">
+        <h3>📦 Catalog Breakdown (By Category)</h3>
+        <div class="tag-container mt-15" id="categoryStatsList">
+            <p class="empty-state">Loading data...</p>
+        </div>
+    </div>
+</div>
     <script src="../js/stats.js"></script>
 </body>
 </html>
