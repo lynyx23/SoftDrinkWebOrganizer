@@ -31,46 +31,24 @@
 
 <div id="admin-content" class="admin-content-hidden">
     <div class="admin-container">
-
-        <!-- Add Beverage Card -->
         <div class="admin-section">
-            <h2>Add New Beverage</h2>
-            <form id="addBeverageForm">
-                <div class="form-group">
-                    <label for="bevName">Name</label>
-                    <input id="bevName" required type="text"/>
-                </div>
-                <div class="form-group">
-                    <label for="bevCategory">Category (e.g., soda, tea, dairy)</label>
-                    <input id="bevCategory" required type="text"/>
-                </div>
-                <div class="form-group">
-                    <label for="bevPrice">Price (RON)</label>
-                    <input id="bevPrice" required step="0.01" type="number"/>
-                </div>
-                <div class="form-group">
-                    <label for="bevVolume">Volume (ml)</label>
-                    <input id="bevVolume" type="number"/>
-                </div>
-                <div class="form-group">
-                    <label for="bevImage">Image URL</label>
-                    <input id="bevImage" type="text" value="../images/icon1.png"/>
-                </div>
-                <button class="retro-btn" type="submit">Save Beverage</button>
-            </form>
+            <div class="admin-section-header">
+                <h2>Pending Approvals</h2>
+                <button class="retro-btn small-btn" id="refreshSubmissionsBtn">Refresh</button>
+            </div>
+            <div class="retro-list-container" id="submissions-container">
+                <p class="empty-state">Loading submissions...</p>
+            </div>
         </div>
-
-        <!-- Manage Users Card -->
         <div class="admin-section">
             <div class="admin-section-header">
                 <h2>Manage Users</h2>
-                <button class="retro-btn small-btn" id="refreshUsersBtn">Refresh List</button>
+                <button class="retro-btn small-btn" id="refreshUsersBtn">Refresh</button>
             </div>
             <div class="retro-list-container" id="users-container">
                 <p class="empty-state">Loading users...</p>
             </div>
         </div>
-
     </div>
 </div>
 

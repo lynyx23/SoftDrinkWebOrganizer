@@ -145,6 +145,41 @@ body.retro-theme {
     border-bottom: none;
 }
 
+/* Image Preview Styles */
+.image-preview-container {
+    margin: 0 auto 20px auto;
+    width: 100%;
+    max-width: 250px;
+    height: 250px;
+    border: 4px dashed var(--washed-red);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--white);
+    overflow: hidden;
+}
+
+.image-placeholder {
+    text-align: center;
+    padding: 20px;
+}
+
+.placeholder-text {
+    font-family: 'Shrikhand', serif;
+    font-size: 1.1rem;
+    color: var(--washed-red);
+    line-height: 1.4;
+    display: block;
+}
+
+#imagePreview {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Keeps the whole soda can/bottle visible */
+    background-color: var(--white);
+}
+
 /* Global style for navigation bar */
 
 .retro-nav {
@@ -177,7 +212,7 @@ body.retro-theme {
     align-items: center;
 }
 
-.nav-links a, 
+.nav-links a,
 .nav-links button {
     font-family: 'DM Sans', sans-serif;
     font-weight: 700;
@@ -229,4 +264,3 @@ body.retro-theme {
 .hidden { 
     display: none !important; 
 }
-

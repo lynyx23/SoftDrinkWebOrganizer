@@ -11,6 +11,11 @@ class Security
         if (is_array($data)) {
             return array_map([self::class, 'sanitize'], $data);
         }
+
+        if($data === null) {
+            return null;
+        }
+
         return htmlspecialchars((string) $data, ENT_QUOTES, 'UTF-8');
     }
 
