@@ -1,0 +1,146 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Shrikhand&family=DM+Sans:wght@400;700&display=swap');
+
+:root {
+    --mint: #A8E6CF;
+    --butter-yellow: #FFF59D;
+    --washed-red: #FF6B6B;
+    --dark-text: #2D3436;
+    --white: #FDFBF7;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Base Body & Retro Background applied via class to keep it modular */
+body.retro-theme {
+    font-family: 'DM Sans', sans-serif;
+    color: var(--dark-text);
+    background-color: var(--white);
+    background-image: linear-gradient(45deg, var(--mint) 25%, transparent 25%, transparent 75%, var(--mint) 75%, var(--mint)),
+    linear-gradient(45deg, var(--mint) 25%, transparent 25%, transparent 75%, var(--mint) 75%, var(--mint));
+    background-size: 60px 60px;
+    background-position: 0 0, 30px 30px;
+    min-height: 100vh;
+}
+
+/* Shared Typography */
+.script-accent {
+    font-family: 'Pacifico', cursive;
+    color: var(--washed-red);
+    font-size: 1.5rem;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
+    transform: rotate(-5deg);
+}
+
+.store-title {
+    font-family: 'Shrikhand', serif;
+    color: var(--dark-text);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Global Forms */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    font-weight: 700;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    display: block;
+}
+
+.form-group input {
+    font-family: 'DM Sans', sans-serif;
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border: 3px solid var(--dark-text);
+    border-radius: 6px;
+    background-color: var(--white);
+    transition: all 0.2s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    background-color: #fff;
+    border-color: var(--washed-red);
+    box-shadow: 4px 4px 0 var(--mint);
+}
+
+.error-message {
+    color: var(--washed-red);
+    font-weight: bold;
+    font-size: 0.9rem;
+    min-height: 20px;
+}
+
+/* Global Buttons */
+.retro-btn {
+    font-family: 'Shrikhand', serif;
+    font-size: 1.2rem;
+    background-color: var(--washed-red);
+    color: var(--white);
+    border: 4px solid var(--dark-text);
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-transform: uppercase;
+    box-shadow: 4px 4px 0 var(--dark-text);
+    transition: transform 0.1s, box-shadow 0.1s;
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+}
+
+.retro-btn:active {
+    transform: translate(4px, 4px);
+    box-shadow: none;
+}
+
+.retro-btn.small-btn,
+.small-btn {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+}
+
+/* Utilities (Badges, Lists, Empty States) */
+.badge {
+    background-color: var(--mint);
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 2px solid var(--dark-text);
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+}
+
+.empty-state {
+    color: #666;
+    font-style: italic;
+    font-size: 0.9rem;
+}
+
+.retro-list {
+    list-style: none;
+    padding: 0;
+}
+
+.retro-list li {
+    padding: 8px 0;
+    border-bottom: 2px solid #eee;
+    font-size: 1rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.retro-list li:last-child {
+    border-bottom: none;
+}

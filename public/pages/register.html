@@ -2,41 +2,42 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Register - Beverage Web Organizer</title>
-    <link rel="stylesheet" href="../css/auth.css">
+    <link href="../css/base.css" rel="stylesheet">
+    <link href="../css/auth.css" rel="stylesheet">
 </head>
-<body>
-    <div class="auth-container">
-        <div class="script-accent">Grab a cart for the</div>
-        <h1 class="store-title">Soda Aisle</h1>
-        
-        <div id="errorMessage" class="error-message"></div>
+<body class="retro-theme">
+<div class="auth-container">
+    <div class="script-accent">Grab a cart for the</div>
+    <h1 class="store-title">Soda Aisle</h1>
 
-        <form id="registerForm">
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
-            </div>
+    <div class="error-message" id="errorMessage"></div>
 
-            <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="password">Password (Min 6 chars)</label>
-                <input type="password" id="password" name="password" required minlength="6">
-            </div>
-
-            <button type="submit" class="retro-btn">Register</button>
-        </form>
-
-        <div class="toggle-link">
-            Already have a list? <a href="login.html">Sign in</a>
+    <form id="registerForm">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input id="username" name="username" required type="text">
         </div>
-    </div>
 
-    <script src="../js/auth.js"></script>
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input id="email" name="email" required type="email">
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password (Min 6 chars)</label>
+            <input id="password" minlength="6" name="password" required type="password">
+        </div>
+
+        <button class="retro-btn" type="submit">Register</button>
+    </form>
+
+    <div class="toggle-link">
+        Already have a list? <a href="login.html">Sign in</a>
+    </div>
+</div>
+
+<script src="../js/auth.js"></script>
 </body>
 </html>
