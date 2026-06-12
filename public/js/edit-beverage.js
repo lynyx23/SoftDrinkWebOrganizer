@@ -22,30 +22,30 @@ document.addEventListener("DOMContentLoaded", async () => {
         const url = bevImageInput.value.trim();
         if (url) {
             imagePreview.src = url;
-            imagePreview.style.display = 'none';
+            imagePreview.classList.add('hidden'); // Replaced style.display
 
-            imagePlaceholder.style.display = 'block';
+            imagePlaceholder.classList.remove('hidden'); // Replaced style.display
             imagePlaceholder.innerHTML = '<span class="placeholder-text">⏳ Fetching image...</span>';
         } else {
             imagePreview.removeAttribute('src');
-            imagePreview.style.display = 'none';
-            imagePlaceholder.style.display = 'block';
+            imagePreview.classList.add('hidden'); // Replaced style.display
+            imagePlaceholder.classList.remove('hidden'); // Replaced style.display
             imagePlaceholder.innerHTML = '<span class="placeholder-text">🫙 No images left in stock!</span>';
         }
     }
 
     // Only reveal the image once it has completely finished loading
     imagePreview.addEventListener('load', () => {
-        imagePreview.style.display = 'block';
-        imagePlaceholder.style.display = 'none';
+        imagePreview.classList.remove('hidden'); // Replaced style.display
+        imagePlaceholder.classList.add('hidden'); // Replaced style.display
     });
 
     // Fallback if the URL is broken/invalid
     imagePreview.addEventListener('error', () => {
         // Make sure it only says 'broken' if there is actually text in the box!
         if (bevImageInput.value.trim() !== "") {
-            imagePreview.style.display = 'none';
-            imagePlaceholder.style.display = 'block';
+            imagePreview.classList.add('hidden'); // Replaced style.display
+            imagePlaceholder.classList.remove('hidden'); // Replaced style.display
             imagePlaceholder.innerHTML = '<span class="placeholder-text">🪣 Cleanup on isle 4! Image link broken!</span>';
         }
     });
@@ -63,8 +63,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         await loadExistingBeverage(targetId);
     } else if (mode === 'review') {
         pageTitle.textContent = "Review Submission";
+        // Replaced inline styles with .btn-approve class
         actionButtons.innerHTML = `
-            <button class="retro-btn" style="background: var(--mint); color: var(--dark-text);" type="button" id="approveBtn">Approve</button>
+            <button class="retro-btn btn-approve" type="button" id="approveBtn">Approve</button>
             <button class="retro-btn" type="button" id="rejectBtn">Reject</button>
         `;
         await loadSubmission(targetId);
@@ -149,7 +150,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             });
     }
 
-    // --- Open Food Facts Fetcher Logic ---
+    // Open Food Facts Fetcher Logic
     const fetchOffBtn = document.getElementById("fetchOffBtn");
 
     if (fetchOffBtn) {
@@ -159,12 +160,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             if (!barcode) {
                 statusText.textContent = "Please enter a barcode.";
-                statusText.style.color = "var(--washed-red)";
+                // Replaced inline style with class
+                statusText.className = "off-status-text text-error";
                 return;
             }
 
             statusText.textContent = "Fetching safely via Server...";
-            statusText.style.color = "var(--dark-text)";
+            statusText.className = "off-status-text text-default";
 
             try {
                 // Now fetching from OUR backend, which handles the User-Agent safely
@@ -176,7 +178,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                 if (!response.ok || !data.success || !data.data.product) {
                     statusText.textContent = data.message || "Product not found.";
-                    statusText.style.color = "var(--washed-red)";
+                    statusText.className = "off-status-text text-error";
                     return;
                 }
 
@@ -213,13 +215,13 @@ document.addEventListener("DOMContentLoaded", async () => {
                 }
 
                 statusText.textContent = "Data fetched successfully! Please fill in the local price.";
-                statusText.style.color = "green";
+                statusText.className = "off-status-text text-success";
                 updateImagePreview();
 
             } catch (error) {
                 console.error("Proxy Fetch Error:", error);
                 statusText.textContent = "A network error occurred connecting to your server.";
-                statusText.style.color = "var(--washed-red)";
+                statusText.className = "off-status-text text-error";
             }
         });
     }

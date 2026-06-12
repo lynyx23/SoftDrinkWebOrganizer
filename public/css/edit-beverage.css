@@ -1,0 +1,48 @@
+.off-fetcher-group {
+    background: var(--mint);
+    padding: 15px;
+    border-radius: 8px;
+    border: 3px solid var(--dark-text);
+    margin-bottom: 20px;
+}
+
+.off-input-wrapper {
+    display: flex;
+    gap: 10px;
+}
+
+.off-input-wrapper input {
+    flex: 1;
+}
+
+.off-status-text {
+    display: block;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+/* Status Text Colors */
+.text-error {
+    color: var(--washed-red);
+}
+
+.text-success {
+    color: green;
+}
+
+.text-default {
+    color: var(--dark-text);
+}
+
+/* Action Buttons Container */
+.action-buttons-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    justify-content: center;
+}
+
+.btn-approve {
+    background: var(--mint);
+    color: var(--dark-text);
+}
