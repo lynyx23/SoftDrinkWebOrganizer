@@ -9,7 +9,7 @@
   </head>
   <body>
     <h1 class="lpheading">Beverage Catalogue</h1>
-
+    <a href="edit_beverage.html?mode=add" class="retro-btn">Suggest a Beverage</a>
     <div id="catalog-container" class="catalog">
       <p>Loading beverages...</p>
     </div>
@@ -40,6 +40,7 @@
                                 <p><strong>Volume:</strong> ${drink.volume_ml} ml</p>
                                 <p><strong>Price:</strong> ${drink.price} RON</p>
                                 <p><small>${drink.description}</small></p>
+                                <a href="edit_beverage.html?mode=edit&id=${drink.id}">Suggest Edit</a>
                             `;
                 container.appendChild(card);
               });
