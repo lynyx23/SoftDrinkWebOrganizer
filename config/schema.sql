@@ -63,7 +63,6 @@ CREATE TABLE IF NOT EXISTS beverage_submissions
     original_beverage_id INTEGER          DEFAULT NULL,
     submitted_by         INTEGER NOT NULL,
     status               TEXT    NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'approved', 'rejected')),
-
     -- Beverage fields
     name                 TEXT    NOT NULL,
     barcode              TEXT,
@@ -77,7 +76,11 @@ CREATE TABLE IF NOT EXISTS beverage_submissions
     nutritional_info     TEXT,
     nutriscore           TEXT CHECK (LOWER(nutriscore) IN ('a', 'b', 'c', 'd', 'e') OR nutriscore IS NULL),
     countries            TEXT,
-
+    perishable           INTEGER DEFAULT 0 CHECK (perishable IN (0, 1)),
+    validity_days        INTEGER,
+    season               TEXT,
+    region               TEXT,
+    venue                TEXT,
     created_at           TEXT    NOT NULL DEFAULT (datetime('now')),
     FOREIGN KEY (original_beverage_id) REFERENCES beverages (id) ON DELETE CASCADE,
     FOREIGN KEY (submitted_by) REFERENCES users (id) ON DELETE CASCADE
