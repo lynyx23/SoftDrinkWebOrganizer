@@ -41,17 +41,26 @@ $routes = [
     'GET /users/me'        => ['AuthController', 'me'],
     'GET /users'           => ['AuthController', 'listUsers'],
     'DELETE /users'        => ['AuthController', 'deleteUser'],
-    
+
     // User
     'GET /users/profile'    => ['UserController', 'profile'],
     'PUT /users/avatar'    => ['UserController', 'updateAvatar'],
-
 
     // Beverages
     'GET /beverages'       => ['BeverageController', 'index'],
     'POST /beverages'      => ['BeverageController', 'create'],
     'PUT /beverages'       => ['BeverageController', 'update'],
     'DELETE /beverages'    => ['BeverageController', 'delete'],
+
+    // Open Food Facts Proxy
+    'GET /beverages/off-lookup' => ['BeverageController', 'lookupOff'],
+
+    // Submissions
+    'POST /beverages/submit'       => ['BeverageController', 'submit'],
+    'GET /beverages/submissions'   => ['BeverageController', 'listSubmissions'],
+    'GET /beverages/submission'    => ['BeverageController', 'getSubmission'],
+    'POST /beverages/review'       => ['BeverageController', 'review'],
+    'GET /beverages/single'        => ['BeverageController', 'getSingle'],
 
     // Preferences
     'GET /preferences'     => ['PreferenceController', 'index'],
