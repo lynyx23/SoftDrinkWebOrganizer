@@ -6,6 +6,7 @@
     <title>Manage Beverage</title>
     <link href="../css/base.css" rel="stylesheet">
     <link href="../css/admin.css" rel="stylesheet">
+    <link href="../css/edit-beverage.css" rel="stylesheet">
 </head>
 <body class="retro-theme">
 <h1 class="admin-heading" id="pageTitle">Add New Beverage</h1>
@@ -13,14 +14,13 @@
 <div class="admin-container">
     <div class="admin-section">
 
-        <div class="form-group"
-             style="background: var(--mint); padding: 15px; border-radius: 8px; border: 3px solid var(--dark-text); margin-bottom: 20px;">
+        <div class="form-group off-fetcher-group">
             <label for="bevBarcode">Fetch from Open Food Facts (Barcode / EAN)</label>
-            <div style="display: flex; gap: 10px;">
-                <input id="bevBarcode" placeholder="e.g., 5449000000996" style="flex: 1;" type="text"/>
+            <div class="off-input-wrapper">
+                <input id="bevBarcode" placeholder="e.g., 5449000000996" type="text"/>
                 <button class="retro-btn small-btn" id="fetchOffBtn" type="button">Fetch</button>
             </div>
-            <small id="offStatus" style="display: block; margin-top: 5px; font-weight: bold;"></small>
+            <small class="off-status-text" id="offStatus"></small>
         </div>
 
         <form id="beverageForm">
@@ -51,19 +51,20 @@
                 <label for="bevImage">Image URL</label>
                 <input id="bevImage" type="text"/>
             </div>
+
             <div class="image-preview-container" id="imagePreviewContainer">
                 <div class="image-placeholder" id="imagePlaceholder">
                     <span class="placeholder-text">🫙 No images left in stock!</span>
                 </div>
-                <img alt="Beverage Preview" id="imagePreview" src="" style="display: none;">
+                <img alt="Beverage Preview" class="hidden" id="imagePreview" src="">
             </div>
 
-            <div id="actionButtons" style="display: flex; gap: 10px; margin-top: 20px; justify-content: center;">
+            <div class="action-buttons-container" id="actionButtons">
             </div>
         </form>
     </div>
 </div>
 
-<script src="../js/edit_beverage.js"></script>
+<script src="../js/edit-beverage.js"></script>
 </body>
 </html>
