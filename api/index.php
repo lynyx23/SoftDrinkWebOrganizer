@@ -70,6 +70,8 @@ $routes = [
     // Lists
     'GET /lists'           => ['ListController', 'index'],
     'POST /lists'          => ['ListController', 'create'],
+    'GET /lists/items'     => ['ListController', 'items'],
+    'PUT /lists/items'     => ['ListController', 'toggleItem'],
 
     // Stats
     'GET /stats/popular'   => ['StatsController', 'popular'],
