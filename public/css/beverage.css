@@ -9,10 +9,23 @@
 }
 
 /* Left Column - Fixed/Sticky Image */
+.product-page-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    gap: 40px;
+}
+
 .product-image-container {
+    position: relative;
+    height: 100%;    
+}
+
+.sticky-wrapper {
     position: sticky;
-    top: 50vh;
-    transform: translateY(-50%);
+    top: 100px;
     background-color: var(--white);
     border: 5px solid var(--dark-text);
     border-radius: 12px;
@@ -25,7 +38,7 @@
     gap: 15px;
 }
 
-.product-image-container img {
+.sticky-wrapper img {
     width: 100%;
     max-height: 500px;
     object-fit: contain;
@@ -33,6 +46,7 @@
     border: 3px solid var(--dark-text);
     background-color: #f9f9f9;
 }
+
 
 /* Right Column - Scrollable Data */
 .product-info-container {
@@ -159,13 +173,12 @@
     .product-page-container {
         grid-template-columns: 1fr;
     }
-
-    .product-image-container {
+    /* Scoate sticky pe mobile din wrapper-ul intern */
+    .sticky-wrapper {
         position: relative;
         top: 0;
-        transform: none; /* Disables the vertical center effect from desktop */
-        margin: 0 auto; /* Centers the card horizontally on mobile */
+        margin: 0 auto;
         width: 100%;
-        max-width: 400px; /* Keeps it looking like a neat card instead of stretching */
+        max-width: 400px;
     }
 }

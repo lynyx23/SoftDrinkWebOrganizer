@@ -91,4 +91,69 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.error("Failed to load beverage details:", error);
         document.getElementById("bevName").textContent = "Error loading data.";
     }
+
+    const token = localStorage.getItem("auth_token");
+    
+    if (token) {
+
+        document.querySelector('.rating-section.auth-only').classList.remove('hidden');
+        document.querySelector('.rating-section.guest-only').classList.add('hidden');
+
+        // Dacă utilizatorul e logat, verificăm dacă a dat deja un rating în trecut
+        try {
+            const prefRes = await fetch('/api/preferences', {
+                headers: { 'Authorization': 'Bearer ' + token }
+            });
+            const prefData = await prefRes.json();
+            
+            if (prefData.success) {
+                // Căutăm acest ID de băutură în lista de preferințe a userului
+                const existingPref = prefData.data.preferences.find(p => p.beverage_id == id);
+                if (existingPref) {
+                    if(existingPref.rating) document.getElementById('ratingValue').value = existingPref.rating;
+                    if(existingPref.notes) document.getElementById('ratingNotes').value = existingPref.notes;
+                }
+            }
+        } catch (e) {
+            console.error("Nu am putut încărca preferințele anterioare", e);
+        }
+    }
+
+    // Funcția care se declanșează când dai click pe "Save My Rating"
+    const rateForm = document.getElementById('rateForm');
+    if (rateForm) {
+        rateForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!token) return;
+
+            const payload = {
+                beverage_id: id,
+                rating: document.getElementById('ratingValue').value,
+                notes: document.getElementById('ratingNotes').value
+            };
+
+            try {
+                const res = await fetch('/api/preferences', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                
+                if (data.success) {
+                    const msg = document.getElementById('ratingMessage');
+                    msg.style.display = 'block';
+                    setTimeout(() => msg.style.display = 'none', 3000);
+                } else {
+                    alert("Error: " + data.message);
+                }
+            } catch (err) {
+                alert("Network error while saving rating.");
+            }
+        });
+    }
+
 });
