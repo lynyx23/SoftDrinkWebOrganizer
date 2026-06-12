@@ -1,6 +1,3 @@
-body {
-    padding: 40px 20px;
-}
 
 .profile-container {
     background-color: var(--butter-yellow);
@@ -10,7 +7,7 @@ body {
     padding: 2.5rem 2rem;
     width: 100%;
     max-width: 850px;
-    margin: 0 auto;
+    margin: 40px auto;
     display: flex;
     flex-direction: column;
     gap: 25px;

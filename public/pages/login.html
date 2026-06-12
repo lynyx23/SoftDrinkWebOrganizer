@@ -9,6 +9,25 @@
     <link href="../images/icon1.png" rel="icon" type="image/x-icon">
 </head>
 <body class="retro-theme">
+
+    <nav class="retro-nav">
+    <div class="nav-brand">
+        <a href="../../index.html">The Soda Aisle</a>
+    </div>
+    <div class="nav-links" id="navLinks">
+        <a href="sodalist.html">Catalog</a>
+        
+        <a href="login.html" class="nav-guest-only">Sign In</a>
+        <a href="register.html" class="nav-btn nav-guest-only">Get a Cart</a>
+        
+        <a href="profile.html" class="nav-btn nav-auth-only hidden" style="background-color: var(--mint); color: var(--dark-text); margin-right: 5px;">My Profile</a>
+        <a href="admin.html" class="nav-auth-only hidden" id="navAdminBtn">Admin Panel</a>
+        <button class="nav-btn nav-auth-only hidden" id="navLogoutBtn">Log Out</button>
+    </div>
+    </nav>
+
+    <script src="../js/nav.js"></script>
+
 <div class="auth-container">
     <div class="script-accent">Welcome back to the</div>
     <h1 class="store-title">Beverage Aisle</h1>

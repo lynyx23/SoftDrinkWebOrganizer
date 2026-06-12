@@ -134,4 +134,57 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.href = '../../index.html';
         });
     });
+    
+    // MANAGING PREFERENCES LOGIC
+    const bevSelect = document.getElementById('bevSelect');
+    const addPreferenceForm = document.getElementById('addPreferenceForm');
+
+    fetch('/api/beverages')
+        .then(res => res.json())
+        .then(data => {
+            if(data.success && data.data.beverages) {
+                bevSelect.innerHTML = '<option value="">-- Choose a Drink --</option>';
+                data.data.beverages.forEach(b => {
+                    // Punem numele și categoria pentru a fi ușor de recunoscut
+                    bevSelect.innerHTML += `<option value="${b.id}">${b.name} (${b.category})</option>`;
+                });
+            }
+        })
+        .catch(err => console.error('Error fetching beverages:', err));
+
+    if (addPreferenceForm) {
+        addPreferenceForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const payload = {
+                beverage_id: bevSelect.value,
+                rating: document.getElementById('bevRating').value,
+                notes: document.getElementById('bevNotes').value
+            };
+
+            fetch('/api/preferences', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Preference saved successfully!');
+                    // Dăm refresh paginii pentru a vedea rating-ul apărând în lista de sus
+                    window.location.reload(); 
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert('A network error occurred.');
+            });
+        });
+    }
+
 });
