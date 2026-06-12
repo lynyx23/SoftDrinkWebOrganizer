@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -7,6 +8,7 @@
     <link href="../css/base.css" rel="stylesheet">
     <link href="../css/auth.css" rel="stylesheet">
 </head>
+
 <body class="retro-theme">
 
     <nav class="retro-nav">
@@ -16,50 +18,51 @@
         <div class="nav-links" id="navLinks">
             <a href="sodalist.html">Catalog</a>
             <a href="stats.html">Store Stats</a>
-            
+
             <a href="lists.html" class="nav-auth-only hidden">My Lists</a>
-            
+
             <a href="login.html" class="nav-guest-only">Sign In</a>
             <a href="register.html" class="nav-btn nav-guest-only cart-btn">Get a Cart</a>
-            
+
             <a href="profile.html" class="nav-btn nav-auth-only hidden profile-nav-btn" id="profileBtn">My Profile</a>
             <a href="admin.html" class="nav-auth-only hidden" id="navAdminBtn">Admin Panel</a>
             <button class="nav-btn nav-auth-only hidden" id="navLogoutBtn">Log Out</button>
         </div>
     </nav>
-    
+
     <script src="../js/nav.js"></script>
 
-<div class="auth-container">
-    <div class="script-accent">Grab a cart for the</div>
-    <h1 class="store-title">Soda Aisle</h1>
+    <div class="auth-container">
+        <div class="script-accent">Grab a cart for the</div>
+        <h1 class="store-title">Soda Aisle</h1>
 
-    <div class="error-message" id="errorMessage"></div>
+        <div class="error-message" id="errorMessage"></div>
 
-    <form id="registerForm">
-        <div class="form-group">
-            <label for="username">Username</label>
-            <input id="username" name="username" required type="text">
+        <form id="registerForm">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input id="username" name="username" required type="text">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input id="email" name="email" required type="email">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password (Min 6 chars)</label>
+                <input id="password" minlength="6" name="password" required type="password">
+            </div>
+
+            <button class="retro-btn" type="submit">Register</button>
+        </form>
+
+        <div class="toggle-link">
+            Already have a list? <a href="login.html">Sign in</a>
         </div>
-
-        <div class="form-group">
-            <label for="email">Email Address</label>
-            <input id="email" name="email" required type="email">
-        </div>
-
-        <div class="form-group">
-            <label for="password">Password (Min 6 chars)</label>
-            <input id="password" minlength="6" name="password" required type="password">
-        </div>
-
-        <button class="retro-btn" type="submit">Register</button>
-    </form>
-
-    <div class="toggle-link">
-        Already have a list? <a href="login.html">Sign in</a>
     </div>
-</div>
 
-<script src="../js/auth.js"></script>
+    <script src="../js/auth.js"></script>
 </body>
+
 </html>

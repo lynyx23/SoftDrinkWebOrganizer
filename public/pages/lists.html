@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link href="../css/base.css" rel="stylesheet">
     <link href="../css/profile.css" rel="stylesheet">
 </head>
+
 <body class="retro-theme">
 
     <nav class="retro-nav">
@@ -16,18 +18,18 @@
         <div class="nav-links" id="navLinks">
             <a href="sodalist.html">Catalog</a>
             <a href="stats.html">Store Stats</a>
-            
+
             <a href="lists.html" class="nav-auth-only hidden">My Lists</a>
-            
+
             <a href="login.html" class="nav-guest-only">Sign In</a>
             <a href="register.html" class="nav-btn nav-guest-only cart-btn">Get a Cart</a>
-            
+
             <a href="profile.html" class="nav-btn nav-auth-only hidden profile-nav-btn" id="profileBtn">My Profile</a>
             <a href="admin.html" class="nav-auth-only hidden" id="navAdminBtn">Admin Panel</a>
             <button class="nav-btn nav-auth-only hidden" id="navLogoutBtn">Log Out</button>
         </div>
     </nav>
-    
+
     <script src="../js/nav.js"></script>
 
     <div class="profile-container">
@@ -38,8 +40,10 @@
 
         <div class="dashboard-card" style="background-color: var(--mint);">
             <form id="createListForm" style="display: flex; gap: 10px;">
-                <input type="text" id="newListName" placeholder="New list name (e.g. Weekend Party)" required style="flex: 1; padding: 10px; border: 3px solid var(--dark-text); border-radius: 6px; font-family: 'DM Sans';">
-                <button type="submit" class="retro-btn small-btn" style="background: var(--dark-text); color: white;">Create List</button>
+                <input type="text" id="newListName" placeholder="New list name (e.g. Weekend Party)" required
+                    style="flex: 1; padding: 10px; border: 3px solid var(--dark-text); border-radius: 6px; font-family: 'DM Sans';">
+                <button type="submit" class="retro-btn small-btn"
+                    style="background: var(--dark-text); color: white;">Create List</button>
             </form>
         </div>
 
@@ -62,4 +66,5 @@
 
     <script src="../js/lists.js"></script>
 </body>
+
 </html>

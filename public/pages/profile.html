@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -8,6 +9,7 @@
     <link href="../css/profile.css" rel="stylesheet">
     <link href="../images/icon1.png" rel="icon" type="image/x-icon">
 </head>
+
 <body class="retro-theme">
 
     <nav class="retro-nav">
@@ -17,131 +19,133 @@
         <div class="nav-links" id="navLinks">
             <a href="sodalist.html">Catalog</a>
             <a href="stats.html">Store Stats</a>
-            
+
             <a href="lists.html" class="nav-auth-only hidden">My Lists</a>
-            
+
             <a href="login.html" class="nav-guest-only">Sign In</a>
             <a href="register.html" class="nav-btn nav-guest-only cart-btn">Get a Cart</a>
-            
+
             <a href="profile.html" class="nav-btn nav-auth-only hidden profile-nav-btn" id="profileBtn">My Profile</a>
             <a href="admin.html" class="nav-auth-only hidden" id="navAdminBtn">Admin Panel</a>
             <button class="nav-btn nav-auth-only hidden" id="navLogoutBtn">Log Out</button>
         </div>
     </nav>
-    
+
     <script src="../js/nav.js"></script>
-    
-<div class="profile-container">
-    <div class="profile-header-section">
-        <div class="script-accent">Welcome to your</div>
-        <h1 class="store-title">Soda Profile</h1>
-    </div>
 
-    <div class="error-message" id="errorMessage"></div>
-
-    <div class="profile-info-banner">
-        <div class="avatar-wrapper">
-            <img alt="Avatar" id="profileImage" src="../images/icon1.png">
+    <div class="profile-container">
+        <div class="profile-header-section">
+            <div class="script-accent">Welcome to your</div>
+            <h1 class="store-title">Soda Profile</h1>
         </div>
-        <div class="user-details">
-            <h2 id="profileUsername">Loading...</h2>
-            <p><strong>Email:</strong> <span id="profileEmail">...</span></p>
-            <p><strong>Role:</strong> <span class="badge" id="profileRole">...</span></p>
-            <p><strong>Joined:</strong> <span id="profileJoined">...</span></p>
 
-            <div class="avatar-update-form">
-                <label for="avatarInput"></label><input id="avatarInput" placeholder="New avatar URL..." type="text">
-                <button class="retro-btn small-btn" id="updateAvatarBtn">Update Pic</button>
+        <div class="error-message" id="errorMessage"></div>
+
+        <div class="profile-info-banner">
+            <div class="avatar-wrapper">
+                <img alt="Avatar" id="profileImage" src="../images/icon1.png">
+            </div>
+            <div class="user-details">
+                <h2 id="profileUsername">Loading...</h2>
+                <p><strong>Email:</strong> <span id="profileEmail">...</span></p>
+                <p><strong>Role:</strong> <span class="badge" id="profileRole">...</span></p>
+                <p><strong>Joined:</strong> <span id="profileJoined">...</span></p>
+
+                <div class="avatar-update-form">
+                    <label for="avatarInput"></label><input id="avatarInput" placeholder="New avatar URL..."
+                        type="text">
+                    <button class="retro-btn small-btn" id="updateAvatarBtn">Update Pic</button>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="dashboard-grid">
-        <div class="dashboard-card">
-            <h3>Dietary Profile</h3>
-            <div class="tag-container" id="restrictionsList">
-                <p class="empty-state">Loading...</p>
-            </div>
+        <div class="dashboard-grid">
+            <div class="dashboard-card">
+                <h3>Dietary Profile</h3>
+                <div class="tag-container" id="restrictionsList">
+                    <p class="empty-state">Loading...</p>
+                </div>
 
-            <button id="editRestrictionsBtn" class="retro-btn small-btn hidden"
+                <button id="editRestrictionsBtn" class="retro-btn small-btn hidden"
                     style="margin-top: 15px; background-color: var(--mint); color: var(--dark-text);">
-                Edit Profile
-            </button>
+                    Edit Profile
+                </button>
 
-            <!-- Hidden form for editing -->
-            <form id="editRestrictionsForm" class="hidden"
-                  style="margin-top: 15px; border-top: 3px dashed var(--mint); padding-top: 15px;">
-                <p style="font-size: 0.9rem; font-weight: bold; margin-bottom: 10px;">Select your restrictions:</p>
+                <!-- Hidden form for editing -->
+                <form id="editRestrictionsForm" class="hidden"
+                    style="margin-top: 15px; border-top: 3px dashed var(--mint); padding-top: 15px;">
+                    <p style="font-size: 0.9rem; font-weight: bold; margin-bottom: 10px;">Select your restrictions:</p>
 
-                <div id="availableRestrictions" class="checkbox-group"
-                     style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px;">
-                    <!-- Checkboxes injected here via JS -->
-                </div>
+                    <div id="availableRestrictions" class="checkbox-group"
+                        style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px;">
+                        <!-- Checkboxes injected here via JS -->
+                    </div>
 
-                <div style="display: flex; gap: 10px;">
-                    <button type="submit" class="retro-btn small-btn"
+                    <div style="display: flex; gap: 10px;">
+                        <button type="submit" class="retro-btn small-btn"
                             style="background-color: var(--dark-text); color: var(--white);">Save
-                    </button>
-                    <button type="button" id="cancelRestrictionsBtn" class="retro-btn small-btn"
+                        </button>
+                        <button type="button" id="cancelRestrictionsBtn" class="retro-btn small-btn"
                             style="background-color: var(--white); color: var(--dark-text);">Cancel
-                    </button>
-                </div>
-            </form>
-        </div>
+                        </button>
+                    </div>
+                </form>
+            </div>
 
-        <div class="dashboard-card">
-            <h3>Top Rated Sodas</h3>
-            <ul class="retro-list" id="preferencesList">
-                <li class="empty-state">Loading...</li>
-            </ul>
-        </div>
+            <div class="dashboard-card">
+                <h3>Top Rated Sodas</h3>
+                <ul class="retro-list" id="preferencesList">
+                    <li class="empty-state">Loading...</li>
+                </ul>
+            </div>
 
-        <div class="dashboard-card">
-            <h3>My Groups</h3>
-            <ul class="retro-list" id="groupsList">
-                <li class="empty-state">Loading...</li>
-            </ul>
-        </div>
+            <div class="dashboard-card">
+                <h3>My Groups</h3>
+                <ul class="retro-list" id="groupsList">
+                    <li class="empty-state">Loading...</li>
+                </ul>
+            </div>
 
-        <div class="dashboard-card">
-            <h3>Active Shopping Lists</h3>
-            <ul class="retro-list" id="shoppingLists">
-                <li class="empty-state">Loading...</li>
-            </ul>
-        </div>
+            <div class="dashboard-card">
+                <h3>Active Shopping Lists</h3>
+                <ul class="retro-list" id="shoppingLists">
+                    <li class="empty-state">Loading...</li>
+                </ul>
+            </div>
 
-        <div class="dashboard-card rate-card">
-            <h3>✏️ Rate a Beverage</h3>
-            <p style="margin-bottom: 15px;">Add or update your preference for a drink in our catalog.</p>
+            <div class="dashboard-card rate-card">
+                <h3>✏️ Rate a Beverage</h3>
+                <p style="margin-bottom: 15px;">Add or update your preference for a drink in our catalog.</p>
 
-            <form id="addPreferenceForm" class="rate-form">
-                <div class="form-group flex-2">
-                    <label for="bevSelect">Select Beverage</label>
-                    <select id="bevSelect" required class="rate-select">
-                        <option value="">Loading catalog...</option>
-                    </select>
-                </div>
+                <form id="addPreferenceForm" class="rate-form">
+                    <div class="form-group flex-2">
+                        <label for="bevSelect">Select Beverage</label>
+                        <select id="bevSelect" required class="rate-select">
+                            <option value="">Loading catalog...</option>
+                        </select>
+                    </div>
 
-                <div class="form-group flex-1">
-                    <label for="bevRating">Rating (1-5)</label>
-                    <input type="number" id="bevRating" min="1" max="5" required class="rate-input">
-                </div>
+                    <div class="form-group flex-1">
+                        <label for="bevRating">Rating (1-5)</label>
+                        <input type="number" id="bevRating" min="1" max="5" required class="rate-input">
+                    </div>
 
-                <div class="form-group flex-2">
-                    <label for="bevNotes">Personal Notes</label>
-                    <input type="text" id="bevNotes" placeholder="e.g., Best with ice!" class="rate-input">
-                </div>
+                    <div class="form-group flex-2">
+                        <label for="bevNotes">Personal Notes</label>
+                        <input type="text" id="bevNotes" placeholder="e.g., Best with ice!" class="rate-input">
+                    </div>
 
-                <button type="submit" class="retro-btn small-btn rate-submit-btn">Save</button>
-            </form>
-        </div>
+                    <button type="submit" class="retro-btn small-btn rate-submit-btn">Save</button>
+                </form>
+            </div>
 
-        <div class="profile-actions">
-            <a class="retro-btn" href="../../index.html">Back to Store</a>
-            <button class="retro-btn logout-btn" id="logoutBtn">Log Out</button>
+            <div class="profile-actions">
+                <a class="retro-btn" href="../../index.html">Back to Store</a>
+                <button class="retro-btn logout-btn" id="logoutBtn">Log Out</button>
+            </div>
         </div>
     </div>
-</div>
-<script src="../js/profile.js"></script>
+    <script src="../js/profile.js"></script>
 </body>
+
 </html>

@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -7,117 +8,130 @@
     <link href="../css/base.css" rel="stylesheet">
     <link href="../css/beverage.css" rel="stylesheet">
 </head>
+
 <body class="retro-theme">
 
-<nav class="retro-nav">
+    <nav class="retro-nav">
         <div class="nav-brand">
             <a href="../../index.html">The Soda Aisle</a>
         </div>
         <div class="nav-links" id="navLinks">
             <a href="sodalist.html">Catalog</a>
             <a href="stats.html">Store Stats</a>
-            
+
             <a href="lists.html" class="nav-auth-only hidden">My Lists</a>
-            
+
             <a href="login.html" class="nav-guest-only">Sign In</a>
             <a href="register.html" class="nav-btn nav-guest-only cart-btn">Get a Cart</a>
-            
+
             <a href="profile.html" class="nav-btn nav-auth-only hidden profile-nav-btn" id="profileBtn">My Profile</a>
             <a href="admin.html" class="nav-auth-only hidden" id="navAdminBtn">Admin Panel</a>
             <button class="nav-btn nav-auth-only hidden" id="navLogoutBtn">Log Out</button>
         </div>
     </nav>
-    
+
     <script src="../js/nav.js"></script>
 
-<div class="product-page-container">
+    <div class="product-page-container">
 
-    <aside class="product-image-container">
-        <div class="sticky-wrapper">
-            <img id="bevImage" src="" alt="Beverage Image" class="hidden">
-            <div id="bevImagePlaceholder" class="placeholder-text">🫙 No Image Available</div>
-            <div class="data-item mt-15 align-center">
-                <span class="data-label">Nutri-Score</span>
-                <span id="bevNutriscore" class="badge badge-unknown">?</span>
+        <aside class="product-image-container">
+            <div class="sticky-wrapper">
+                <img id="bevImage" src="" alt="Beverage Image" class="hidden">
+                <div id="bevImagePlaceholder" class="placeholder-text">🫙 No Image Available</div>
+                <div class="data-item mt-15 align-center">
+                    <span class="data-label">Nutri-Score</span>
+                    <span id="bevNutriscore" class="badge badge-unknown">?</span>
+                </div>
             </div>
-        </div>
-    </aside>
+        </aside>
 
-    <main class="product-info-container">
+        <main class="product-info-container">
 
-        <div class="product-header">
-            <h1 id="bevName">Loading...</h1>
-            <div id="bevPrice" class="price-tag">-- RON</div>
-        </div>
+            <div class="product-header">
+                <h1 id="bevName">Loading...</h1>
+                <div id="bevPrice" class="price-tag">-- RON</div>
+            </div>
+
+            <section class="info-card">
+                <h2>Overview</h2>
+                <div class="data-grid">
+                    <div class="data-item"><span class="data-label">Category</span><span id="bevCategory"
+                            class="data-value">--</span></div>
+                    <div class="data-item"><span class="data-label">Volume</span><span id="bevVolume"
+                            class="data-value">--</span></div>
+                    <div class="data-item"><span class="data-label">Packaging</span><span id="bevPackaging"
+                            class="data-value">--</span></div>
+                    <div class="data-item"><span class="data-label">Barcode</span><span id="bevBarcode"
+                            class="data-value">--</span></div>
+                </div>
+                <div class="data-item mt-20">
+                    <span class="data-label">Description</span>
+                    <p id="bevDescription" class="text-block">--</p>
+                </div>
+            </section>
+
+            <section class="info-card">
+                <h2>Nutrition & Ingredients</h2>
+                <div class="data-item mb-20">
+                    <span class="data-label">Ingredients</span>
+                    <p id="bevIngredients" class="text-block">--</p>
+                </div>
+
+                <span class="data-label">Nutritional Info (per 100g/ml)</span>
+                <div class="data-grid mt-10" id="nutritionGrid">
+                </div>
+            </section>
+
+            <section class="info-card">
+                <h2>Sourcing & Availability</h2>
+                <div class="data-grid">
+                    <div class="data-item"><span class="data-label">Countries</span><span id="bevCountries"
+                            class="data-value">--</span></div>
+                    <div class="data-item"><span class="data-label">Region</span><span id="bevRegion"
+                            class="data-value">--</span></div>
+                    <div class="data-item"><span class="data-label">Season</span><span id="bevSeason"
+                            class="data-value">--</span></div>
+                    <div class="data-item"><span class="data-label">Venue</span><span id="bevVenue"
+                            class="data-value">--</span></div>
+                    <div class="data-item"><span class="data-label">Perishable</span><span id="bevPerishable"
+                            class="data-value">--</span></div>
+                </div>
+            </section>
+
+        </main>
 
         <section class="info-card">
-            <h2>Overview</h2>
-            <div class="data-grid">
-                <div class="data-item"><span class="data-label">Category</span><span id="bevCategory" class="data-value">--</span></div>
-                <div class="data-item"><span class="data-label">Volume</span><span id="bevVolume" class="data-value">--</span></div>
-                <div class="data-item"><span class="data-label">Packaging</span><span id="bevPackaging" class="data-value">--</span></div>
-                <div class="data-item"><span class="data-label">Barcode</span><span id="bevBarcode" class="data-value">--</span></div>
-            </div>
-            <div class="data-item mt-20">
-                <span class="data-label">Description</span>
-                <p id="bevDescription" class="text-block">--</p>
-            </div>
-        </section>
-
-        <section class="info-card">
-            <h2>Nutrition & Ingredients</h2>
-            <div class="data-item mb-20">
-                <span class="data-label">Ingredients</span>
-                <p id="bevIngredients" class="text-block">--</p>
-            </div>
-
-            <span class="data-label">Nutritional Info (per 100g/ml)</span>
-            <div class="data-grid mt-10" id="nutritionGrid">
-            </div>
-        </section>
-
-        <section class="info-card">
-            <h2>Sourcing & Availability</h2>
-            <div class="data-grid">
-                <div class="data-item"><span class="data-label">Countries</span><span id="bevCountries" class="data-value">--</span></div>
-                <div class="data-item"><span class="data-label">Region</span><span id="bevRegion" class="data-value">--</span></div>
-                <div class="data-item"><span class="data-label">Season</span><span id="bevSeason" class="data-value">--</span></div>
-                <div class="data-item"><span class="data-label">Venue</span><span id="bevVenue" class="data-value">--</span></div>
-                <div class="data-item"><span class="data-label">Perishable</span><span id="bevPerishable" class="data-value">--</span></div>
-            </div>
-        </section>
-
-    </main>
-
-    <section class="info-card">
             <h2>✏️ Rate this Drink</h2>
-            
+
             <div class="rating-section auth-only hidden">
                 <form id="rateForm" class="d-flex flex-col gap-10 mt-10">
 
                     <div class="form-group mb-0">
                         <label for="ratingValue" class="data-label d-block">Your Rating (1-5 Stars)</label>
-                        <input type="number" id="ratingValue" min="1" max="5" required placeholder="e.g., 5" title="Enter a rating between 1 and 5" class="rate-input mt-5">
+                        <input type="number" id="ratingValue" min="1" max="5" required placeholder="e.g., 5"
+                            title="Enter a rating between 1 and 5" class="rate-input mt-5">
                     </div>
-                    
+
                     <div class="form-group mb-0">
                         <label for="ratingNotes" class="data-label d-block">Personal Notes</label>
-                        <input type="text" id="ratingNotes" placeholder="e.g., Best served ice cold!" title="Enter your personal notes for this beverage" class="rate-input mt-5">
+                        <input type="text" id="ratingNotes" placeholder="e.g., Best served ice cold!"
+                            title="Enter your personal notes for this beverage" class="rate-input mt-5">
                     </div>
-                    
+
                     <button type="submit" class="retro-btn small-btn bg-dark align-start mt-10">Save My Rating</button>
                 </form>
                 <p id="ratingMessage" class="text-green font-bold mt-10 hidden">Rating saved successfully!</p>
             </div>
-            
+
             <div class="rating-section guest-only">
                 <p class="text-block mb-15"><strong>Sign in to rate this drink and add it to your profile!</strong></p>
                 <a href="login.html" class="retro-btn small-btn bg-dark">Sign In to Rate</a>
             </div>
         </section>
 
-</div>
+    </div>
 
-<script src="../js/beverage.js"></script>
+    <script src="../js/beverage.js"></script>
 </body>
+
 </html>

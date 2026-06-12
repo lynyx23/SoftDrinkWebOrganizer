@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="../css/style.css">
     <link rel="icon" type="image/x-icon" href="../images/icon1.png">
 </head>
+
 <body class="retro-theme">
 
     <nav class="retro-nav">
@@ -17,18 +19,18 @@
         <div class="nav-links" id="navLinks">
             <a href="sodalist.html">Catalog</a>
             <a href="stats.html">Store Stats</a>
-            
+
             <a href="lists.html" class="nav-auth-only hidden">My Lists</a>
-            
+
             <a href="login.html" class="nav-guest-only">Sign In</a>
             <a href="register.html" class="nav-btn nav-guest-only cart-btn">Get a Cart</a>
-            
+
             <a href="profile.html" class="nav-btn nav-auth-only hidden profile-nav-btn" id="profileBtn">My Profile</a>
             <a href="admin.html" class="nav-auth-only hidden" id="navAdminBtn">Admin Panel</a>
             <button class="nav-btn nav-auth-only hidden" id="navLogoutBtn">Log Out</button>
         </div>
     </nav>
-    
+
     <script src="../js/nav.js"></script>
 
     <div class="catalog-header">
@@ -37,8 +39,10 @@
     </div>
 
     <div class="catalog-controls">
-        <label style="display: flex; align-items: center; gap: 8px; font-weight: bold; cursor: pointer; white-space: nowrap;">
-            <input type="checkbox" id="safeModeToggle" style="width: 18px; height: 18px; margin: 0; flex-shrink: 0; accent-color: var(--washed-red); cursor: pointer;">
+        <label
+            style="display: flex; align-items: center; gap: 8px; font-weight: bold; cursor: pointer; white-space: nowrap;">
+            <input type="checkbox" id="safeModeToggle"
+                style="width: 18px; height: 18px; margin: 0; flex-shrink: 0; accent-color: var(--washed-red); cursor: pointer;">
             Safe for Me
         </label>
         <input type="text" id="searchInput" placeholder="🔍 Search for a drink... (e.g., Cola)">
@@ -54,12 +58,12 @@
             <option value="other">Other</option>
         </select>
         <button class="retro-btn bg-mint" id="searchBtn">Search</button>
-            <a href="edit-beverage.html?mode=add" class="retro-btn bg-dark">+ Suggest</a>
+        <a href="edit-beverage.html?mode=add" class="retro-btn bg-dark">+ Suggest</a>
     </div>
 
-        <div id="catalog-container" class="catalog">
-            <p class="empty-state grid-col-full text-center fs-1-5rem">Loading beverages...</p>
-        </div>
+    <div id="catalog-container" class="catalog">
+        <p class="empty-state grid-col-full text-center fs-1-5rem">Loading beverages...</p>
+    </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
@@ -99,11 +103,11 @@
                         data.data.beverages.forEach((drink) => {
                             // Culoarea badge-ului în funcție de categorie
                             let badgeColor = "var(--mint)";
-                            if(drink.category === 'soda') badgeColor = "var(--washed-red); color: white;";
-                            
+                            if (drink.category === 'soda') badgeColor = "var(--washed-red); color: white;";
+
                             const card = document.createElement("div");
                             card.className = "beverage-card";
-                            
+
                             // Imagine default dacă nu există una
                             const imgUrl = drink.image_url ? drink.image_url : '../images/icon1.png';
 
@@ -134,4 +138,5 @@
         }
     </script>
 </body>
+
 </html>
