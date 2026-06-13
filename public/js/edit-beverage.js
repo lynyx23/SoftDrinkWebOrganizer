@@ -88,6 +88,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
 
+            const formatNutri = (val) => {
+                if (val === "" || val === null) return null;
+                const num = parseFloat(val);
+                if (isNaN(num) || num < 0) return null;
+                if (num === 0) return 0;
+                return Math.round(num * 100) / 100; // Rounds to 2 decimal places
+            };
+
             const payload = {
                 original_beverage_id: document.getElementById('originalBeverageId').value || null,
                 name: document.getElementById("bevName").value,
@@ -100,15 +108,18 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                 description: document.getElementById("bevDescription").value || null,
                 ingredients: document.getElementById("bevIngredients").value || null,
+
+                // Replace the nutritional_info object with the formatted calls:
                 nutritional_info: {
-                    kcal: document.getElementById("nutriKcal").value !== "" ? parseFloat(document.getElementById("nutriKcal").value) : null,
-                    fat: document.getElementById("nutriFat").value !== "" ? parseFloat(document.getElementById("nutriFat").value) : null,
-                    saturated_fat: document.getElementById("nutriSatFat").value !== "" ? parseFloat(document.getElementById("nutriSatFat").value) : null,
-                    carbs: document.getElementById("nutriCarbs").value !== "" ? parseFloat(document.getElementById("nutriCarbs").value) : null,
-                    sugars: document.getElementById("nutriSugars").value !== "" ? parseFloat(document.getElementById("nutriSugars").value) : null,
-                    protein: document.getElementById("nutriProtein").value !== "" ? parseFloat(document.getElementById("nutriProtein").value) : null,
-                    salt: document.getElementById("nutriSalt").value !== "" ? parseFloat(document.getElementById("nutriSalt").value) : null
+                    kcal: formatNutri(document.getElementById("nutriKcal").value),
+                    fat: formatNutri(document.getElementById("nutriFat").value),
+                    saturated_fat: formatNutri(document.getElementById("nutriSatFat").value),
+                    carbs: formatNutri(document.getElementById("nutriCarbs").value),
+                    sugars: formatNutri(document.getElementById("nutriSugars").value),
+                    protein: formatNutri(document.getElementById("nutriProtein").value),
+                    salt: formatNutri(document.getElementById("nutriSalt").value)
                 },
+
                 nutriscore: document.getElementById("bevNutriscore").value || null,
                 restrictions: Array.from(document.querySelectorAll('input[name="beverage_restrictions[]"]:checked')).map(cb => parseInt(cb.value)),
                 countries: document.getElementById("bevCountries").value || null,

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>The Beverage Aisle</title>
+    <link href="humans.txt" rel="author">
     <link href="./public/css/base.css" rel="stylesheet">
     <link href="./public/css/style.css" rel="stylesheet">
     <link href="./public/images/icon1.png" rel="icon" type="image/x-icon">
@@ -11,55 +12,59 @@
 
 <body class="retro-theme">
 
-    <main class="hero-container">
-        <div class="retro-badge">New!</div>
-        
-        <div class="header-group">
-            <div class="script-accent hero-welcome-text">Welcome to</div>
-            <h1 class="store-title hero-main-title">The Beverage Aisle</h1>
-        </div>
+<main class="hero-container">
+    <div class="retro-badge">New!</div>
 
-        <p class="hero-description">
-            Your neighborhood mid-century mercantile. Discover, rate, and track the world's finest non-alcoholic beverages, sodas, and syrups!
-        </p>
+    <div class="header-group">
+        <div class="script-accent hero-welcome-text">Welcome to</div>
+        <h1 class="store-title hero-main-title">The Beverage Aisle</h1>
+    </div>
 
-        <nav class="nav-grid">
-            <a class="retro-btn primary-action" href="./public/pages/sodalist.html">Browse the Catalog</a>
-            <a class="retro-btn primary-action bg-red" href="./public/pages/stats.html">Store Statistics</a>
-            
-            <a class="retro-btn guest-only" href="./public/pages/login.html">Sign In</a>
-            <a class="retro-btn guest-only cart-btn" href="./public/pages/register.html">Get a Cart</a>
+    <p class="hero-description">
+        Your neighborhood mid-century mercantile. Discover, rate, and track the world's finest non-alcoholic beverages,
+        sodas, and syrups!
+    </p>
 
-            <a class="retro-btn auth-only hidden" href="./public/pages/lists.html">My Lists</a>
-            <a class="retro-btn auth-only hidden" href="./public/pages/profile.html" id="profileBtn">My Profile</a>
-            <a class="retro-btn auth-only hidden" href="./public/pages/admin.html" id="adminBtn">Admin Panel</a>
-        </nav>
+    <nav class="nav-grid">
+        <a class="retro-btn primary-action" href="./public/pages/sodalist.html">Browse the Catalog</a>
+        <a class="retro-btn primary-action bg-red" href="./public/pages/stats.html">Store Statistics</a>
 
-        <img alt="Soda Can" src="./public/images/icon1.png" class="hero-icon">
-    </main>
+        <a class="retro-btn guest-only" href="./public/pages/login.html">Sign In</a>
+        <a class="retro-btn guest-only cart-btn" href="./public/pages/register.html">Get a Cart</a>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const token = localStorage.getItem('auth_token');
-            const guestElements = document.querySelectorAll('.guest-only');
-            const authElements = document.querySelectorAll('.auth-only');
-            const adminBtn = document.getElementById('adminBtn');
+        <a class="retro-btn auth-only hidden" href="./public/pages/lists.html">My Lists</a>
+        <a class="retro-btn auth-only hidden" href="./public/pages/profile.html" id="profileBtn">My Profile</a>
+        <a class="retro-btn auth-only hidden" href="./public/pages/admin.html" id="adminBtn">Admin Panel</a>
 
-            if (token) {
-                // User is logged in: Hide guest stuff, show auth stuff
-                guestElements.forEach(el => el.classList.add('hidden'));
-                authElements.forEach(el => el.classList.remove('hidden'));
+        <a class="retro-btn primary-action" href="./report.html" target="_blank">Technical Report</a>
+    </nav>
 
-                // Check if they are an admin to show the admin panel button
-                fetch('/api/users/me', {
-                    headers: { 'Authorization': 'Bearer ' + token }
-                })
+    <img alt="Soda Can" src="./public/images/icon1.png" class="hero-icon">
+</main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const token = localStorage.getItem('auth_token');
+        const guestElements = document.querySelectorAll('.guest-only');
+        const authElements = document.querySelectorAll('.auth-only');
+        const adminBtn = document.getElementById('adminBtn');
+
+        if (token) {
+            // User is logged in: Hide guest stuff, show auth stuff
+            guestElements.forEach(el => el.classList.add('hidden'));
+            authElements.forEach(el => el.classList.remove('hidden'));
+
+            // Check if they are an admin to show the admin panel button
+            fetch('/api/users/me', {
+                headers: {'Authorization': 'Bearer ' + token}
+            })
                 .then(res => res.json())
                 .then(data => {
                     if (!data.success || data.data.user.role !== 'admin') {
                         adminBtn.classList.add('hidden'); // Hide if not admin
-
-                        document.getElementById('profileBtn').style.gridColumn = '1 / -1';
+                    } else {
+                        // If they ARE an admin, make the admin button span full width to fix grid gaps
+                        adminBtn.style.gridColumn = '1 / -1';
                     }
                 })
                 .catch(() => {
@@ -67,8 +72,8 @@
                     localStorage.removeItem('auth_token');
                     window.location.reload();
                 });
-            }
-        });
-    </script>
+        }
+    });
+</script>
 </body>
 </html>
