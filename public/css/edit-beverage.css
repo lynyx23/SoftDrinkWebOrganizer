@@ -58,15 +58,15 @@
     transition: all 0.2s ease;
 }
 
+.form-group textarea {
+    resize: vertical;
+}
+
 .form-group textarea:focus,
 .form-group select:focus {
     outline: none;
     border-color: var(--washed-red);
     box-shadow: 4px 4px 0 var(--mint);
-}
-
-.form-group textarea {
-    resize: vertical;
 }
 
 .form-group input[type="checkbox"] {
@@ -77,8 +77,9 @@
     cursor: pointer;
 }
 
-.form-group input[type="checkbox"]:focus,
-.form-group input[type="checkbox"] {
+
+.form-group input[type="checkbox"],
+.form-group input[type="checkbox"]:focus {
     box-shadow: 2px 2px 0 var(--mint) !important;
 }
 

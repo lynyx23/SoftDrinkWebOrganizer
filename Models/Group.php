@@ -10,11 +10,10 @@ class Group
         $pdo = Database::getConnection();
         $stmt = $pdo->prepare('
             SELECT g.id, g.name, g.description, g.created_by, g.created_at,
-                   COUNT(ug.user_id) as member_count
+                   (SELECT COUNT(*) FROM user_groups WHERE group_id = g.id) as member_count
             FROM groups g
             JOIN user_groups ug ON g.id = ug.group_id
             WHERE ug.user_id = :user_id
-            GROUP BY g.id
             ORDER BY g.created_at DESC
         ');
         $stmt->execute([':user_id' => $userId]);

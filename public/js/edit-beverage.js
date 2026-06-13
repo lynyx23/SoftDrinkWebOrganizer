@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Image Preview Logic
     const bevImageInput = document.getElementById("bevImage");
-    const imagePreview = document.getElementById("imagePreview");
+    const imagePreview = document.getElementById("image-preview");
     const imagePlaceholder = document.getElementById("imagePlaceholder");
 
     function updateImagePreview() {

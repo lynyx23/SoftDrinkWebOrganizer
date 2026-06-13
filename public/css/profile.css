@@ -146,9 +146,15 @@
     align-items: flex-end;
 }
 
-.form-group.flex-2 { flex: 2; margin-bottom: 0; }
+.form-group.flex-2 {
+    flex: 2;
+    margin-bottom: 0;
+}
 
-.form-group.flex-1 { flex: 1; margin-bottom: 0; }
+.form-group.flex-1 {
+    flex: 1;
+    margin-bottom: 0;
+}
 
 .rate-select {
     width: 100%;

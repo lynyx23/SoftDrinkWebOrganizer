@@ -119,8 +119,7 @@
     object-fit: contain; /* Păstrează proporțiile sticlei/dozei */
     border-bottom: 3px dashed var(--mint);
     padding-bottom: 15px;
-    margin-bottom: 10px;
-    margin: 0 auto;
+    margin: 0 auto 10px;
 }
 
 .beverage-card h3 {
