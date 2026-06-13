@@ -100,18 +100,18 @@ class ListController
             Response::error('List not found', 404);
         }
 
-        // For personal lists, verify ownership
-        if ($list['user_id'] && $list['user_id'] != $user['id']) {
+        // For personal lists, verify ownership or admin
+        if ($list['user_id'] && $list['user_id'] != $user['id'] && $user['role'] !== 'admin') {
             Response::error('Can only delete your own lists', 403);
         }
 
-        // For group lists, only group creator can delete
+        // For group lists, only group creator or admin can delete
         if ($list['group_id']) {
             $groupStmt = $pdo->prepare('SELECT created_by FROM groups WHERE id = :id');
             $groupStmt->execute([':id' => $list['group_id']]);
             $group = $groupStmt->fetch();
-            if (!$group || $group['created_by'] != $user['id']) {
-                Response::error('Only group creator can delete group lists', 403);
+            if (!$group || ($group['created_by'] != $user['id'] && $user['role'] !== 'admin')) {
+                Response::error('Only group creator or admin can delete group lists', 403);
             }
         }
 

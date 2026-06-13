@@ -92,8 +92,12 @@ class GroupController
         }
 
         $group = Group::getDetails((int)$data['group_id']);
-        if (!$group || $group['created_by'] != $user['id']) {
-            Response::error('Only group creator can delete', 403);
+        if (!$group) {
+            Response::error('Group not found', 404);
+        }
+
+        if ($group['created_by'] != $user['id'] && $user['role'] !== 'admin') {
+            Response::error('Only group creator or admin can delete', 403);
         }
 
         Group::delete((int)$data['group_id']);
