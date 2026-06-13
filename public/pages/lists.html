@@ -11,62 +11,68 @@
 
 <body class="retro-theme">
 
-    <nav class="retro-nav">
-        <div class="nav-brand">
-            <a href="../../index.html">The Soda Aisle</a>
-        </div>
-        <div class="nav-links" id="navLinks">
-            <a href="sodalist.html">Catalog</a>
-            <a href="stats.html">Store Stats</a>
+<nav class="retro-nav">
+    <div class="nav-brand">
+        <a href="../../index.html">The Soda Aisle</a>
+    </div>
+    <div class="nav-links" id="navLinks">
+        <a href="sodalist.html">Catalog</a>
+        <a href="stats.html">Store Stats</a>
 
-            <a href="lists.html" class="nav-auth-only hidden">My Lists</a>
-            <a href="groups.html" class="nav-auth-only hidden">My Groups</a>
+        <a href="lists.html" class="nav-auth-only hidden">My Lists</a>
+        <a href="groups.html" class="nav-auth-only hidden">My Groups</a>
 
-            <a href="login.html" class="nav-guest-only">Sign In</a>
-            <a href="register.html" class="nav-btn nav-guest-only cart-btn">Get a Cart</a>
+        <a href="login.html" class="nav-guest-only">Sign In</a>
+        <a href="register.html" class="nav-btn nav-guest-only cart-btn">Get a Cart</a>
 
-            <a href="profile.html" class="nav-btn nav-auth-only hidden profile-nav-btn" id="profileBtn">My Profile</a>
-            <a href="admin.html" class="nav-auth-only hidden" id="navAdminBtn">Admin Panel</a>
-            <button class="nav-btn nav-auth-only hidden" id="navLogoutBtn">Log Out</button>
-        </div>
-    </nav>
+        <a href="profile.html" class="nav-btn nav-auth-only hidden profile-nav-btn" id="profileBtn">My Profile</a>
+        <a href="admin.html" class="nav-auth-only hidden" id="navAdminBtn">Admin Panel</a>
+        <button class="nav-btn nav-auth-only hidden" id="navLogoutBtn">Log Out</button>
+    </div>
+</nav>
 
-    <script src="../js/nav.js"></script>
+<script src="../js/nav.js"></script>
 
-    <div class="profile-container">
-        <div class="profile-header-section">
-            <div class="script-accent">Prepare your cart</div>
-            <h1 class="store-title">Shopping Lists</h1>
-        </div>
-
-        <div class="dashboard-card" style="background-color: var(--mint);">
-            <form id="createListForm" style="display: flex; gap: 10px;">
-                <input type="text" id="newListName" placeholder="New list name (e.g. Weekend Party)" required
-                    style="flex: 1; padding: 10px; border: 3px solid var(--dark-text); border-radius: 6px; font-family: 'DM Sans';">
-                <button type="submit" class="retro-btn small-btn"
-                    style="background: var(--dark-text); color: white;">Create List</button>
-            </form>
-        </div>
-
-        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 20px;">
-            <div class="dashboard-card">
-                <h3>My Carts</h3>
-                <ul class="retro-list" id="myListsContainer">
-                    <li class="empty-state">Loading...</li>
-                </ul>
-            </div>
-
-            <div class="dashboard-card" id="listDetailsCard">
-                <h3 id="currentListTitle">Select a list to view items</h3>
-                <ul class="retro-list" id="listItemsContainer">
-                    <li class="empty-state">👈 Pick a list from the left</li>
-                </ul>
-                <button id="deleteListBtn" class="retro-btn small-btn" style="margin-top: 15px; background-color: var(--washed-red); color: white; display: none;">Delete List</button>
-            </div>
-        </div>
+<div class="profile-container">
+    <div class="profile-header-section">
+        <div class="script-accent">Prepare your cart</div>
+        <h1 class="store-title">Shopping Lists</h1>
     </div>
 
-    <script src="../js/lists.js"></script>
+    <h2 class="hidden">Shopping Lists Workspace</h2>
+
+    <div class="dashboard-card" style="background-color: var(--mint);">
+        <form id="createListForm" style="display: flex; gap: 10px;">
+            <input type="text" id="newListName" placeholder="New list name (e.g. Weekend Party)" required
+                   style="flex: 1; padding: 10px; border: 3px solid var(--dark-text); border-radius: 6px; font-family: 'DM Sans';">
+            <button type="submit" class="retro-btn small-btn"
+                    style="background: var(--dark-text); color: white;">Create List
+            </button>
+        </form>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 20px;">
+        <div class="dashboard-card">
+            <h3>My Carts</h3>
+            <ul class="retro-list" id="myListsContainer">
+                <li class="empty-state">Loading...</li>
+            </ul>
+        </div>
+
+        <div class="dashboard-card" id="listDetailsCard">
+            <h3 id="currentListTitle">Select a list to view items</h3>
+            <ul class="retro-list" id="listItemsContainer">
+                <li class="empty-state">👈 Pick a list from the left</li>
+            </ul>
+            <button id="deleteListBtn" class="retro-btn small-btn"
+                    style="margin-top: 15px; background-color: var(--washed-red); color: white; display: none;">Delete
+                List
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="../js/lists.js"></script>
 </body>
 
 </html>

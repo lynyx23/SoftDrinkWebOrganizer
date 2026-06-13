@@ -84,8 +84,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('createGroupForm').addEventListener('submit', (e) => {
         e.preventDefault();
         const name = document.getElementById('groupName').value;
-        const description = document.getElementById('groupDesc').value;
-
+        const description = document.getElementById('createGroupDesc').value;
+        
         fetch('/api/groups', {
             method: 'POST',
             headers: {

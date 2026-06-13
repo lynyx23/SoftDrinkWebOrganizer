@@ -11,83 +11,89 @@
 
 <body class="retro-theme">
 
-    <nav class="retro-nav">
-        <div class="nav-brand">
-            <a href="../../index.html">The Soda Aisle</a>
-        </div>
-        <div class="nav-links" id="navLinks">
-            <a href="sodalist.html">Catalog</a>
-            <a href="stats.html">Store Stats</a>
+<nav class="retro-nav">
+    <div class="nav-brand">
+        <a href="../../index.html">The Soda Aisle</a>
+    </div>
+    <div class="nav-links" id="navLinks">
+        <a href="sodalist.html">Catalog</a>
+        <a href="stats.html">Store Stats</a>
 
-            <a href="lists.html" class="nav-auth-only hidden">My Lists</a>
-            <a href="groups.html" class="nav-auth-only hidden">My Groups</a>
+        <a href="lists.html" class="nav-auth-only hidden">My Lists</a>
+        <a href="groups.html" class="nav-auth-only hidden">My Groups</a>
 
-            <a href="login.html" class="nav-guest-only">Sign In</a>
-            <a href="register.html" class="nav-btn nav-guest-only cart-btn">Get a Cart</a>
+        <a href="login.html" class="nav-guest-only">Sign In</a>
+        <a href="register.html" class="nav-btn nav-guest-only cart-btn">Get a Cart</a>
 
-            <a href="profile.html" class="nav-btn nav-auth-only hidden profile-nav-btn" id="profileBtn">My Profile</a>
-            <a href="admin.html" class="nav-auth-only hidden" id="navAdminBtn">Admin Panel</a>
-            <button class="nav-btn nav-auth-only hidden" id="navLogoutBtn">Log Out</button>
-        </div>
-    </nav>
+        <a href="profile.html" class="nav-btn nav-auth-only hidden profile-nav-btn" id="profileBtn">My Profile</a>
+        <a href="admin.html" class="nav-auth-only hidden" id="navAdminBtn">Admin Panel</a>
+        <button class="nav-btn nav-auth-only hidden" id="navLogoutBtn">Log Out</button>
+    </div>
+</nav>
 
-    <script src="../js/nav.js"></script>
+<script src="../js/nav.js"></script>
 
-    <div class="profile-container">
-        <div class="profile-header-section">
-            <div class="script-accent">Get together and</div>
-            <h1 class="store-title">Manage Groups</h1>
-        </div>
+<div class="profile-container">
+    <div class="profile-header-section">
+        <div class="script-accent">Get together and</div>
+        <h1 class="store-title">Manage Groups</h1>
+    </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 20px;">
-            <!-- Create Group Card -->
-            <div class="dashboard-card">
-                <h3>➕ Create Group</h3>
-                <form id="createGroupForm" style="display: flex; flex-direction: column; gap: 10px;">
-                    <input type="text" id="groupName" placeholder="Group name (e.g., Roommates)" required
-                        style="padding: 10px; border: 3px solid var(--dark-text); border-radius: 6px; font-family: 'DM Sans';">
-                    <input type="text" id="groupDesc" placeholder="Description (optional)"
-                        style="padding: 10px; border: 3px solid var(--dark-text); border-radius: 6px; font-family: 'DM Sans';">
-                    <button type="submit" class="retro-btn small-btn" style="background: var(--dark-text); color: white;">Create</button>
-                </form>
-            </div>
+    <h2 class="hidden">Group Management Panel</h2>
 
-            <!-- Groups List -->
-            <div class="dashboard-card">
-                <h3>👥 My Groups</h3>
-                <ul class="retro-list" id="groupsList">
-                    <li class="empty-state">Loading...</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Group Details (shown when selected) -->
-        <div class="dashboard-card" id="groupDetailsCard" style="margin-top: 20px; display: none;">
-            <h3 id="groupTitle">Group Details</h3>
-            <p id="groupDesc" style="margin-bottom: 15px;"></p>
-
-            <h4>Members</h4>
-            <ul class="retro-list" id="membersList" style="margin-bottom: 15px;">
-            </ul>
-
-            <!-- Invite Form (only for group creator) -->
-            <form id="inviteForm" style="display: none; border-top: 3px dashed var(--mint); padding-top: 15px;">
-                <h4>Invite Member</h4>
-                <div style="display: flex; gap: 10px; margin-top: 10px;">
-                    <input type="text" id="inviteUsername" placeholder="Username to invite" required
-                        style="flex: 1; padding: 10px; border: 3px solid var(--dark-text); border-radius: 6px; font-family: 'DM Sans';">
-                    <button type="submit" class="retro-btn small-btn" style="background: var(--mint); color: var(--dark-text);">Invite</button>
-                </div>
+    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 20px;">
+        <div class="dashboard-card">
+            <h3>➕ Create Group</h3>
+            <form id="createGroupForm" style="display: flex; flex-direction: column; gap: 10px;">
+                <input type="text" id="groupName" placeholder="Group name (e.g., Roommates)" required
+                       style="padding: 10px; border: 3px solid var(--dark-text); border-radius: 6px; font-family: 'DM Sans';">
+                <input type="text" id="createGroupDesc" placeholder="Description (optional)"
+                       style="padding: 10px; border: 3px solid var(--dark-text); border-radius: 6px; font-family: 'DM Sans';">
+                <button type="submit" class="retro-btn small-btn" style="background: var(--dark-text); color: white;">
+                    Create
+                </button>
             </form>
+        </div>
 
-            <div style="display: flex; gap: 10px; margin-top: 15px;">
-                <button id="closeDetailsBtn" class="retro-btn small-btn" style="background-color: var(--white); color: var(--dark-text);">Back</button>
-                <button id="deleteGroupBtn" class="retro-btn small-btn" style="background-color: var(--washed-red); color: white; display: none;">Delete Group</button>
-            </div>
+        <div class="dashboard-card">
+            <h3>👥 My Groups</h3>
+            <ul class="retro-list" id="groupsList">
+                <li class="empty-state">Loading...</li>
+            </ul>
         </div>
     </div>
 
-    <script src="../js/groups.js"></script>
+    <div class="dashboard-card" id="groupDetailsCard" style="margin-top: 20px; display: none;">
+        <h3 id="groupTitle">Group Details</h3>
+        <p id="groupDesc" style="margin-bottom: 15px;"></p>
+
+        <h4>Members</h4>
+        <ul class="retro-list" id="membersList" style="margin-bottom: 15px;">
+        </ul>
+
+        <form id="inviteForm" style="display: none; border-top: 3px dashed var(--mint); padding-top: 15px;">
+            <h4>Invite Member</h4>
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                <input type="text" id="inviteUsername" placeholder="Username to invite" required
+                       style="flex: 1; padding: 10px; border: 3px solid var(--dark-text); border-radius: 6px; font-family: 'DM Sans';">
+                <button type="submit" class="retro-btn small-btn"
+                        style="background: var(--mint); color: var(--dark-text);">Invite
+                </button>
+            </div>
+        </form>
+
+        <div style="display: flex; gap: 10px; margin-top: 15px;">
+            <button id="closeDetailsBtn" class="retro-btn small-btn"
+                    style="background-color: var(--white); color: var(--dark-text);">Back
+            </button>
+            <button id="deleteGroupBtn" class="retro-btn small-btn"
+                    style="background-color: var(--washed-red); color: white; display: none;">Delete Group
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="../js/groups.js"></script>
 </body>
 
 </html>
