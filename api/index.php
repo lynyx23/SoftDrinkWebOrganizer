@@ -75,12 +75,14 @@ $routes = [
     'GET /lists/items'     => ['ListController', 'items'],
     'POST /lists/items'    => ['ListController', 'addItem'],
     'PUT /lists/items'     => ['ListController', 'toggleItem'],
+    'DELETE /lists'        => ['ListController', 'delete'],
 
     // Groups
     'GET /groups'          => ['GroupController', 'index'],
     'POST /groups'         => ['GroupController', 'create'],
     'GET /groups/show'     => ['GroupController', 'show'],
     'POST /groups/invite'  => ['GroupController', 'invite'],
+    'DELETE /groups'       => ['GroupController', 'delete'],
 
     // Stats
     'GET /stats/popular'   => ['StatsController', 'popular'],
@@ -114,16 +116,16 @@ if (!method_exists($controller, $methodName)) {
 }
 
 // All controller methods must accept ($data) where $data is sanitized input
-// For GET/DELETE we fetch from $_GET; for POST/PUT we read JSON body
+// For GET we fetch from $_GET; for POST/PUT/DELETE we read JSON body
 $inputData = [];
-if (in_array($requestMethod, ['POST', 'PUT'])) {
+if (in_array($requestMethod, ['POST', 'PUT', 'DELETE'])) {
     $rawBody = file_get_contents('php://input');
     $decoded = json_decode($rawBody, true);
     if (is_array($decoded)) {
         $inputData = Security::sanitize($decoded);
     }
 } else {
-    // For GET/DELETE, sanitize $_GET parameters
+    // For GET, sanitize $_GET parameters
     $inputData = Security::sanitize($_GET);
 }
 

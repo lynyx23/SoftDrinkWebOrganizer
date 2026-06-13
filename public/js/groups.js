@@ -69,8 +69,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     const inviteForm = document.getElementById('inviteForm');
                     if (selectedGroup.created_by === currentUser.id) {
                         inviteForm.style.display = 'block';
+                        document.getElementById('deleteGroupBtn').style.display = 'block';
                     } else {
                         inviteForm.style.display = 'none';
+                        document.getElementById('deleteGroupBtn').style.display = 'none';
                     }
 
                     document.getElementById('groupDetailsCard').style.display = 'block';
@@ -133,6 +135,29 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('closeDetailsBtn').addEventListener('click', () => {
         document.getElementById('groupDetailsCard').style.display = 'none';
         selectedGroup = null;
+    });
+
+    document.getElementById('deleteGroupBtn').addEventListener('click', () => {
+        if (!confirm('Delete this group? This cannot be undone.')) return;
+
+        fetch('/api/groups', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({ group_id: selectedGroup.id })
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Group deleted!');
+                    document.getElementById('groupDetailsCard').style.display = 'none';
+                    loadGroups();
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            });
     });
 
     loadGroups();

@@ -82,4 +82,21 @@ class GroupController
         Group::addMember((int)$data['group_id'], (int)$invitedUser['id']);
         Response::success(null, 'Member added successfully');
     }
+
+    // DELETE /api/groups
+    public function delete(array $data): void
+    {
+        $user = AuthController::requireAuth();
+        if (empty($data['group_id'])) {
+            Response::error('group_id required', 400);
+        }
+
+        $group = Group::getDetails((int)$data['group_id']);
+        if (!$group || $group['created_by'] != $user['id']) {
+            Response::error('Only group creator can delete', 403);
+        }
+
+        Group::delete((int)$data['group_id']);
+        Response::success(null, 'Group deleted successfully');
+    }
 }

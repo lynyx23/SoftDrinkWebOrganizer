@@ -29,7 +29,7 @@ class BeverageController
     }
 
     /**
-     * DELETE /api/beverages?id=123  (admin only)
+     * DELETE /api/beverages (admin only)
      */
     public function delete(array $data): void
     {
@@ -38,17 +38,16 @@ class BeverageController
             Response::error('Only admins can delete beverages', 403);
         }
 
-        $id = $_GET['id'] ?? null;
-        if (!$id || !is_numeric($id)) {
-            Response::error('Missing or invalid beverage ID', 400);
+        if (empty($data['id'])) {
+            Response::error('Beverage ID required', 400);
         }
 
-        $existing = Beverage::findById((int)$id);
+        $existing = Beverage::findById((int)$data['id']);
         if (!$existing) {
             Response::error('Beverage not found', 404);
         }
 
-        Beverage::delete((int)$id);
+        Beverage::delete((int)$data['id']);
         Response::success(null, 'Beverage deleted');
     }
 

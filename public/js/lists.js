@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const listItemsContainer = document.getElementById('listItemsContainer');
     const currentListTitle = document.getElementById('currentListTitle');
     const createListForm = document.getElementById('createListForm');
+    let selectedListId = null;
 
     loadLists();
 
@@ -47,7 +48,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function loadListItems(listId, listName) {
+        selectedListId = listId;
         currentListTitle.textContent = "Items in: " + listName;
+        document.getElementById('deleteListBtn').style.display = 'block';
         listItemsContainer.innerHTML = '<li class="empty-state">Loading items...</li>';
 
         fetch(`/api/lists/items?list_id=${listId}`, { headers: { 'Authorization': 'Bearer ' + token } })
@@ -92,6 +95,28 @@ document.addEventListener('DOMContentLoaded', () => {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
             body: JSON.stringify({ item_id: itemId, purchased: status })
-        }).then(() => loadListItems(listId, listName)); // Reîncărcăm lista ca să tăiem cu o linie textul
+        }).then(() => loadListItems(listId, listName));
     }
+
+    document.getElementById('deleteListBtn').addEventListener('click', () => {
+        if (!confirm('Delete this list and all its items?')) return;
+
+        fetch('/api/lists', {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+            body: JSON.stringify({ list_id: selectedListId })
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    alert('List deleted!');
+                    document.getElementById('deleteListBtn').style.display = 'none';
+                    listItemsContainer.innerHTML = '<li class="empty-state">👈 Pick a list from the left</li>';
+                    currentListTitle.textContent = 'Select a list to view items';
+                    loadLists();
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            });
+    });
 });

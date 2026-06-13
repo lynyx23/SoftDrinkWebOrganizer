@@ -5,11 +5,16 @@ require_once __DIR__ . '/../config/Database.php';
 
 class ShoppingList
 {
-    // Obține listele utilizatorului
+    // Obține listele utilizatorului (personale și de grup)
     public static function getByUser(int $userId): array
     {
         $pdo = Database::getConnection();
-        $stmt = $pdo->prepare('SELECT * FROM shopping_lists WHERE user_id = :user_id ORDER BY created_at DESC');
+        $stmt = $pdo->prepare('
+            SELECT sl.* FROM shopping_lists sl
+            WHERE sl.user_id = :user_id
+            OR sl.group_id IN (SELECT group_id FROM user_groups WHERE user_id = :user_id)
+            ORDER BY sl.created_at DESC
+        ');
         $stmt->execute([':user_id' => $userId]);
         return $stmt->fetchAll();
     }
@@ -53,5 +58,12 @@ class ShoppingList
         $stmt = $pdo->prepare('INSERT INTO shopping_list_items (list_id, beverage_id, purchased) VALUES (:list_id, :beverage_id, 0)');
         $stmt->execute([':list_id' => $listId, ':beverage_id' => $beverageId]);
         return (int)$pdo->lastInsertId();
+    }
+
+    public static function delete(int $listId): void
+    {
+        $pdo = Database::getConnection();
+        $stmt = $pdo->prepare('DELETE FROM shopping_lists WHERE id = :id');
+        $stmt->execute([':id' => $listId]);
     }
 }

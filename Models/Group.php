@@ -63,4 +63,11 @@ class Group
         $stmt = $pdo->prepare('INSERT OR IGNORE INTO user_groups (user_id, group_id) VALUES (:user_id, :group_id)');
         $stmt->execute([':user_id' => $userId, ':group_id' => $groupId]);
     }
+
+    public static function delete(int $groupId): void
+    {
+        $pdo = Database::getConnection();
+        $stmt = $pdo->prepare('DELETE FROM groups WHERE id = :id');
+        $stmt->execute([':id' => $groupId]);
+    }
 }

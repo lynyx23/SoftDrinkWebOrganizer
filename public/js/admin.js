@@ -28,6 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 adminContent.classList.remove("admin-content-hidden");
                 loadUsers(token);
                 loadSubmissions(token);
+                loadBeverages(token);
             }
         })
         .catch(() => {
@@ -43,6 +44,11 @@ document.addEventListener("DOMContentLoaded", () => {
         refreshSubmissionsBtn.addEventListener("click", () => loadSubmissions(token));
     }
 
+    const refreshBeveragesBtn = document.getElementById("refreshBeveragesBtn");
+    if (refreshBeveragesBtn) {
+        refreshBeveragesBtn.addEventListener("click", () => loadBeverages(token));
+    }
+
     // Event Delegation: Listen for clicks on the container instead of inline onclicks
     if (usersContainer) {
         usersContainer.addEventListener("click", (e) => {
@@ -50,6 +56,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 const userId = e.target.getAttribute("data-id");
                 const username = e.target.getAttribute("data-username");
                 deleteUser(userId, username, token);
+            }
+        });
+    }
+
+    const beveragesContainer = document.getElementById("beverages-container");
+    if (beveragesContainer) {
+        beveragesContainer.addEventListener("click", (e) => {
+            if (e.target.tagName === "BUTTON" && e.target.classList.contains("delete-beverage-btn")) {
+                const bevId = e.target.getAttribute("data-id");
+                const bevName = e.target.getAttribute("data-name");
+                deleteBeverage(bevId, bevName, token);
             }
         });
     }
@@ -126,6 +143,61 @@ function deleteUser(userId, username, token) {
             if (data.success) {
                 alert(`User "${username}" has successfully been deleted.`);
                 loadUsers(token); // Refresh list
+            } else {
+                alert("Error: " + data.message);
+            }
+        })
+        .catch((err) => {
+            console.error(err);
+            alert("A network error occurred.");
+        });
+}
+
+function loadBeverages(token) {
+    const container = document.getElementById("beverages-container");
+    container.innerHTML = '<p class="empty-state">Loading beverages...</p>';
+
+    fetch("/api/beverages", {
+        headers: {Authorization: "Bearer " + token},
+    })
+        .then((res) => res.json())
+        .then((data) => {
+            container.innerHTML = "";
+            if (data.success && data.data.beverages.length > 0) {
+                data.data.beverages.forEach((b) => {
+                    container.innerHTML += `
+                    <div class="user-item">
+                        <span><strong>${b.name}</strong> (${b.category}) - ${b.price} RON</span>
+                        <button class="delete-beverage-btn" data-id="${b.id}" data-name="${b.name}">Delete</button>
+                    </div>
+                `;
+                });
+            } else {
+                container.innerHTML = '<p class="empty-state">No beverages found.</p>';
+            }
+        })
+        .catch((err) => {
+            console.error(err);
+            container.innerHTML = '<p class="empty-state">Failed to load beverages.</p>';
+        });
+}
+
+function deleteBeverage(bevId, bevName, token) {
+    if (!confirm(`Delete "${bevName}"? This cannot be undone.`)) return;
+
+    fetch("/api/beverages", {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token
+        },
+        body: JSON.stringify({ id: bevId })
+    })
+        .then((res) => res.json())
+        .then((data) => {
+            if (data.success) {
+                alert(`"${bevName}" deleted!`);
+                loadBeverages(token);
             } else {
                 alert("Error: " + data.message);
             }
