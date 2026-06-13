@@ -1,36 +1,34 @@
+/* Layout Container */
 .product-page-container {
     max-width: 1200px;
     margin: 40px auto;
     padding: 0 20px;
     display: grid;
     grid-template-columns: 400px 1fr;
-    gap: 40px;
-    align-items: start; /* Critical for sticky to work */
-}
-
-/* Left Column - Fixed/Sticky Image */
-.product-page-container {
-    max-width: 1200px;
-    margin: 40px auto;
-    padding: 0 20px;
-    display: grid;
-    grid-template-columns: 400px 1fr;
-    gap: 40px;
+    grid-template-areas:
+        ". header"
+        "sidebar content";
+    gap: 0 40px; /* 0 row gap, 40px column gap */
 }
 
 .product-image-container {
+    grid-area: sidebar;
     position: relative;
-    height: 100%;    
+    height: 100%;
 }
 
-.sticky-wrapper {
-    position: sticky;
-    top: 100px;
+.fixed-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.picture-card {
     background-color: var(--white);
     border: 5px solid var(--dark-text);
     border-radius: 12px;
     padding: 20px;
-    box-shadow: 10px 10px 0 var(--mint);
+    box-shadow: 6px 6px 0 var(--butter-yellow); /* Changed to yellow and reduced spread */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -38,25 +36,30 @@
     gap: 15px;
 }
 
-.sticky-wrapper img {
+.picture-card img {
     width: 100%;
-    max-height: 500px;
+    max-height: 400px;
     object-fit: contain;
     border-radius: 8px;
     border: 3px solid var(--dark-text);
     background-color: #f9f9f9;
 }
 
-
 /* Right Column - Scrollable Data */
 .product-info-container {
+    grid-area: content;
     display: flex;
     flex-direction: column;
     gap: 30px;
 }
 
+.product-header {
+    grid-area: header;
+    margin-bottom: 30px; /* Adds space between the header and the overview card */
+}
+
 .product-header h1 {
-    font-family: 'Shrikhand', serif;
+    font-family: Shrikhand, serif;
     font-size: 3.5rem;
     color: var(--dark-text);
     margin-bottom: 10px;
@@ -70,7 +73,7 @@
     background-color: var(--butter-yellow);
     color: var(--dark-text);
     font-size: 1.8rem;
-    font-family: 'Shrikhand', serif;
+    font-family: Shrikhand, serif;
     padding: 5px 15px;
     border: 3px solid var(--dark-text);
     border-radius: 8px;
@@ -88,7 +91,7 @@
 }
 
 .info-card h2 {
-    font-family: 'Shrikhand', serif;
+    font-family: Shrikhand, serif;
     font-size: 1.8rem;
     color: var(--washed-red);
     border-bottom: 3px dashed var(--dark-text);
@@ -169,14 +172,16 @@
 }
 
 /* Responsive adjustments */
-@media (max-width: 900px) {
+@media (width <= 900px) {
     .product-page-container {
         grid-template-columns: 1fr;
+        grid-template-areas:
+            "header"
+            "sidebar"
+            "content";
     }
-    /* Scoate sticky pe mobile din wrapper-ul intern */
-    .sticky-wrapper {
-        position: relative;
-        top: 0;
+
+    .fixed-sidebar {
         margin: 0 auto;
         width: 100%;
         max-width: 400px;

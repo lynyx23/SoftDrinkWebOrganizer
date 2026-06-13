@@ -49,7 +49,7 @@
 }
 
 .user-details h2 {
-    font-family: 'Shrikhand', serif;
+    font-family: Shrikhand, serif;
     font-size: 2rem;
     margin-bottom: 10px;
     color: var(--washed-red);
@@ -94,7 +94,7 @@
 }
 
 .dashboard-card h3 {
-    font-family: 'Shrikhand', serif;
+    font-family: Shrikhand, serif;
     font-size: 1.3rem;
     margin-bottom: 15px;
     border-bottom: 3px dashed var(--washed-red);

@@ -20,7 +20,7 @@ body.retro-theme {
     color: var(--dark-text);
     background-color: var(--white);
     background-image: linear-gradient(45deg, var(--mint) 25%, transparent 25%, transparent 75%, var(--mint) 75%, var(--mint)),
-    linear-gradient(45deg, var(--mint) 25%, transparent 25%, transparent 75%, var(--mint) 75%, var(--mint));
+        linear-gradient(45deg, var(--mint) 25%, transparent 25%, transparent 75%, var(--mint) 75%, var(--mint));
     background-size: 60px 60px;
     background-position: 0 0, 30px 30px;
     min-height: 100vh;
@@ -28,15 +28,15 @@ body.retro-theme {
 
 /* Shared Typography */
 .script-accent {
-    font-family: 'Pacifico', cursive;
+    font-family: Pacifico, cursive;
     color: var(--washed-red);
     font-size: 1.5rem;
-    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
+    text-shadow: 1px 1px 0 rgb(0 0 0 / 10%);
     transform: rotate(-5deg);
 }
 
 .store-title {
-    font-family: 'Shrikhand', serif;
+    font-family: Shrikhand, serif;
     color: var(--dark-text);
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -84,7 +84,7 @@ body.retro-theme {
 
 /* Global Buttons */
 .retro-btn {
-    font-family: 'Shrikhand', serif;
+    font-family: Shrikhand, serif;
     font-size: 1.2rem;
     background-color: var(--washed-red);
     color: var(--white);
@@ -147,7 +147,7 @@ body.retro-theme {
 
 /* Image Preview Styles */
 .image-preview-container {
-    margin: 0 auto 20px auto;
+    margin: 0 auto 20px;
     width: 100%;
     max-width: 250px;
     height: 250px;
@@ -166,7 +166,7 @@ body.retro-theme {
 }
 
 .placeholder-text {
-    font-family: 'Shrikhand', serif;
+    font-family: Shrikhand, serif;
     font-size: 1.1rem;
     color: var(--washed-red);
     line-height: 1.4;
@@ -197,7 +197,7 @@ body.retro-theme {
 }
 
 .nav-brand a {
-    font-family: 'Shrikhand', serif;
+    font-family: Shrikhand, serif;
     font-size: 1.5rem;
     color: var(--dark-text);
     text-decoration: none;

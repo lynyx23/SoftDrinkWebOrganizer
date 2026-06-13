@@ -1,5 +1,5 @@
 .admin-heading {
-    font-family: 'Shrikhand', serif;
+    font-family: Shrikhand, serif;
     font-size: 3rem;
     color: var(--dark-text);
     text-align: center;
@@ -37,7 +37,7 @@
 }
 
 .admin-section h2 {
-    font-family: 'Shrikhand', serif;
+    font-family: Shrikhand, serif;
     font-size: 1.5rem;
     color: var(--dark-text);
 }
