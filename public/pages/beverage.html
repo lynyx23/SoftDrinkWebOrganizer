@@ -20,6 +20,7 @@
             <a href="stats.html">Store Stats</a>
 
             <a href="lists.html" class="nav-auth-only hidden">My Lists</a>
+            <a href="groups.html" class="nav-auth-only hidden">My Groups</a>
 
             <a href="login.html" class="nav-guest-only">Sign In</a>
             <a href="register.html" class="nav-btn nav-guest-only cart-btn">Get a Cart</a>
@@ -95,6 +96,27 @@
                             class="data-value">--</span></div>
                     <div class="data-item"><span class="data-label">Perishable</span><span id="bevPerishable"
                             class="data-value">--</span></div>
+                </div>
+            </section>
+
+            <section class="info-card">
+                <h2>🛒 Add to Shopping List</h2>
+
+                <div class="add-to-list-section auth-only hidden">
+                    <div class="form-group mb-0">
+                        <label for="listSelect" class="data-label d-block">Select a list:</label>
+                        <select id="listSelect" class="rate-input mt-5" required>
+                            <option value="">Loading your lists...</option>
+                        </select>
+                    </div>
+                    <button id="addToListBtn" type="button" class="retro-btn small-btn bg-dark align-start mt-10">Add to List</button>
+                    <p id="addToListMessage" class="text-green font-bold mt-10 hidden">✓ Added to list!</p>
+                    <p id="addToListError" class="text-red font-bold mt-10 hidden"></p>
+                </div>
+
+                <div class="add-to-list-section guest-only">
+                    <p class="text-block mb-15"><strong>Sign in to add this drink to your shopping lists!</strong></p>
+                    <a href="login.html" class="retro-btn small-btn bg-dark">Sign In</a>
                 </div>
             </section>
 

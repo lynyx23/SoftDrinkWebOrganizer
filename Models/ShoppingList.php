@@ -45,4 +45,13 @@ class ShoppingList
         $stmt = $pdo->prepare('UPDATE shopping_list_items SET purchased = :status WHERE id = :id');
         $stmt->execute([':status' => $status, ':id' => $itemId]);
     }
+
+    // Adaugă un suc la o listă
+    public static function addItem(int $listId, int $beverageId): int
+    {
+        $pdo = Database::getConnection();
+        $stmt = $pdo->prepare('INSERT INTO shopping_list_items (list_id, beverage_id, purchased) VALUES (:list_id, :beverage_id, 0)');
+        $stmt->execute([':list_id' => $listId, ':beverage_id' => $beverageId]);
+        return (int)$pdo->lastInsertId();
+    }
 }

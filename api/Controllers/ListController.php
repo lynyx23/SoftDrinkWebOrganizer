@@ -46,4 +46,29 @@ class ListController
         ShoppingList::togglePurchased((int)$data['item_id'], (int)$data['purchased']);
         Response::success(null, 'Item updated');
     }
+
+    // POST /api/lists/items
+    public function addItem(array $data): void
+    {
+        $user = AuthController::requireAuth();
+        if (empty($data['list_id']) || empty($data['beverage_id'])) {
+            Response::error('list_id and beverage_id required', 400);
+        }
+
+        // Verify the list belongs to the user
+        $lists = ShoppingList::getByUser((int)$user['id']);
+        $listExists = false;
+        foreach ($lists as $list) {
+            if ($list['id'] == $data['list_id']) {
+                $listExists = true;
+                break;
+            }
+        }
+        if (!$listExists) {
+            Response::error('List not found or access denied', 404);
+        }
+
+        $itemId = ShoppingList::addItem((int)$data['list_id'], (int)$data['beverage_id']);
+        Response::success(['id' => $itemId], 'Item added to list', 201);
+    }
 }

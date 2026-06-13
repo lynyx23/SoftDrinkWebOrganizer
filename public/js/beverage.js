@@ -93,11 +93,85 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     const token = localStorage.getItem("auth_token");
-    
+
     if (token) {
 
         document.querySelector('.rating-section.auth-only').classList.remove('hidden');
         document.querySelector('.rating-section.guest-only').classList.add('hidden');
+        document.querySelector('.add-to-list-section.auth-only').classList.remove('hidden');
+        document.querySelector('.add-to-list-section.guest-only').classList.add('hidden');
+
+        // Load user's shopping lists
+        try {
+            const listsRes = await fetch('/api/lists', {
+                headers: { 'Authorization': 'Bearer ' + token }
+            });
+            const listsData = await listsRes.json();
+
+            if (listsData.success && listsData.data.lists) {
+                const listSelect = document.getElementById('listSelect');
+                listSelect.innerHTML = '';
+
+                if (listsData.data.lists.length === 0) {
+                    listSelect.innerHTML = '<option value="">No lists yet. Create one first!</option>';
+                } else {
+                    listSelect.innerHTML = '<option value="">Select a list...</option>';
+                    listsData.data.lists.forEach(list => {
+                        const option = document.createElement('option');
+                        option.value = list.id;
+                        option.textContent = list.name;
+                        listSelect.appendChild(option);
+                    });
+                }
+            }
+        } catch (e) {
+            console.error("Failed to load shopping lists", e);
+        }
+
+        // Handle "Add to List" button
+        const addToListBtn = document.getElementById('addToListBtn');
+        if (addToListBtn) {
+            addToListBtn.addEventListener('click', async () => {
+                const listSelect = document.getElementById('listSelect');
+                const listId = listSelect.value;
+
+                if (!listId) {
+                    alert("Please select a list first!");
+                    return;
+                }
+
+                try {
+                    const res = await fetch('/api/lists/items', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + token
+                        },
+                        body: JSON.stringify({
+                            list_id: listId,
+                            beverage_id: id
+                        })
+                    });
+                    const data = await res.json();
+
+                    if (data.success) {
+                        const msg = document.getElementById('addToListMessage');
+                        msg.classList.remove('hidden');
+                        document.getElementById('addToListError').classList.add('hidden');
+                        setTimeout(() => msg.classList.add('hidden'), 3000);
+                    } else {
+                        const errMsg = document.getElementById('addToListError');
+                        errMsg.textContent = data.message || 'Error adding to list';
+                        errMsg.classList.remove('hidden');
+                    }
+                } catch (err) {
+                    console.error("Network error:", err);
+                    const errMsg = document.getElementById('addToListError');
+                    errMsg.textContent = 'Network error. Please try again.';
+                    errMsg.classList.remove('hidden');
+                }
+            });
+        }
 
         // Dacă utilizatorul e logat, verificăm dacă a dat deja un rating în trecut
         try {
@@ -105,7 +179,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 headers: { 'Authorization': 'Bearer ' + token }
             });
             const prefData = await prefRes.json();
-            
+
             if (prefData.success) {
                 // Căutăm acest ID de băutură în lista de preferințe a userului
                 const existingPref = prefData.data.preferences.find(p => p.beverage_id == id);
@@ -118,6 +192,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             console.error("Nu am putut încărca preferințele anterioare", e);
         }
     }
+
 
     // Funcția care se declanșează când dai click pe "Save My Rating"
     const rateForm = document.getElementById('rateForm');

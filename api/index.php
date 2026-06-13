@@ -73,7 +73,14 @@ $routes = [
     'GET /lists'           => ['ListController', 'index'],
     'POST /lists'          => ['ListController', 'create'],
     'GET /lists/items'     => ['ListController', 'items'],
+    'POST /lists/items'    => ['ListController', 'addItem'],
     'PUT /lists/items'     => ['ListController', 'toggleItem'],
+
+    // Groups
+    'GET /groups'          => ['GroupController', 'index'],
+    'POST /groups'         => ['GroupController', 'create'],
+    'GET /groups/show'     => ['GroupController', 'show'],
+    'POST /groups/invite'  => ['GroupController', 'invite'],
 
     // Stats
     'GET /stats/popular'   => ['StatsController', 'popular'],
