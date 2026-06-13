@@ -87,3 +87,22 @@
     box-shadow: 0 0 0 var(--washed-red);
     transform: translate(3px, 3px);
 }
+
+.user-item .delete-beverage-btn {
+    background-color: var(--dark-text);
+    color: var(--white);
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 2px solid var(--dark-text);
+    font-weight: bold;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 var(--washed-red);
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.user-item .delete-beverage-btn:active {
+    box-shadow: 0 0 0 var(--washed-red);
+    transform: translate(3px, 3px);
+}
