@@ -1,0 +1,11 @@
+/* TEAM */
+Developer: SOr Development Team
+Location: Iași, Romania
+Affiliation: Faculty of Computer Science, "Alexandru Ioan Cuza" University
+
+/* SITE */
+Project: SOr — Soft Drink Web Organizer (The Soda Aisle)
+Year: 2026
+Standards: HTML5, CSS3, JavaScript, PHP 8
+Storage: SQLite 3
+Doctypes: HTML5, Scholarly HTML
